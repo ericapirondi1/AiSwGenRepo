@@ -61,7 +61,7 @@ void tearDown(void)
 /* ============================================================================
  * TEST GROUP: ApplLinDiagReadDataById - Successful Execution
  * ============================================================================ */
-void test_ApplLinDiagReadDataById_SuccessfulExecution_AllChecksPassed(void)
+void test_ApplLinDiagReadDataById_DidNotSupported(void)
 {
     extern uint8_t pbLinDiagBuffer[32];
     extern uint16_t g_linDiagDataLength;
@@ -96,6 +96,45 @@ void test_ApplLinDiagReadDataById_SuccessfulExecution_AllChecksPassed(void)
     /* Verify - data length should be updated */
     TEST_ASSERT_EQUAL(g_linDiagDataLength , 0);
 }
+
+
+
+void test_ApplLinDiagReadDataById_SuccessfulExecution_DidSupported(void)
+{
+    extern uint8_t pbLinDiagBuffer[32];
+    extern uint16_t g_linDiagDataLength;
+
+    /* Setup: Configure buffer with valid DID */
+    pbLinDiagBuffer[1] = 0xF3;  /* DID high byte */
+    pbLinDiagBuffer[2] = 0x08;  /* DID low byte */
+    pbLinDiagBuffer[3] = 0xAA;  /* Diagnostic data start */
+    pbLinDiagBuffer[4] = 0xBB;
+    pbLinDiagBuffer[5] = 0xCC;
+
+    const uint16_t l_did_cu16 = ((uint16_t)(pbLinDiagBuffer[1] << 8) & 0xFF00) |
+                    ((uint16_t)pbLinDiagBuffer[2] & 0x00FF);
+    Std_ReturnType l_result_ = E_OK;
+    uint8_t l_errCode_u8 = 0;
+    uint8_t * const l_diagBuf_pu8 = &pbLinDiagBuffer[3];
+    uint8_t l_diagBufSize_u8 = 0;
+    Std_ReturnType l_didSupported_ = E_OK;
+
+    CurrentNad_Callback(0, &l_result_, 1);
+    MsgDataLength_Callback(0, &l_result_, 1);   
+    getHandlersForReadDataById_Callback(l_errCode_u8, l_did_cu16,  &l_diagBufSize_u8, &l_didSupported_, 
+        l_diagBuf_pu8, 1);
+
+
+    //LinDiagSendPosResponse_Expect();
+    LinDiagSendPosResponse_Expect();
+
+    /* Execute */
+    ApplLinDiagReadDataById();
+
+    /* Verify - data length should be updated */
+    TEST_ASSERT_EQUAL(g_linDiagDataLength , MOCK_DID_F308_SIZE + 2);
+}
+
 
 
 
