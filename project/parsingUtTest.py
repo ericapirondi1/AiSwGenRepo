@@ -11,12 +11,11 @@ import sys
 import shutil
 import subprocess
 
-UNIT_TEST_COLLECTION = "code/VoltMon/unitTests"
 UNIT_TEST_PREFIX = "TEST_"
 UNIT_EXECUTION_FOLDER = "utExecutionAndResults/utUnderTest"
 UNIT_EXECUTION_FOLDER_BUILD = "utExecutionAndResults/utUnderTest/build"
 UNIT_RESULT_FOLDER = "utExecutionAndResults/utResults"
-PROJECT = "project.yml"
+
 
 # Find the position of the script removing its name and the disk
 SCRIPT_PATH = os.path.abspath(__file__)
@@ -25,19 +24,86 @@ RELATIVE_PATH = SCRIPT_DIRECTORY_PATH.split(":", 1)[-1].lstrip("\\/")
 NORMALIZED_PATH = RELATIVE_PATH.replace("\\", "/")
 
 DOCKER_BASE = ["docker", "run", "-it", "--rm","-v", "/c/" + NORMALIZED_PATH + ":/home/dev/project","throwtheswitch/madsciencelab-plugins:latest"]
-CEEDLING_GCOV_ALL = ["ceedling", "gcov:all"]
 CEEDLING_CLEAN = ["ceedling", "clobber"]
 
-DOCKER_GCOV_ALL = DOCKER_BASE + CEEDLING_GCOV_ALL
 DOCKER_CLEAN = DOCKER_BASE + CEEDLING_CLEAN
-# ==============================
-# CONFIGURATION & MODULE LIST
-# ==============================
-moduli = [
-	{"nome_modulo": "VoltMonitoring.c", "nome_funzione": "voltMonRun"             , "percorso": "code/VoltMon/pltf" , "testFolder":"code/VoltMon/unitTests"},
-    {"nome_modulo": "diagnostic.c"    , "nome_funzione": "ApplLinDiagReadDataById", "percorso": "code/UdsComm/pltf" , "testFolder":"code/UdsComm/unitTests"},
-]
 
+
+def find_function_definition(path, func_name):
+    """
+    Cerca la definizione di una funzione C nei file .c
+    dentro la cartella 'path' e nelle sue sottocartelle.
+    """
+    results = []
+    pattern = re.compile(rf"\b{func_name}\s*\([^)]*\)", re.IGNORECASE)
+
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            if file.endswith(".c"):
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                        for i, line in enumerate(f, start=1):
+                            if pattern.search(line):
+                                results.append((file_path, i, line.strip()))
+                except Exception as e:
+                    print(f"Errore leggendo {file_path}: {e}")
+    return results
+
+
+def build_moduli(path):
+    """
+    Cerca tutte le cartelle che iniziano con TEST_XXXX e costruisce
+    la struttura:
+
+    moduli = [
+        {
+            "nome_modulo": "<nome_file.c>",
+            "nome_funzione": "<XXXX>",
+            "percorso": "<path/relativo/del/file/senza_nome>",
+            "testFolder": "<path/relativo/cartella_unitTests>"
+        },
+        ...
+    ]
+    """
+    moduli = []
+
+    for root, dirs, files in os.walk(path):
+        for d in dirs:
+            if d.startswith("TEST_"):
+                func_name = d.replace("TEST_", "")
+                folder_path = os.path.join(root, d)
+
+                # radice da cui cercare la funzione
+                search_root = os.path.dirname(os.path.dirname(folder_path))
+
+                matches = find_function_definition(search_root, func_name)
+
+                if matches:
+                    file_path, line_number, line_content = matches[0]
+
+                    # percorso relativo del file .c rispetto a 'path'
+                    file_rel = os.path.relpath(file_path, path)
+                    nome_modulo = os.path.basename(file_rel)
+                    percorso = os.path.dirname(file_rel).replace(os.sep, "/")
+                else:
+                    # se non troviamo il file che contiene la funzione
+                    file_rel = None
+                    nome_modulo = None
+                    percorso = None
+
+                # cartella unitTests relativa alla radice
+                test_folder_rel = os.path.relpath(os.path.dirname(folder_path), path)
+                test_folder_rel = test_folder_rel.replace(os.sep, "/")
+
+                moduli.append({
+                    "nome_modulo": nome_modulo,
+                    "nome_funzione": func_name,
+                    "percorso": percorso,
+                    "testFolder": test_folder_rel,
+                })
+
+    return moduli
 
 # ==============================
 # FUNCTION EXTRACTION
@@ -264,6 +330,9 @@ def updateTotolResultReport(buildFolder, function_name, reportFolder):
     Read test result values from the Ceedling report file and update a summary report.
     The summary report will contain rows with columns:
     | Function Name Under Test | Total | Passed | Failed | Ignored |
+
+    If the function_name already exists in the summary report, its row is updated
+    instead of adding a duplicate row.
     """
 
     # Path to the Ceedling result file
@@ -310,7 +379,8 @@ def updateTotolResultReport(buildFolder, function_name, reportFolder):
             f"| {'Ignored'.ljust(col_widths[4])}|\n"
         )
         separator = (
-            f"|{'-'*(col_widths[0]+1)}|{'-'*(col_widths[1]+1)}|{'-'*(col_widths[2]+1)}|{'-'*(col_widths[3]+1)}|{'-'*(col_widths[4]+1)}|\n"
+            f"|{'-'*(col_widths[0]+1)}|{'-'*(col_widths[1]+1)}|{'-'*(col_widths[2]+1)}|"
+            f"{'-'*(col_widths[3]+1)}|{'-'*(col_widths[4]+1)}|\n"
         )
         row = (
             f"| {function_name.ljust(col_widths[0])}"
@@ -320,17 +390,49 @@ def updateTotolResultReport(buildFolder, function_name, reportFolder):
             f"| {ignored.ljust(col_widths[4])}|\n"
         )
 
-        # Write header if file does not exist yet
+        # If the summary file does not exist, create it with header and first row
         if not os.path.exists(summary_file):
             with open(summary_file, "w", encoding="utf-8") as summary:
                 summary.write(header)
                 summary.write(separator)
                 summary.write(row)
-        else:
-            with open(summary_file, "a", encoding="utf-8") as summary:
-                summary.write(row)
+            print(f"✅ Created summary report: {summary_file}")
+            return
 
-        print(f"✅ Updated summary report: {summary_file}")
+        # If the summary file exists, update the row if function_name is already present
+        with open(summary_file, "r", encoding="utf-8") as summary:
+            lines = summary.readlines()
+
+        updated = False
+        for i, line in enumerate(lines):
+            # Skip separator lines
+            if line.startswith("|-"):
+                continue
+            # Consider only table rows (start with '|' and not the header separator)
+            if line.startswith("|"):
+                parts = line.split("|")
+                if len(parts) > 2:
+                    name_col = parts[1].strip()
+                    if name_col == function_name:
+                        # Replace this line with the new row
+                        lines[i] = row
+                        updated = True
+                        break
+
+        # If not updated, append the new row at the end
+        if not updated:
+            # Ensure file ends with a newline before appending
+            if lines and not lines[-1].endswith("\n"):
+                lines[-1] = lines[-1] + "\n"
+            lines.append(row)
+
+        with open(summary_file, "w", encoding="utf-8") as summary:
+            summary.writelines(lines)
+
+        if updated:
+            print(f"✅ Updated existing entry for '{function_name}' in summary report: {summary_file}")
+        else:
+            print(f"✅ Added new entry for '{function_name}' to summary report: {summary_file}")
 
     except Exception as e:
         print(f"❌ Error updating report: {e}")
@@ -389,6 +491,9 @@ if __name__ == "__main__":
     unitToTest = extract_function_name(sys.argv[1])
     print(f"You passed the argument: {unitToTest}")
 
+    base_path = os.path.dirname(os.path.abspath(__file__))  # cartella corrente
+    moduli = build_moduli(base_path)
+    
     if unitToTest == "all":
         clear_folder(UNIT_RESULT_FOLDER)
         # ✅ Run for all modules in the dictionary
@@ -414,7 +519,9 @@ if __name__ == "__main__":
         updateUnitUnderTest(unitMetaData, unitToTest)
         run_bash_cmd(DOCKER_CLEAN)
         run_bash_cmd(DOCKER_BASE + ["ceedling", "test:" + unitToTest])
+        updateTotolResultReport(UNIT_EXECUTION_FOLDER_BUILD, unitToTest,UNIT_RESULT_FOLDER)
         copy_folder_contents(
             UNIT_EXECUTION_FOLDER_BUILD,
             os.path.join(UNIT_RESULT_FOLDER, unitToTest + "Results")
         )
+    clear_folder(UNIT_EXECUTION_FOLDER)
