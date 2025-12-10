@@ -16,14 +16,22 @@ UNIT_EXECUTION_FOLDER = "utExecutionAndResults/utUnderTest"
 UNIT_EXECUTION_FOLDER_BUILD = "utExecutionAndResults/utUnderTest/build"
 UNIT_RESULT_FOLDER = "utExecutionAndResults/utResults"
 
-
-# Find the position of the script removing its name and the disk
+# Determine the script directory, remove the file name and drive letter,
+# and normalize the path for Docker (Cygwin/WSL style).
 SCRIPT_PATH = os.path.abspath(__file__)
 SCRIPT_DIRECTORY_PATH = os.path.dirname(SCRIPT_PATH)
 RELATIVE_PATH = SCRIPT_DIRECTORY_PATH.split(":", 1)[-1].lstrip("\\/")
 NORMALIZED_PATH = RELATIVE_PATH.replace("\\", "/")
 
-DOCKER_BASE = ["docker", "run", "-it", "--rm","-v", "/c/" + NORMALIZED_PATH + ":/home/dev/project","throwtheswitch/madsciencelab-plugins:latest"]
+DOCKER_BASE = [
+    "docker",
+    "run",
+    "-it",
+    "--rm",
+    "-v",
+    "/c/" + NORMALIZED_PATH + ":/home/dev/project",
+    "throwtheswitch/madsciencelab-plugins:latest",
+]
 CEEDLING_CLEAN = ["ceedling", "clobber"]
 
 DOCKER_CLEAN = DOCKER_BASE + CEEDLING_CLEAN
@@ -31,8 +39,8 @@ DOCKER_CLEAN = DOCKER_BASE + CEEDLING_CLEAN
 
 def find_function_definition(path, func_name):
     """
-    Cerca la definizione di una funzione C nei file .c
-    dentro la cartella 'path' e nelle sue sottocartelle.
+    Search for the definition of a C function in .c files
+    located in 'path' and its subdirectories.
     """
     results = []
     pattern = re.compile(rf"\b{func_name}\s*\([^)]*\)", re.IGNORECASE)
@@ -47,26 +55,26 @@ def find_function_definition(path, func_name):
                             if pattern.search(line):
                                 results.append((file_path, i, line.strip()))
                 except Exception as e:
-                    print(f"Errore leggendo {file_path}: {e}")
+                    print(f"❌ Error reading '{file_path}': {e}")
     return results
 
 
-def build_moduli(path):
+def build_modules(path):
     """
-    Cerca tutte le cartelle che iniziano con TEST_XXXX e costruisce
-    la struttura:
+    Search for all folders starting with TEST_XXXX and build
+    a structure like:
 
-    moduli = [
+    modules = [
         {
-            "nome_modulo": "<nome_file.c>",
+            "nome_modulo": "<file_name.c>",
             "nome_funzione": "<XXXX>",
-            "percorso": "<path/relativo/del/file/senza_nome>",
-            "testFolder": "<path/relativo/cartella_unitTests>"
+            "percorso": "<relative/path/of/file/without_name>",
+            "testFolder": "<relative/path/of/unitTests/folder>"
         },
         ...
     ]
     """
-    moduli = []
+    modules = []
 
     for root, dirs, files in os.walk(path):
         for d in dirs:
@@ -74,7 +82,7 @@ def build_moduli(path):
                 func_name = d.replace("TEST_", "")
                 folder_path = os.path.join(root, d)
 
-                # radice da cui cercare la funzione
+                # Root directory from which to search the source function
                 search_root = os.path.dirname(os.path.dirname(folder_path))
 
                 matches = find_function_definition(search_root, func_name)
@@ -82,80 +90,82 @@ def build_moduli(path):
                 if matches:
                     file_path, line_number, line_content = matches[0]
 
-                    # percorso relativo del file .c rispetto a 'path'
+                    # Relative path of the .c file with respect to 'path'
                     file_rel = os.path.relpath(file_path, path)
                     nome_modulo = os.path.basename(file_rel)
                     percorso = os.path.dirname(file_rel).replace(os.sep, "/")
                 else:
-                    # se non troviamo il file che contiene la funzione
-                    file_rel = None
-                    nome_modulo = None
-                    percorso = None
+                    print(f"⚠️ No source file found for test folder '{folder_path}'")
+                    continue
 
-                # cartella unitTests relativa alla radice
+                # unitTests folder relative to the root
                 test_folder_rel = os.path.relpath(os.path.dirname(folder_path), path)
                 test_folder_rel = test_folder_rel.replace(os.sep, "/")
 
-                moduli.append({
+                modules.append({
                     "nome_modulo": nome_modulo,
                     "nome_funzione": func_name,
                     "percorso": percorso,
                     "testFolder": test_folder_rel,
                 })
 
-    return moduli
+    return modules
+
 
 # ==============================
 # FUNCTION EXTRACTION
 # ==============================
-def find_and_extract_function(file_name, function_name, unitPath):
+def find_and_extract_function(file_name, function_name, unit_path):
     """
-    Cerca un file in una directory e sottodirectory, estrae una funzione C e
-    restituisce una versione "normalizzata" della funzione, contenente solo:
+    Search for a file within a directory and its subdirectories, extract
+    a C function, and return a "normalized" version of the function
+    containing only:
 
         <return_type> <function_name>(<params>) { ... }
 
-    Rimuove qualificatori/attributi come:
+    It removes qualifiers/attributes such as:
     static, inline, extern, volatile, register, constexpr, __inline__,
-    __forceinline, __attribute__((...)), ecc.
+    __forceinline, __attribute__((...)), etc.
     """
     file_path = None
-    print(f"unitPath : {unitPath}");
-    print(f"file_name : {file_name}");
-    print(f"function_name : {function_name}");
-    # Cerca il file nei sottodirectory
-    for root, _, files in os.walk(unitPath):
+    print(f"unit_path    : {unit_path}")
+    print(f"file_name    : {file_name}")
+    print(f"function_name: {function_name}")
+
+    # Search the file within the given directory and subdirectories
+    for root, _, files in os.walk(unit_path):
         if file_name in files:
             file_path = os.path.join(root, file_name)
             break
 
     if not file_path:
-        return f"❌ Error: File '{file_name}' not found in directory '{unitPath}'."
+        print(f"❌ Error: File '{file_name}' not found in directory '{unit_path}'.")
+        return None
 
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
 
         # Regex:
-        # - ancora all'inizio riga (^)
-        # - cattura tutto ciò che sta prima del nome funzione in "before"
-        #   (tipo di ritorno + qualificatori + attributi)
-        # - poi il nome funzione
-        # - parametri
-        # - eventuali __attribute__ dopo i parametri
+        # - anchors at the beginning of the line (^)
+        # - captures everything before the function name in "before"
+        #   (return type + qualifiers + attributes)
+        # - then the function name
+        # - parameters
+        # - optional __attribute__ after the parameters
         function_pattern = re.compile(
             rf"""
             (?P<header>
                 ^[ \t]*
-                (?P<before>[^\n]*?)          # return type + qualifiers + attributes (tutto sulla riga)
-                \b{function_name}\b          # nome funzione
+                (?P<before>[^\n]*?)          # return type + qualifiers + attributes (all on the line)
+                \b{function_name}\b          # function name
                 \s*
-                (?P<params>\([^)]*\))        # lista parametri
-                (?P<post_attr>               # eventuali __attribute__ dopo i parametri
+                (?P<params>\([^)]*\))        # parameter list
+                (?P<post_attr>               # optional __attribute__ after parameters
                     (?:\s*__attribute__\s*\(\([^)]*\)\))*
                 )
             )
-            \s*\{{                           # graffa di apertura del corpo
+            \s*\{{                           # opening brace of the body
             """,
             re.MULTILINE | re.VERBOSE
         )
@@ -163,16 +173,16 @@ def find_and_extract_function(file_name, function_name, unitPath):
         match = function_pattern.search(content)
 
         if not match:
-            return f"⚠️ Function '{function_name}' not found in '{file_name}'."
+            print(f"⚠️ Function '{function_name}' not found in '{file_name}'.")
+            return None
 
-        header_start = match.start("header")
-
-        # posizione della prima '{' dopo l'header
+        # Position of the first '{' after the header
         brace_index = content.find("{", match.end("header"))
         if brace_index == -1:
-            return f"⚠️ Opening brace for function '{function_name}' not found in '{file_name}'."
+            print(f"⚠️ Opening brace for function '{function_name}' not found in '{file_name}'.")
+            return None
 
-        # Troviamo la fine della funzione contando le graffe
+        # Find the end of the function by counting braces
         open_braces = 0
         end_index = None
         for i in range(brace_index, len(content)):
@@ -186,43 +196,45 @@ def find_and_extract_function(file_name, function_name, unitPath):
                     break
 
         if end_index is None:
-            return f"⚠️ Closing brace for function '{function_name}' not found in '{file_name}'."
+            print(f"⚠️ Closing brace for function '{function_name}' not found in '{file_name}'.")
+            return None
 
-        # ----- Normalizzazione dell'header -----
+        # ----- Header normalization -----
         before = match.group("before") or ""
         params = match.group("params")
 
-        # 1) Rimuovi tutti gli __attribute__((...))
+        # 1) Remove all __attribute__((...))
         before_clean = re.sub(r'__attribute__\s*\(\([^)]*\)\)\s*', ' ', before)
 
-        # 2) Rimuovi i qualificatori tipo static, inline, extern, ecc.
+        # 2) Remove qualifiers like static, inline, extern, etc.
         before_clean = re.sub(
             r'\b(static|inline|INLINE|extern|constexpr|volatile|register|__inline__|__forceinline)\b',
             ' ',
             before_clean
         )
 
-        # 3) Normalizza whitespace
+        # 3) Normalize whitespace
         before_clean = before_clean.replace('\t', ' ')
         return_type = ' '.join(before_clean.split())
 
-        # Se per qualche motivo è vuoto, almeno non generiamo una cosa strana
+        # If, for some reason, it's empty, fall back to "void"
         if not return_type:
-            return_type = "void"  # fallback conservativo
+            return_type = "void"  # conservative fallback
 
-        # Header "pulito"
+        # Clean header
         clean_header = f"{return_type} {function_name}{params}"
 
-        # Corpo originale da '{' fino alla '}' corrispondente (inclusa)
+        # Original body from '{' up to the matching '}' (inclusive)
         body_part = content[brace_index:end_index + 1]
 
-        # Risultato finale: header pulito + corpo originale
+        # Final result: clean header + original body
         normalized_function = clean_header + " " + body_part
-        print(f"FUNCTION BODY  \n\n{normalized_function}")
+        print("✅ Function body found.\n")
         return f"\n\n{normalized_function}"
 
     except Exception as e:
-        return f"❌ Error reading file: {e}"
+        print(f"❌ Error reading file '{file_name}': {e}")
+        return None
 
 
 # ==============================
@@ -230,44 +242,54 @@ def find_and_extract_function(file_name, function_name, unitPath):
 # ==============================
 def modify_file_after_marker(file_path, new_content):
     """
-    Replaces content in the file after a specific marker.
+    Replace the content in the file after a specific marker.
     """
     marker = "/* FUNCTION TO TEST */"
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
-        
+
         marker_index = content.find(marker)
         if marker_index == -1:
             print("⚠️ Marker not found in file.")
-            return
-        
+            sys.exit(1)
+
         modified_content = content[:marker_index + len(marker)] + "\n" + new_content + "\n"
-        
+
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(modified_content)
         print(f"✅ File '{file_path}' successfully updated.")
     except FileNotFoundError:
         print(f"❌ Error: File '{file_path}' not found.")
     except Exception as e:
-        print(f"❌ Error modifying file: {e}")
+        print(f"❌ Error modifying file '{file_path}': {e}")
+
 
 def extract_function_name(path: str) -> str:
-    # Get the filename only (e.g. TEST_func.c)
+    """
+    Extract the function name from a path or filename.
+    Examples:
+      'TEST_myFunc.c'  -> 'myFunc'
+      'myFunc.c'       -> 'myFunc'
+      'myFunc'         -> 'myFunc'
+    """
     filename = os.path.basename(path)
-    # Remove extension (.c)
     name_no_ext = os.path.splitext(filename)[0]
-    # Strip the TEST_ prefix
     if name_no_ext.startswith("TEST_"):
         return name_no_ext[len("TEST_"):]
-    return name_no_ext           
+    return name_no_ext
+
 
 def copy_folder_contents(src_folder: str, dest_folder: str):
     """
     Copy all files and subdirectories from src_folder into dest_folder.
     Creates dest_folder if it does not exist.
     """
-    print(f"Copy data from {src_folder} to {dest_folder}")
+    print(f"▶ Copying data from '{src_folder}' to '{dest_folder}'")
+    if not os.path.exists(src_folder):
+        print(f"❌ Error: Source folder '{src_folder}' does not exist. Nothing to copy.")
+        return
+
     if not os.path.exists(dest_folder):
         os.makedirs(dest_folder)
 
@@ -281,6 +303,7 @@ def copy_folder_contents(src_folder: str, dest_folder: str):
         else:
             # Copy single file
             shutil.copy2(src_path, dest_path)
+
 
 def clear_folder(folder_path: str):
     """
@@ -299,33 +322,53 @@ def clear_folder(folder_path: str):
             elif os.path.isdir(item_path):
                 shutil.rmtree(item_path)  # delete subdirectory recursively
         except Exception as e:
-            print(f"❌ Error deleting {item_path}: {e}")
+            print(f"❌ Error deleting '{item_path}': {e}")
 
     print(f"✅ Folder '{folder_path}' cleared successfully.")
 
-def updateUnitUnderTest(unitMetaData,unitName):
-    if not unitMetaData:
-        print(f"No entry found with nome_funzione = {unitName}")
+
+def update_unit_under_test(module, unit_name):
+    """
+    Update the unit test for a single module.
+    'module' is a dict with keys:
+        - nome_modulo
+        - nome_funzione
+        - percorso
+        - testFolder
+    """
+    if not module:
+        print(f"❌ No entry found with nome_funzione = {unit_name}")
         sys.exit(1)
 
+    module_name = module["nome_modulo"]
+    function_name = module["nome_funzione"]
+    percorso = module["percorso"]
+    unit_test_folder = module["testFolder"]
 
-    for modulo in unitMetaData:
-        module_name   = modulo["nome_modulo"]
-        function_name = modulo["nome_funzione"]
-        percorso      = modulo["percorso"]
-        unitTest      = modulo["testFolder"]
+    extracted_body = find_and_extract_function(module_name, function_name, percorso)
 
-        extracted_body = find_and_extract_function(module_name, function_name, percorso)
+    if extracted_body is None:
+        print(f"❌ Cannot extract body for function '{function_name}' in module '{module_name}'")
+        sys.exit(1)
 
-        if extracted_body:
-            modify_file_after_marker(
-                os.path.join(unitTest, f"TEST_{function_name}", "src", f"{function_name}.c"),
-                extracted_body,
-            )
+    # Update the corresponding unit test file with the extracted function body
+    test_c_path = os.path.join(
+        unit_test_folder,
+        f"{UNIT_TEST_PREFIX}{function_name}",
+        "src",
+        f"{function_name}.c",
+    )
+    modify_file_after_marker(test_c_path, extracted_body)
+
+    # Prepare the execution folder
     clear_folder(UNIT_EXECUTION_FOLDER)
-    copy_folder_contents(unitTest +"/"+ UNIT_TEST_PREFIX + unitName, UNIT_EXECUTION_FOLDER)
+    copy_folder_contents(
+        os.path.join(unit_test_folder, UNIT_TEST_PREFIX + unit_name),
+        UNIT_EXECUTION_FOLDER,
+    )
 
-def updateTotolResultReport(buildFolder, function_name, reportFolder):
+
+def update_total_result_report(build_folder, function_name, report_folder):
     """
     Read test result values from the Ceedling report file and update a summary report.
     The summary report will contain rows with columns:
@@ -334,14 +377,11 @@ def updateTotolResultReport(buildFolder, function_name, reportFolder):
     If the function_name already exists in the summary report, its row is updated
     instead of adding a duplicate row.
     """
-
-    # Path to the Ceedling result file
-    report_file = os.path.join(buildFolder, "test", "results", f"test_{function_name}.pass")
+    report_file = os.path.join(build_folder, "test", "results", f"test_{function_name}.pass")
     if not os.path.exists(report_file):
         print(f"⚠️ Report file '{report_file}' does not exist.")
         return
 
-    # Initialize values
     total = passed = failed = ignored = None
 
     try:
@@ -363,14 +403,12 @@ def updateTotolResultReport(buildFolder, function_name, reportFolder):
             print(f"⚠️ Missing values in report file '{report_file}'.")
             return
 
-        # Path to the summary report file
-        summary_file = os.path.join(reportFolder, "total_result_report.txt")
-        os.makedirs(reportFolder, exist_ok=True)
+        summary_file = os.path.join(report_folder, "total_result_report.txt")
+        os.makedirs(report_folder, exist_ok=True)
 
-        # Define column widths for alignment
-        col_widths = [30, 10, 10, 10, 10]  # Adjusted widths for neat alignment
+        # Column widths for alignment
+        col_widths = [30, 10, 10, 10, 10]
 
-        # Format header and row
         header = (
             f"| {'Function Name Under Test'.ljust(col_widths[0])}"
             f"| {'Total'.ljust(col_widths[1])}"
@@ -414,14 +452,12 @@ def updateTotolResultReport(buildFolder, function_name, reportFolder):
                 if len(parts) > 2:
                     name_col = parts[1].strip()
                     if name_col == function_name:
-                        # Replace this line with the new row
                         lines[i] = row
                         updated = True
                         break
 
         # If not updated, append the new row at the end
         if not updated:
-            # Ensure file ends with a newline before appending
             if lines and not lines[-1].endswith("\n"):
                 lines[-1] = lines[-1] + "\n"
             lines.append(row)
@@ -439,10 +475,55 @@ def updateTotolResultReport(buildFolder, function_name, reportFolder):
 
 
 def run_bash_cmd(cmd):
+    """
+    Execute a system command (list of arguments).
+    On error, print a detailed message and TERMINATE the script.
+    """
     try:
+        print(f"▶ Running command: {' '.join(cmd)}")
         subprocess.run(cmd, check=True)
+
+    except FileNotFoundError as e:
+        print(f"\n❌ FATAL ERROR: Command not found: '{cmd[0]}'")
+        print(f"   Full command : {' '.join(cmd)}")
+        print(f"   Details      : {e}\n")
+        sys.exit(1)
+
+    except PermissionError as e:
+        print(f"\n❌ FATAL ERROR: Permission denied while executing command:")
+        print(f"   {' '.join(cmd)}")
+        print(f"   Details      : {e}\n")
+        sys.exit(1)
+
     except subprocess.CalledProcessError as e:
-        print("Ceedling has failed:", e)
+        print(f"\n❌ FATAL ERROR: Command executed but FAILED.")
+        print(f"   Command    : {' '.join(cmd)}")
+        print(f"   Exit code  : {e.returncode}")
+        print(f"   Details    : {e}\n")
+        sys.exit(1)
+
+    except Exception as e:
+        print(f"\n❌ FATAL ERROR: Unexpected error while executing command:")
+        print(f"   Command    : {' '.join(cmd)}")
+        print(f"   Details    : {e}\n")
+        sys.exit(1)
+
+    print("✔️  Command executed successfully.\n")
+
+
+def run_and_collect_results(module, function_name):
+    """
+    Orchestrate: update unit under test, run Ceedling in Docker,
+    update the aggregated report and copy build results.
+    """
+    update_unit_under_test(module, function_name)
+    run_bash_cmd(DOCKER_CLEAN)
+    run_bash_cmd(DOCKER_BASE + ["ceedling", "test:" + function_name])
+    update_total_result_report(UNIT_EXECUTION_FOLDER_BUILD, function_name, UNIT_RESULT_FOLDER)
+    copy_folder_contents(
+        UNIT_EXECUTION_FOLDER_BUILD,
+        os.path.join(UNIT_RESULT_FOLDER, function_name + "Results")
+    )
 
 
 def print_help():
@@ -465,8 +546,8 @@ Description:
 
 Arguments:
   function_name        Name of the function to test.
-                       It must match 'nome_funzione' in the 'moduli' dictionary.
-  all                  Run the process for all modules listed in 'moduli'.
+                       It must match 'nome_funzione' in the modules list.
+  all                  Run the process for all modules discovered under the project root.
 
 Options:
   -h, --help, help     Show this help message and exit.
@@ -488,40 +569,27 @@ if __name__ == "__main__":
         print_help()
         sys.exit(0)
 
-    unitToTest = extract_function_name(sys.argv[1])
-    print(f"You passed the argument: {unitToTest}")
+    unit_to_test = extract_function_name(sys.argv[1])
+    print(f"▶ Selected argument (function to test): {unit_to_test}")
 
-    base_path = os.path.dirname(os.path.abspath(__file__))  # cartella corrente
-    moduli = build_moduli(base_path)
-    
-    if unitToTest == "all":
+    base_path = os.path.dirname(os.path.abspath(__file__))  # current folder
+    modules = build_modules(base_path)
+
+    if unit_to_test == "all":
         clear_folder(UNIT_RESULT_FOLDER)
-        # ✅ Run for all modules in the dictionary
-        for module in moduli:
+        # Run for all modules in the list
+        for module in modules:
             function_name = module["nome_funzione"]
             print(f"▶ Processing unit: {function_name}")
-            updateUnitUnderTest([module], function_name)
-
-            run_bash_cmd(DOCKER_CLEAN)
-            run_bash_cmd(DOCKER_BASE + ["ceedling", "test:" + function_name])
-            updateTotolResultReport(UNIT_EXECUTION_FOLDER_BUILD, function_name,UNIT_RESULT_FOLDER)
-            copy_folder_contents(
-                UNIT_EXECUTION_FOLDER_BUILD,
-                os.path.join(UNIT_RESULT_FOLDER, function_name + "Results")
-            )
+            run_and_collect_results(module, function_name)
     else:
-        # ✅ Run only for the selected unit
-        unitMetaData = [m for m in moduli if m["nome_funzione"] == unitToTest]
-        if not unitMetaData:
-            print(f"❌ No module found for function '{unitToTest}'")
+        # Run only for the selected unit
+        unit_metadata = [m for m in modules if m["nome_funzione"] == unit_to_test]
+        if not unit_metadata:
+            print(f"❌ No module found for function '{unit_to_test}'")
             sys.exit(1)
 
-        updateUnitUnderTest(unitMetaData, unitToTest)
-        run_bash_cmd(DOCKER_CLEAN)
-        run_bash_cmd(DOCKER_BASE + ["ceedling", "test:" + unitToTest])
-        updateTotolResultReport(UNIT_EXECUTION_FOLDER_BUILD, unitToTest,UNIT_RESULT_FOLDER)
-        copy_folder_contents(
-            UNIT_EXECUTION_FOLDER_BUILD,
-            os.path.join(UNIT_RESULT_FOLDER, unitToTest + "Results")
-        )
+        module = unit_metadata[0]   # single module
+        run_and_collect_results(module, unit_to_test)
+
     clear_folder(UNIT_EXECUTION_FOLDER)
