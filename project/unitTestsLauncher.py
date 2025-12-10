@@ -28,6 +28,8 @@ UNIT_EXECUTION_FOLDER = PROJECT_ROOT / "utExecutionAndResults" / "utUnderTest"
 UNIT_EXECUTION_FOLDER_BUILD = UNIT_EXECUTION_FOLDER / "build"
 UNIT_RESULT_FOLDER = PROJECT_ROOT / "utExecutionAndResults" / "utResults"
 
+RESULT_REPORT = "total_result_report.txt"
+
 # Windows-specific normalization for Docker volume mount: /c/<path>
 # Example:
 #   PROJECT_ROOT = "C:\\repo\\proj"
@@ -557,7 +559,16 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
     Raw CSV format (internal representation):
       function_name,total,passed,failed,ignored,Date and time,Tester
     """
-    report_file = build_folder / "test" / "results" / f"test_{function_name}.pass"
+    # possible path
+    pass_file = build_folder / "test" / "results" / f"test_{function_name}.pass"
+    fail_file = build_folder / "test" / "results" / f"test_{function_name}.fail"
+
+    # If the .pass file exists, use it; otherwise, use the .fail file
+    if pass_file.exists():
+        report_file = pass_file
+    else:
+        report_file = fail_file
+
     if not report_file.exists():
         print(f"⚠️ Report file '{report_file}' does not exist.")
         return
@@ -586,7 +597,7 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
         tester = getpass.getuser()
 
         report_folder.mkdir(parents=True, exist_ok=True)
-        summary_file = report_folder / "total_result_report.txt"
+        summary_file = report_folder / RESULT_REPORT
 
         # ---- 2. Load existing rows into a dict ----
         rows = load_result_rows(summary_file)
@@ -629,7 +640,7 @@ def format_total_result_report(report_folder: Path):
     |-------------------------|-------|--------|--------|---------|----------------|--------|
     | ApplLinDiagReadDataById | 5     | 5      | 0      | 0       | 10/12/25 13:25 | owner  |
     """
-    summary_file = report_folder / "total_result_report.txt"
+    summary_file = report_folder / RESULT_REPORT
     if not summary_file.exists():
         print(f"⚠️ Summary file '{summary_file}' does not exist. Nothing to format.")
         return
@@ -699,7 +710,7 @@ def run_bash_cmd(cmd: list[str]):
     """
     try:
         print(f"▶ Running command: {' '.join(cmd)}")
-        subprocess.run(cmd, check=True)
+        subprocess.run(cmd)
 
     except FileNotFoundError as e:
         print(f"\n❌ FATAL ERROR: Command not found: '{cmd[0]}'")
@@ -711,19 +722,6 @@ def run_bash_cmd(cmd: list[str]):
         print(f"\n❌ FATAL ERROR: Permission denied while executing command:")
         print(f"   {' '.join(cmd)}")
         print(f"   Details      : {e}\n")
-        sys.exit(1)
-
-    except subprocess.CalledProcessError as e:
-        print(f"\n❌ FATAL ERROR: Command executed but FAILED.")
-        print(f"   Command    : {' '.join(cmd)}")
-        print(f"   Exit code  : {e.returncode}")
-        print(f"   Details    : {e}\n")
-        sys.exit(1)
-
-    except Exception as e:
-        print(f"\n❌ FATAL ERROR: Unexpected error while executing command:")
-        print(f"   Command    : {' '.join(cmd)}")
-        print(f"   Details    : {e}\n")
         sys.exit(1)
 
     print("✔️  Command executed successfully.\n")

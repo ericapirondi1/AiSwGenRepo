@@ -19,9 +19,9 @@ This project is designed to manage unit testing across multiple modules, update 
 
 ---
 
-## 🛠️ Script Functionality
+## 🛠️ Script unitTestsLauncher Functionality 
 
-The script performs three main tasks:
+The script unitTestsLauncher performs three main tasks:
 1. **Collect all the test folder**  
    Search all the forders TEST_ that contain unit tests.
 
