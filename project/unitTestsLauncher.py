@@ -55,6 +55,27 @@ DOCKER_CLEAN = DOCKER_BASE + CEEDLING_CLEAN
 # DATA CLASS FOR MODULE METADATA
 # ==============================
 @dataclass
+class TestResultRow:
+    function_name: str
+    total: str
+    passed: str
+    failed: str
+    ignored: str
+    date_time: str
+    tester: str
+
+    def to_csv_line(self) -> str:
+        return (
+            f"{self.function_name},"
+            f"{self.total},"
+            f"{self.passed},"
+            f"{self.failed},"
+            f"{self.ignored},"
+            f"{self.date_time},"
+            f"{self.tester}"
+        )
+
+@dataclass
 class UnitModule:
     """
     Metadata for a unit under test:
@@ -398,15 +419,143 @@ def update_unit_under_test(module: UnitModule, unit_name: str):
     clear_folder(UNIT_EXECUTION_FOLDER)
     copy_folder_contents(module.test_case_folder, UNIT_EXECUTION_FOLDER)
 
+def load_result_rows(summary_file: Path) -> dict[str, TestResultRow]:
+    """
+    Load existing results from 'total_result_report.txt'.
+
+    Supports:
+      - CSV format:
+          function_name,total,passed,failed,ignored,Date and time,Tester
+          foo,10,10,0,0,10/12/25 14:13,USER
+      - Pretty table format (pipe-separated), which is parsed and converted.
+
+    Returns:
+      dict[function_name, TestResultRow]
+    """
+    rows: dict[str, TestResultRow] = {}
+
+    if not summary_file.exists() or summary_file.stat().st_size == 0:
+        return rows
+
+    text = summary_file.read_text(encoding="utf-8")
+    lines = text.splitlines()
+    if not lines:
+        return rows
+
+    # Detect format: pretty table if first non-empty line starts with '|'
+    first_non_empty = next((ln for ln in lines if ln.strip()), "")
+    header_csv = "function_name,total,passed,failed,ignored,Date and time,Tester"
+
+    # ---------- Pretty table format ----------
+    if first_non_empty.startswith("|"):
+        header_cells: list[str] = []
+        data_rows_cells: list[list[str]] = []
+
+        for line in lines:
+            stripped = line.strip()
+            if not stripped:
+                continue
+            if stripped.startswith("|-"):
+                # separator
+                continue
+            if not stripped.startswith("|"):
+                continue
+
+            cells = [c.strip() for c in stripped.split("|")[1:-1]]
+            if not header_cells:
+                header_cells = cells
+            else:
+                data_rows_cells.append(cells)
+
+        def idx(col_name: str, default: int = -1) -> int:
+            try:
+                return header_cells.index(col_name)
+            except ValueError:
+                return default
+
+        idx_name   = idx("function_name", 0)
+        idx_total  = idx("total")
+        idx_passed = idx("passed")
+        idx_failed = idx("failed")
+        idx_ignored = idx("ignored")
+        idx_date   = idx("Date and time")
+        idx_tester = idx("Tester")
+
+        def get_cell(row: list[str], i: int) -> str:
+            if i is None or i < 0 or i >= len(row):
+                return ""
+            return row[i]
+
+        for row in data_rows_cells:
+            fn = get_cell(row, idx_name)
+            if not fn:
+                continue
+            t   = get_cell(row, idx_total)
+            p   = get_cell(row, idx_passed)
+            f   = get_cell(row, idx_failed)
+            ig  = get_cell(row, idx_ignored)
+            dt  = get_cell(row, idx_date)
+            tst = get_cell(row, idx_tester)
+
+            rows[fn] = TestResultRow(
+                function_name=fn,
+                total=t,
+                passed=p,
+                failed=f,
+                ignored=ig,
+                date_time=dt,
+                tester=tst,
+            )
+
+        return rows
+
+    # ---------- CSV format ----------
+    # first line is header, rest are data
+    header_line = lines[0].strip()
+    if "function_name" not in header_line:
+        # unexpected header: replace with our canonical header
+        header_line = header_csv
+
+    for line in lines[1:]:
+        stripped = line.strip()
+        if not stripped:
+            continue
+        parts = [p.strip() for p in stripped.split(",")]
+        if len(parts) < 5:
+            continue
+
+        # handle old or short rows: pad to 7 columns
+        while len(parts) < 7:
+            parts.append("")
+
+        fn, t, p, f, ig, dt, tst = parts[:7]
+        if not fn:
+            continue
+
+        rows[fn] = TestResultRow(
+            function_name=fn,
+            total=t,
+            passed=p,
+            failed=f,
+            ignored=ig,
+            date_time=dt,
+            tester=tst,
+        )
+
+    return rows
 
 def update_total_result_report(build_folder: Path, function_name: str, report_folder: Path):
     """
     Read test result values from the Ceedling report file and update a summary file
-    with raw data only (CSV style, no formatting).
+    with raw data (CSV-style, no formatting).
 
-    The file 'total_result_report.txt' will contain:
-        function_name,total,passed,failed,ignored,Date and time,Tester
-        foo,10,9,1,0,10/12/25 13:25,owner
+    Behaviour:
+      - If the file does not exist or is empty -> create it (header + row).
+      - If the file exists and function_name is NEW      -> keep all rows and add a new one.
+      - If the file exists and function_name already in -> overwrite that row with new values.
+
+    Raw CSV format (internal representation):
+      function_name,total,passed,failed,ignored,Date and time,Tester
     """
     report_file = build_folder / "test" / "results" / f"test_{function_name}.pass"
     if not report_file.exists():
@@ -416,7 +565,7 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
     total = passed = failed = ignored = None
 
     try:
-        # Read the report file and extract values
+        # ---- 1. Extract values from Ceedling .pass file ----
         for line in report_file.read_text(encoding="utf-8").splitlines():
             line = line.strip()
             if line.startswith(":total:"):
@@ -428,7 +577,6 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
             elif line.startswith(":ignored:"):
                 ignored = line.split(":", 2)[2].strip()
 
-        # Ensure all values were found
         if None in (total, passed, failed, ignored):
             print(f"⚠️ Missing values in report file '{report_file}'.")
             return
@@ -440,51 +588,34 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
         report_folder.mkdir(parents=True, exist_ok=True)
         summary_file = report_folder / "total_result_report.txt"
 
-        # We store rows as CSV:
-        # function_name,total,passed,failed,ignored,Date and time,Tester
-        rows: dict[str, tuple[str, str, str, str, str, str]] = {}
-        header = "function_name,total,passed,failed,ignored,Date and time,Tester"
+        # ---- 2. Load existing rows into a dict ----
+        rows = load_result_rows(summary_file)
 
-        if summary_file.exists():
-            lines = summary_file.read_text(encoding="utf-8").splitlines()
+        # ---- 3. Update / insert current function row ----
+        rows[function_name] = TestResultRow(
+            function_name=function_name,
+            total=total,
+            passed=passed,
+            failed=failed,
+            ignored=ignored,
+            date_time=now_str,
+            tester=tester,
+        )
 
-            # Detect old pretty-table format (starting with '|') and ignore it
-            first_non_empty = next((ln for ln in lines if ln.strip()), "")
-            if first_non_empty.startswith("|"):
-                # Old table format -> discard old content, keep default header
-                pass
-            else:
-                # Parse CSV-style existing content
-                if lines:
-                    header = lines[0].strip() or header
-                    for line in lines[1:]:
-                        if not line.strip():
-                            continue
-                        parts = [p.strip() for p in line.split(",")]
-                        # Old files may have 5 columns; pad missing ones
-                        if len(parts) == 5:
-                            fn, t, p_, f_, ig = parts
-                            dt, tst = "", ""
-                        elif len(parts) >= 7:
-                            fn, t, p_, f_, ig, dt, tst = parts[:7]
-                        else:
-                            continue
-                        rows[fn] = (t, p_, f_, ig, dt, tst)
+        # ---- 4. Rewrite CSV file from the dictionary ----
+        header_csv = "function_name,total,passed,failed,ignored,Date and time,Tester"
+        lines_out = [header_csv]
 
-        # Update / insert current function row (with new date/time + tester)
-        rows[function_name] = (total, passed, failed, ignored, now_str, tester)
-
-        # Serialize back to CSV-style text
-        lines_out = [header]
-        for fn, (t, p_, f_, ig, dt, tst) in rows.items():
-            lines_out.append(f"{fn},{t},{p_},{f_},{ig},{dt},{tst}")
+        # Keep insertion order of dict (Python 3.7+ preserves it),
+        # or sort by name if you prefer: for fn in sorted(rows)
+        for fn, row in rows.items():
+            lines_out.append(row.to_csv_line())
 
         summary_file.write_text("\n".join(lines_out) + "\n", encoding="utf-8")
         print(f"✅ Updated raw summary data for '{function_name}' in: {summary_file}")
 
     except Exception as e:
         print(f"❌ Error updating raw report data: {e}")
-
 
 
 def format_total_result_report(report_folder: Path):
