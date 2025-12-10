@@ -13,7 +13,6 @@ import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from prettytable import PrettyTable
 
 UNIT_TEST_PREFIX = "TEST_"
 
@@ -401,7 +400,7 @@ def update_unit_under_test(module: UnitModule, unit_name: str):
 def update_total_result_report(build_folder: Path, function_name: str, report_folder: Path):
     """
     Read test result values from the Ceedling report file and update a summary file
-    with raw data only (CSV-style, no formatting).
+    with raw data only (CSV style, no formatting).
 
     The file 'total_result_report.txt' will contain:
         function_name,total,passed,failed,ignored
@@ -436,22 +435,30 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
         report_folder.mkdir(parents=True, exist_ok=True)
         summary_file = report_folder / "total_result_report.txt"
 
-        # Load existing rows (if any), stored as CSV: function_name,total,passed,failed,ignored
+        # We store rows as CSV: function_name,total,passed,failed,ignored
         rows: dict[str, tuple[str, str, str, str]] = {}
         header = "function_name,total,passed,failed,ignored"
 
         if summary_file.exists():
             lines = summary_file.read_text(encoding="utf-8").splitlines()
-            if lines:
-                header = lines[0]  # keep existing header if present
-                for line in lines[1:]:
-                    if not line.strip():
-                        continue
-                    parts = [p.strip() for p in line.split(",")]
-                    if len(parts) != 5:
-                        continue
-                    fn, t, p, f, ig = parts
-                    rows[fn] = (t, p, f, ig)
+
+            # Detect old "pretty table" format and ignore it (start fresh)
+            first_non_empty = next((ln for ln in lines if ln.strip()), "")
+            if first_non_empty.startswith("|"):
+                # old table format -> discard old content, keep default header
+                pass
+            else:
+                # parse CSV-style existing content
+                if lines:
+                    header = lines[0].strip() or header
+                    for line in lines[1:]:
+                        if not line.strip():
+                            continue
+                        parts = [p.strip() for p in line.split(",")]
+                        if len(parts) != 5:
+                            continue
+                        fn, t, p, f, ig = parts
+                        rows[fn] = (t, p, f, ig)
 
         # Update / insert current function row
         rows[function_name] = (total, passed, failed, ignored)
@@ -470,8 +477,8 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
 
 def format_total_result_report(report_folder: Path):
     """
-    Read the raw 'total_result_report.txt' (CSV-style) and rewrite it
-    as a pretty aligned table using PrettyTable.
+    Read the raw 'total_result_report.txt' (CSV style) and rewrite it
+    as a pretty aligned table (pipe format) with dynamic column widths.
     """
     summary_file = report_folder / "total_result_report.txt"
     if not summary_file.exists():
@@ -483,27 +490,55 @@ def format_total_result_report(report_folder: Path):
         print(f"⚠️ Summary file '{summary_file}' is empty. Nothing to format.")
         return
 
-    # First line is the header
+    # First line is the header in CSV form
     header_parts = [h.strip() for h in lines[0].split(",") if h.strip()]
-    if not header_parts:
-        print(f"⚠️ Summary file '{summary_file}' has an invalid header. Cannot format.")
+    if len(header_parts) != 5:
+        print(f"⚠️ Invalid header in summary file '{summary_file}'. Cannot format.")
         return
 
-    table = PrettyTable()
-    table.field_names = header_parts
-
-    # Add rows
+    # Read data rows
+    data_rows: list[list[str]] = []
     for line in lines[1:]:
         if not line.strip():
             continue
         parts = [p.strip() for p in line.split(",")]
         if len(parts) != len(header_parts):
             continue
-        table.add_row(parts)
+        data_rows.append(parts)
+
+    if not data_rows:
+        print(f"⚠️ No data rows to format in '{summary_file}'.")
+        return
+
+    # Compute column widths based on header + data
+    col_widths: list[int] = []
+    for col_idx, header in enumerate(header_parts):
+        max_data_len = max(len(row[col_idx]) for row in data_rows)
+        col_widths.append(max(len(header), max_data_len))
+
+    # Build header line
+    header_line = "| " + " | ".join(
+        header.ljust(col_widths[i]) for i, header in enumerate(header_parts)
+    ) + " |\n"
+
+    # Build separator line
+    separator_line = "|" + "|".join(
+        "-" * (col_widths[i] + 2) for i in range(len(col_widths))
+    ) + "|\n"
+
+    # Build data lines
+    row_lines = ""
+    for row in data_rows:
+        line = "| " + " | ".join(
+            row[i].ljust(col_widths[i]) for i in range(len(row))
+        ) + " |\n"
+        row_lines += line
+
+    table_str = header_line + separator_line + row_lines
 
     # Overwrite file with pretty table
-    summary_file.write_text(str(table) + "\n", encoding="utf-8")
-    print(f"✅ Formatted summary report with PrettyTable: {summary_file}")
+    summary_file.write_text(table_str, encoding="utf-8")
+    print(f"✅ Formatted summary report: {summary_file}")
 
 
 def run_bash_cmd(cmd: list[str]):
@@ -622,6 +657,6 @@ if __name__ == "__main__":
 
         module = unit_metadata[0]   # single module
         run_and_collect_results(module)
-    # Format the summary report at the very end (pretty output)
+        
     format_total_result_report(UNIT_RESULT_FOLDER)
     clear_folder(UNIT_EXECUTION_FOLDER)
