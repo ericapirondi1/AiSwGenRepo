@@ -13,6 +13,8 @@ import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
+from datetime import datetime
+import getpass
 
 UNIT_TEST_PREFIX = "TEST_"
 
@@ -403,9 +405,8 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
     with raw data only (CSV style, no formatting).
 
     The file 'total_result_report.txt' will contain:
-        function_name,total,passed,failed,ignored
-        foo,10,9,1,0
-        bar,5,5,0,0
+        function_name,total,passed,failed,ignored,Date and time,Tester
+        foo,10,9,1,0,10/12/25 13:25,owner
     """
     report_file = build_folder / "test" / "results" / f"test_{function_name}.pass"
     if not report_file.exists():
@@ -432,41 +433,51 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
             print(f"⚠️ Missing values in report file '{report_file}'.")
             return
 
+        # New metadata: date/time and tester (PC owner)
+        now_str = datetime.now().strftime("%d/%m/%y %H:%M")
+        tester = getpass.getuser()
+
         report_folder.mkdir(parents=True, exist_ok=True)
         summary_file = report_folder / "total_result_report.txt"
 
-        # We store rows as CSV: function_name,total,passed,failed,ignored
-        rows: dict[str, tuple[str, str, str, str]] = {}
-        header = "function_name,total,passed,failed,ignored"
+        # We store rows as CSV:
+        # function_name,total,passed,failed,ignored,Date and time,Tester
+        rows: dict[str, tuple[str, str, str, str, str, str]] = {}
+        header = "function_name,total,passed,failed,ignored,Date and time,Tester"
 
         if summary_file.exists():
             lines = summary_file.read_text(encoding="utf-8").splitlines()
 
-            # Detect old "pretty table" format and ignore it (start fresh)
+            # Detect old pretty-table format (starting with '|') and ignore it
             first_non_empty = next((ln for ln in lines if ln.strip()), "")
             if first_non_empty.startswith("|"):
-                # old table format -> discard old content, keep default header
+                # Old table format -> discard old content, keep default header
                 pass
             else:
-                # parse CSV-style existing content
+                # Parse CSV-style existing content
                 if lines:
                     header = lines[0].strip() or header
                     for line in lines[1:]:
                         if not line.strip():
                             continue
                         parts = [p.strip() for p in line.split(",")]
-                        if len(parts) != 5:
+                        # Old files may have 5 columns; pad missing ones
+                        if len(parts) == 5:
+                            fn, t, p_, f_, ig = parts
+                            dt, tst = "", ""
+                        elif len(parts) >= 7:
+                            fn, t, p_, f_, ig, dt, tst = parts[:7]
+                        else:
                             continue
-                        fn, t, p, f, ig = parts
-                        rows[fn] = (t, p, f, ig)
+                        rows[fn] = (t, p_, f_, ig, dt, tst)
 
-        # Update / insert current function row
-        rows[function_name] = (total, passed, failed, ignored)
+        # Update / insert current function row (with new date/time + tester)
+        rows[function_name] = (total, passed, failed, ignored, now_str, tester)
 
         # Serialize back to CSV-style text
         lines_out = [header]
-        for fn, (t, p, f, ig) in rows.items():
-            lines_out.append(f"{fn},{t},{p},{f},{ig}")
+        for fn, (t, p_, f_, ig, dt, tst) in rows.items():
+            lines_out.append(f"{fn},{t},{p_},{f_},{ig},{dt},{tst}")
 
         summary_file.write_text("\n".join(lines_out) + "\n", encoding="utf-8")
         print(f"✅ Updated raw summary data for '{function_name}' in: {summary_file}")
@@ -475,10 +486,17 @@ def update_total_result_report(build_folder: Path, function_name: str, report_fo
         print(f"❌ Error updating raw report data: {e}")
 
 
+
 def format_total_result_report(report_folder: Path):
     """
     Read the raw 'total_result_report.txt' (CSV style) and rewrite it
     as a pretty aligned table (pipe format) with dynamic column widths.
+
+    Final table example:
+
+    | function_name           | total | passed | failed | ignored | Date and time  | Tester |
+    |-------------------------|-------|--------|--------|---------|----------------|--------|
+    | ApplLinDiagReadDataById | 5     | 5      | 0      | 0       | 10/12/25 13:25 | owner  |
     """
     summary_file = report_folder / "total_result_report.txt"
     if not summary_file.exists():
@@ -492,7 +510,7 @@ def format_total_result_report(report_folder: Path):
 
     # First line is the header in CSV form
     header_parts = [h.strip() for h in lines[0].split(",") if h.strip()]
-    if len(header_parts) != 5:
+    if not header_parts:
         print(f"⚠️ Invalid header in summary file '{summary_file}'. Cannot format.")
         return
 
@@ -502,9 +520,10 @@ def format_total_result_report(report_folder: Path):
         if not line.strip():
             continue
         parts = [p.strip() for p in line.split(",")]
-        if len(parts) != len(header_parts):
-            continue
-        data_rows.append(parts)
+        # Pad shorter rows with empty strings to match header length
+        if len(parts) < len(header_parts):
+            parts.extend([""] * (len(header_parts) - len(parts)))
+        data_rows.append(parts[:len(header_parts)])
 
     if not data_rows:
         print(f"⚠️ No data rows to format in '{summary_file}'.")
@@ -518,7 +537,7 @@ def format_total_result_report(report_folder: Path):
 
     # Build header line
     header_line = "| " + " | ".join(
-        header.ljust(col_widths[i]) for i, header in enumerate(header_parts)
+        header_parts[i].ljust(col_widths[i]) for i in range(len(header_parts))
     ) + " |\n"
 
     # Build separator line
@@ -539,6 +558,7 @@ def format_total_result_report(report_folder: Path):
     # Overwrite file with pretty table
     summary_file.write_text(table_str, encoding="utf-8")
     print(f"✅ Formatted summary report: {summary_file}")
+
 
 
 def run_bash_cmd(cmd: list[str]):
@@ -657,6 +677,6 @@ if __name__ == "__main__":
 
         module = unit_metadata[0]   # single module
         run_and_collect_results(module)
-        
+
     format_total_result_report(UNIT_RESULT_FOLDER)
     clear_folder(UNIT_EXECUTION_FOLDER)
