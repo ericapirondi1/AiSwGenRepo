@@ -45,8 +45,7 @@ DOCKER_BASE = [
     "--rm",
     "-v",
     "/c/" + NORMALIZED_PATH + ":/home/dev/project",
-    # ToDo use a fixed version and not the last one to avoid unexpected issues
-    "throwtheswitch/madsciencelab-plugins:latest",
+    "throwtheswitch/madsciencelab-plugins:1.0.1b",
 ]
 CEEDLING_CLEAN = ["ceedling", "clobber"]
 
