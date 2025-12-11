@@ -1,6 +1,9 @@
 #### User defined ####
 out/*
 logs/*
+preprocess/*
+mocks/*
+vendor/*
 *.log
 *.uvguix.*
 JLinkLog.txt
