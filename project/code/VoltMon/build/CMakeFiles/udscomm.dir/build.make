@@ -69,24 +69,10 @@ include CMakeFiles/udscomm.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/udscomm.dir/flags.make
 
-CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o: CMakeFiles/udscomm.dir/flags.make
-CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o: /workspace/code/VoltMon/pltf/VoltMonitoring.c
-CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o: CMakeFiles/udscomm.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/code/VoltMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o -MF CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o.d -o CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o -c /workspace/code/VoltMon/pltf/VoltMonitoring.c
-
-CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /workspace/code/VoltMon/pltf/VoltMonitoring.c > CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.i
-
-CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspace/code/VoltMon/pltf/VoltMonitoring.c -o CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.s
-
 CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o: CMakeFiles/udscomm.dir/flags.make
 CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o: /workspace/code/VoltMon/cfg/VoltMonitoring_cfg.c
 CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o: CMakeFiles/udscomm.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/code/VoltMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/code/VoltMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o -MF CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o.d -o CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o -c /workspace/code/VoltMon/cfg/VoltMonitoring_cfg.c
 
 CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.i: cmake_force
@@ -97,16 +83,30 @@ CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspace/code/VoltMon/cfg/VoltMonitoring_cfg.c -o CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.s
 
+CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o: CMakeFiles/udscomm.dir/flags.make
+CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o: /workspace/code/VoltMon/pltf/VoltMonitoring.c
+CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o: CMakeFiles/udscomm.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/code/VoltMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o -MF CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o.d -o CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o -c /workspace/code/VoltMon/pltf/VoltMonitoring.c
+
+CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /workspace/code/VoltMon/pltf/VoltMonitoring.c > CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.i
+
+CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspace/code/VoltMon/pltf/VoltMonitoring.c -o CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.s
+
 # Object files for target udscomm
 udscomm_OBJECTS = \
-"CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o" \
-"CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o"
+"CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o" \
+"CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o"
 
 # External object files for target udscomm
 udscomm_EXTERNAL_OBJECTS =
 
-libudscomm.a: CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o
 libudscomm.a: CMakeFiles/udscomm.dir/cfg/VoltMonitoring_cfg.c.o
+libudscomm.a: CMakeFiles/udscomm.dir/pltf/VoltMonitoring.c.o
 libudscomm.a: CMakeFiles/udscomm.dir/build.make
 libudscomm.a: CMakeFiles/udscomm.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/code/VoltMon/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C static library libudscomm.a"

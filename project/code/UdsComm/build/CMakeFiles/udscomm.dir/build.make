@@ -69,24 +69,10 @@ include CMakeFiles/udscomm.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/udscomm.dir/flags.make
 
-CMakeFiles/udscomm.dir/pltf/diagnostic.c.o: CMakeFiles/udscomm.dir/flags.make
-CMakeFiles/udscomm.dir/pltf/diagnostic.c.o: /workspace/code/UdsComm/pltf/diagnostic.c
-CMakeFiles/udscomm.dir/pltf/diagnostic.c.o: CMakeFiles/udscomm.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/code/UdsComm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/udscomm.dir/pltf/diagnostic.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/udscomm.dir/pltf/diagnostic.c.o -MF CMakeFiles/udscomm.dir/pltf/diagnostic.c.o.d -o CMakeFiles/udscomm.dir/pltf/diagnostic.c.o -c /workspace/code/UdsComm/pltf/diagnostic.c
-
-CMakeFiles/udscomm.dir/pltf/diagnostic.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/udscomm.dir/pltf/diagnostic.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /workspace/code/UdsComm/pltf/diagnostic.c > CMakeFiles/udscomm.dir/pltf/diagnostic.c.i
-
-CMakeFiles/udscomm.dir/pltf/diagnostic.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/udscomm.dir/pltf/diagnostic.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspace/code/UdsComm/pltf/diagnostic.c -o CMakeFiles/udscomm.dir/pltf/diagnostic.c.s
-
 CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o: CMakeFiles/udscomm.dir/flags.make
 CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o: /workspace/code/UdsComm/cfg/diagnostic_cfg.c
 CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o: CMakeFiles/udscomm.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/code/UdsComm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/code/UdsComm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o -MF CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o.d -o CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o -c /workspace/code/UdsComm/cfg/diagnostic_cfg.c
 
 CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.i: cmake_force
@@ -97,16 +83,30 @@ CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspace/code/UdsComm/cfg/diagnostic_cfg.c -o CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.s
 
+CMakeFiles/udscomm.dir/pltf/diagnostic.c.o: CMakeFiles/udscomm.dir/flags.make
+CMakeFiles/udscomm.dir/pltf/diagnostic.c.o: /workspace/code/UdsComm/pltf/diagnostic.c
+CMakeFiles/udscomm.dir/pltf/diagnostic.c.o: CMakeFiles/udscomm.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/code/UdsComm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/udscomm.dir/pltf/diagnostic.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/udscomm.dir/pltf/diagnostic.c.o -MF CMakeFiles/udscomm.dir/pltf/diagnostic.c.o.d -o CMakeFiles/udscomm.dir/pltf/diagnostic.c.o -c /workspace/code/UdsComm/pltf/diagnostic.c
+
+CMakeFiles/udscomm.dir/pltf/diagnostic.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/udscomm.dir/pltf/diagnostic.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /workspace/code/UdsComm/pltf/diagnostic.c > CMakeFiles/udscomm.dir/pltf/diagnostic.c.i
+
+CMakeFiles/udscomm.dir/pltf/diagnostic.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/udscomm.dir/pltf/diagnostic.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /workspace/code/UdsComm/pltf/diagnostic.c -o CMakeFiles/udscomm.dir/pltf/diagnostic.c.s
+
 # Object files for target udscomm
 udscomm_OBJECTS = \
-"CMakeFiles/udscomm.dir/pltf/diagnostic.c.o" \
-"CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o"
+"CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o" \
+"CMakeFiles/udscomm.dir/pltf/diagnostic.c.o"
 
 # External object files for target udscomm
 udscomm_EXTERNAL_OBJECTS =
 
-libudscomm.a: CMakeFiles/udscomm.dir/pltf/diagnostic.c.o
 libudscomm.a: CMakeFiles/udscomm.dir/cfg/diagnostic_cfg.c.o
+libudscomm.a: CMakeFiles/udscomm.dir/pltf/diagnostic.c.o
 libudscomm.a: CMakeFiles/udscomm.dir/build.make
 libudscomm.a: CMakeFiles/udscomm.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/code/UdsComm/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C static library libudscomm.a"
