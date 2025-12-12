@@ -1,174 +1,259 @@
-Below is a fully rewritten version of your **README.md**, already formatted and ready to replace the existing file.
-It includes all your original content from , corrected grammar, improved structure, and a new section explaining the Docker build system and commands.
+Project Overview
 
----
+This project provides a unified framework to manage unit testing, platform file synchronization, build automation, and static code analysis across multiple C software components.
 
-# Project Overview
+It supports:
 
-This project manages unit testing across multiple software modules, updates platform files automatically, executes tests, and generates consolidated test result reports.
-It also includes a Docker-based environment for building all modules and performing cppcheck + MISRA static analysis in a reproducible way.
+Automated execution of unit tests
 
----
+Consolidated reporting of test results
 
-## 📂 Project Structure
+Docker-based builds for reproducibility
 
-```
-code/                     # Source code for each module
-  ├─ cfg/                 # Configuration files
-  ├─ pltf/                # Platform files updated by scripts
-  └─ unitTests/           # Unit test definitions
+Static analysis using cppcheck with MISRA C:2012 rules
 
-mixin/                    # Shared or reusable components
+Generation of human-readable HTML reports
 
-misra/                    # Contains the MISRA headlines file used by cppcheck
+The goal is to ensure consistency, traceability, and quality compliance across all software modules.
+
+📂 Project Structure
+code/                             # Source code for each software component
+ ├─ swComponent1/
+ │   ├─ build/                    # Build output
+ │   ├─ cppcheck_misra_results/   # MISRA rule violations (XML + HTML)
+ │   ├─ cfg/                      # Configuration files
+ │   ├─ docs/                     # Doxygen documentation
+ │   ├─ Doxyfile                  # Doxygen configuration
+ │   ├─ pltf/                     # Platform files (auto-updated by scripts)
+ │   └─ unitTests/                # Unit test definitions
+ ├─ swComponent2/
+ │   ├─ build/
+ │   ├─ cppcheck_misra_results/
+ │   ├─ cfg/
+ │   ├─ docs/
+ │   ├─ Doxyfile
+ │   ├─ pltf/
+ │   └─ unitTests/
+
+mixin/                            # Shared or reusable software components
+
+misra/                            # MISRA C:2012 rules headlines file for cppcheck
 
 utExecutionAndResults/
-  ├─ utUnderTest/         # Tests currently being executed
-  └─ utResults/
-       └─ total_result_report.txt   # Consolidated results of all test runs
+ ├─ utUnderTest/                  # Tests currently under execution
+ └─ utResults/
+     └─ total_result_report.txt   # Consolidated unit test results
 
-Dockerfile                # Build + test + MISRA analysis environment
-```
+Dockerfile                        # Docker environment for build + analysis
 
----
+unitTestsLauncher                 # Script to execute unit tests (use -h for help)
 
-## 🧪 UnitTestsLauncher Script Functionality
+project                           # Ceedling configuration for unit testing
 
-The `unitTestsLauncher` script performs four main operations:
+swCmpBuildCheck.py                # Script to build and statically analyze components
 
-1. **Collect all test folders**
-   Scans all modules and finds folders named `TEST_*` that contain unit tests.
+CMakeLists.txt                    # Template CMake configuration for components
 
-2. **Update platform files**
-   Updates the `pltf/` folder of each module to ensure test configurations are synchronized.
+🧪 UnitTestsLauncher Script
 
-3. **Run unit tests**
-   Executes all unit tests located in the `unitTests/` directories.
+The unitTestsLauncher script automates the execution of unit tests across all software components.
 
-4. **Update the consolidated report**
-   After execution, the script creates or updates the report:
+Main Responsibilities
 
-```
+Discover unit tests
+Scans all software components and locates test folders (e.g. TEST_*).
+
+Update platform files
+Synchronizes the pltf/ folder for each component to ensure the correct test configuration.
+
+Execute unit tests
+Runs all unit tests defined inside each component’s unitTests/ directory.
+
+Generate a consolidated report
+Updates the global report file:
+
 utExecutionAndResults/utResults/total_result_report.txt
-```
 
-This file contains the summary of all executed tests.
+📊 Unit Test Report Format
 
----
+The consolidated report contains a summary table with the following columns:
 
-## 📊 Report Format
+Function Name Under Test – Function or module being tested
 
-The consolidated report table includes:
+Total – Total number of executed tests
 
-* **Function Name Under Test** → The function or module being tested
-* **Total** → Total number of executed tests
-* **Passed** → Number of tests that passed
-* **Failed** → Number of tests that failed
-* **Ignored** → Number of skipped or disabled tests
+Passed – Number of successful tests
 
-The table is aligned so it is easy to read.
+Failed – Number of failed tests
 
----
+Ignored – Number of skipped or disabled tests
 
-## 🚀 Usage Workflow
+The table is formatted and aligned for readability.
 
-1. Place or update unit test files inside each module’s `unitTests/` folder.
-2. Run the script `parsingUtTest.py` from the main project folder using:
+🚀 Unit Test Workflow
 
-```
+Add or update unit tests inside each component’s unitTests/ directory.
+
+From the main project directory, run:
+
 python parsingUtTest.py all
-```
 
-This will:
 
-* Update the `pltf` files
-* Execute all unit tests
-* Update the consolidated report
+The script will:
 
-3. Review the results:
+Update platform files
 
-```
+Execute all unit tests
+
+Update the consolidated report
+
+Review the results in:
+
 utExecutionAndResults/utResults/total_result_report.txt
-```
 
----
+🧪 SwCmpBuildCheck Script
 
-# 🐳 Docker Build + Static Analysis Environment
+The swCmpBuildCheck.py script automates build validation and static analysis for all software components under the code/ directory.
 
-The repository includes a `Dockerfile` that creates a complete environment for:
+Purpose
 
-* Compiling all CMake-based modules under `code/`
-* Running cppcheck on each module
-* Performing MISRA C:2012 headline checks via cppcheck’s `misra.py` addon
-* Producing XML reports for static analysis
+This script ensures that every software component:
 
-This ensures consistent builds and analysis regardless of the host system.
+Builds correctly using CMake
 
----
+Is compiled with GCC
 
-## 🧱 Building the Docker Image
+Is analyzed with cppcheck using MISRA C:2012 rules
 
-Run this from the project root:
+Produces traceable and readable HTML reports
 
-```bash
-docker build -t cmake-misra-multi .
-```
+All operations are executed inside a Docker container to guarantee a reproducible environment.
 
----
+What the Script Does
 
-## ▶ Running the Build + MISRA Checks
+Component discovery
+Recursively scans the code/ directory and identifies components containing:
 
-### **Windows PowerShell**
+a pltf/ folder and/or
 
-```powershell
-docker run --rm `
-  -v "${PWD}:/workspace" `
-  cmake-misra-multi `
-  build-and-check-all.sh
-```
+a cfg/ folder
 
-### **Linux / macOS**
+Temporary CMakeLists generation
 
-```bash
-docker run --rm \
-  -v "$(pwd):/workspace" \
-  cmake-misra-multi \
-  build-and-check-all.sh
-```
+If a component does not already contain a CMakeLists.txt, one is generated automatically
 
-### ✔ What this does
+The project name is derived from the component folder name
 
-* Mounts your project into the container
-* Builds all modules that contain a `CMakeLists.txt`
-* Runs any available CTest suites
-* Runs cppcheck with MISRA headlines
-* Generates XML reports per module
+Existing CMakeLists files are never overwritten
 
----
+Docker-based build and analysis
 
-## ❗ Notes About MISRA Headlines
+Builds a Docker image defined by Dockerfile
 
-The directory:
+Mounts the project into /workspace inside the container
 
-```
-misra/
-```
+For each component:
 
-contains the official **MISRA C:2012 Headlines for Cppcheck** file.
-Inside the container it is renamed to:
+Runs CMake configure and build
 
-```
-/workspace/misra/misra_headlines.txt
-```
+Generates compile_commands.json
 
-and used by cppcheck via:
+Executes cppcheck with MISRA addon
 
-```
---rule-texts=/workspace/misra/misra_headlines.txt
-```
+HTML report generation
 
-This allows cppcheck to display MISRA rule names and descriptions in its output.
+Converts cppcheck_misra_results.xml into an HTML report
 
----
+MISRA severities are resolved using the MISRA rules file
 
-If you'd like, I can automatically generate badges, a table of contents, or diagrams for the README.
+Rows are color-coded (Advisory / Required / Mandatory)
+
+File references are clickable VS Code links
+
+Tester name, date, and time are embedded in the report
+
+Cleanup
+
+Deletes only the CMakeLists files generated by the script
+
+Removes the original cppcheck XML files after HTML generation
+
+Paths Used by SwCmpBuildCheck
+
+Script location
+The directory where swCmpBuildCheck.py resides
+
+Codebase root
+
+<script_dir>/code
+
+
+Docker workspace inside container
+
+/workspace
+
+
+MISRA rules file
+
+misra/misra_c_2012_headlines.txt
+
+
+Cppcheck output
+
+Temporary: cppcheck_misra_results.xml
+
+Final: cppcheck_misra_results.html
+
+Usage
+
+From the main project directory:
+
+python swCmpBuildCheck.py
+
+
+To display help and exit:
+
+python swCmpBuildCheck.py -h
+
+
+or
+
+python swCmpBuildCheck.py -help
+
+🐳 Docker-Based Build System
+
+The Docker environment ensures:
+
+Consistent compiler versions
+
+Reproducible builds
+
+Identical static analysis results across machines
+
+The Docker image includes:
+
+GCC
+
+CMake
+
+cppcheck with MISRA addon
+
+Required Python tooling
+
+All builds and analyses are executed inside the container, while results are written back to the host filesystem.
+
+✅ Summary
+
+This project provides:
+
+Automated unit test execution and reporting
+
+Scalable build and static analysis across multiple components
+
+MISRA-compliant static checks
+
+Clean HTML reports with traceable diagnostics
+
+Docker-based reproducibility
+
+It is designed for embedded C projects where quality, compliance, and automation are mandatory.
