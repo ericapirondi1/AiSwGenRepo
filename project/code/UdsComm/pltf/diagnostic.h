@@ -96,7 +96,7 @@ extern uint16_t g_linDiagDataLength_u16;
  * | g_linDiagDataLength_u16                     | X  |  X  | uint16                                                              |   -   |      1      |      0      |     1     | [0,65535]       | [byte]   |
  * | checkCurrentNad()                       | X  |  X  | void(uint8 nad, Std_ReturnType *result)                               |   -   |      -      |      -      |     -     |                | [-]      |
  * | checkMsgDataLength()                    | X  |  X  | void(uint16 len, Std_ReturnType *result)                              |   -   |      -      |      -      |     -     |               | [-]      |
- * | getHandlersForReadDataById()             | X  |  X  | Std_ReturnType(uint8, uint16, uint8*, Std_ReturnType*, uint8*)        |   -   |      -      |      -      |     -     | E_OK/E_NOT_OK   | [-]      |
+ * | getHandlersForReadDataById()             | X  |  X  | Std_ReturnType(uint8*, uint16, uint8*, Std_ReturnType*, uint8*)        |   -   |      -      |      -      |     -     | E_OK/E_NOT_OK   | [-]      |
  * | LinDiagSendPosResponse()                |    |  X  | void(void)                                                          |   -   |      -      |      -      |     -     | -               | [-]      |
  * | LinDiagSendNegResponse()                | X  |  X  | void(uint8 errorCode)                                                |   -   |      -      |      -      |     -     | -               | [-]      |
  *
@@ -116,7 +116,7 @@ extern uint16_t g_linDiagDataLength_u16;
  * endif
  *
  * if (l_result == E_OK) then (OK)
- *   :getHandlersForReadDataById(l_errCode, l_did,
+ *   :getHandlersForReadDataById(&l_errCode, l_did,
  *                               &l_diagBufSize,
  *                               &l_didSupported,
  *                               l_diagBuf);

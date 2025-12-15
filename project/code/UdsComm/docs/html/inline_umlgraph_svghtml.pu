@@ -12,7 +12,7 @@ if (l_result == E_OK) then (OK)
 endif
 
 if (l_result == E_OK) then (OK)
-  :getHandlersForReadDataById(l_errCode, l_did,
+  :getHandlersForReadDataById(&l_errCode, l_did,
                               &l_diagBufSize,
                               &l_didSupported,
                               l_diagBuf);
@@ -40,7 +40,7 @@ if (l_result == E_OK) then (OK)
 endif
 
 if (l_result == E_OK) then (OK)
-  :getHandlersForReadDataById(l_errCode, l_did,
+  :getHandlersForReadDataById(&l_errCode, l_did,
                               &l_diagBufSize,
                               &l_didSupported,
                               l_diagBuf);

@@ -40,10 +40,10 @@ Std_ReturnType Subfunction_Request_Out_Of_Range(uint8*const  output_pu8,
   return E_NOT_OK;
 }
 
-Std_ReturnType getHandlersForReadDataById(uint8 l_errCode_u8, uint16 l_did_cu16,  uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_,  uint8 *l_diagBuf_pu8)
+Std_ReturnType getHandlersForReadDataById(uint8 * l_errCode_u8, uint16 l_did_cu16,  uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_,  uint8 *l_diagBuf_pu8)
 {
     diagHandler_t l_handler_ = &Subfunction_Request_Out_Of_Range;
-    Std_ReturnType l_result_ = E_OK;
+
     
     switch (l_did_cu16)
     {
@@ -55,11 +55,10 @@ Std_ReturnType getHandlersForReadDataById(uint8 l_errCode_u8, uint16 l_did_cu16,
 
     default:
         *l_didSupported_  = E_NOT_OK;
-        l_result_ = E_NOT_OK;
-        l_errCode_u8 = kLinDiagNrcRequestOutOfRange;
+        *l_errCode_u8 = kLinDiagNrcRequestOutOfRange;
         break;
     }
     
-    return l_result_ = l_handler_(l_diagBuf_pu8, l_diagBufSize_u8, &l_errCode_u8);
+    return l_handler_(l_diagBuf_pu8, l_diagBufSize_u8, &l_errCode_u8);
 }
 

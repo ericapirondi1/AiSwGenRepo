@@ -57,7 +57,7 @@ def main():
     try:
         run(["python", "unitTestsLauncher.py", "all"])
         run(["python", "swCmpBuildCheck.py"])
-        #run(["python", "swCmpDocsGenerator.py"])
+        run(["python", "swCmpDocsGenerator.py"])
     except subprocess.CalledProcessError as e:
         print("\nERROR: Command failed:", e)
         sys.exit(e.returncode)

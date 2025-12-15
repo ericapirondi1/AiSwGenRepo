@@ -1,0 +1,43 @@
+---
+:source:
+  :file: utExecutionAndResults/utUnderTest/test/test_getHandlersForReadDataById.c
+  :dirname: utExecutionAndResults/utUnderTest/test
+  :basename: test_getHandlersForReadDataById.c
+:successes:
+- :test: test_getHandlersForReadDataById_ValidDID_F308
+  :line: 19
+  :message: ''
+  :unity_test_time: 0
+- :test: test_getHandlersForReadDataById_InvalidDID
+  :line: 48
+  :message: ''
+  :unity_test_time: 0
+- :test: test_getHandlersForReadDataById_MultipleInvalidDIDs
+  :line: 77
+  :message: ''
+  :unity_test_time: 0
+- :test: test_getHandlersForReadDataById_ValidDID_HandlerReturnsError
+  :line: 103
+  :message: ''
+  :unity_test_time: 0
+- :test: test_getHandlersForReadDataById_ErrorCodePassedToHandler
+  :line: 128
+  :message: ''
+  :unity_test_time: 0
+- :test: test_getHandlersForReadDataById_OutputBufferPassedToHandler
+  :line: 149
+  :message: ''
+  :unity_test_time: 0
+- :test: test_getHandlersForReadDataById_BufferSizePointerPassedToHandler
+  :line: 170
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 7
+  :passed: 7
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.008942427999500069

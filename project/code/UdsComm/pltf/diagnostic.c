@@ -35,7 +35,7 @@ void ApplLinDiagReadDataById(void)
   }
 
   if (E_OK == l_result_) {
-    l_result_ = getHandlersForReadDataById(l_errCode_u8, l_did_cu16, &l_diagBufSize_u8, &l_didSupported_, l_diagBuf_pu8);
+    l_result_ = getHandlersForReadDataById(&l_errCode_u8, l_did_cu16, &l_diagBufSize_u8, &l_didSupported_, l_diagBuf_pu8);
   }
 
   switch (l_result_)
