@@ -105,10 +105,10 @@ void setUp(void)
 
     /* Inizializza i buffer globali prima di ogni test */
     extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength;
+    extern uint16_t g_linDiagDataLength_u16;
 
     memset(pbLinDiagBuffer, 0, sizeof(pbLinDiagBuffer));
-    g_linDiagDataLength = 0;
+    g_linDiagDataLength_u16 = 0;
 }
 
 void tearDown(void)
@@ -121,13 +121,13 @@ void tearDown(void)
 void test_ApplLinDiagReadDataById_DidNotSupported(void)
 {
     extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength;
+    extern uint16_t g_linDiagDataLength_u16;
 
     /* DID NON supportato dal callback di default (getHandlersForReadDataById_Callback) */
     pbLinDiagBuffer[1] = 0x12u;
     pbLinDiagBuffer[2] = 0x34u;
 
-    g_linDiagDataLength = 0u;
+    g_linDiagDataLength_u16 = 0u;
 
     /* Ci aspettiamo una risposta negativa (codice errore non gestito qui) */
     LinDiagSendNegResponse_Expect(0);
@@ -136,7 +136,7 @@ void test_ApplLinDiagReadDataById_DidNotSupported(void)
     ApplLinDiagReadDataById();
 
     /* Verifica: la lunghezza rimane invariata */
-    TEST_ASSERT_EQUAL_UINT16(0u, g_linDiagDataLength);
+    TEST_ASSERT_EQUAL_UINT16(0u, g_linDiagDataLength_u16);
 }
 
 /* ============================================================================
@@ -145,13 +145,13 @@ void test_ApplLinDiagReadDataById_DidNotSupported(void)
 void test_ApplLinDiagReadDataById_SuccessfulExecution_DidSupported(void)
 {
     extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength;
+    extern uint16_t g_linDiagDataLength_u16;
 
     /* DID 0xF308 supportato dal callback di default */
     pbLinDiagBuffer[1] = 0xF3u;
     pbLinDiagBuffer[2] = 0x08u;
 
-    g_linDiagDataLength = 0u;
+    g_linDiagDataLength_u16 = 0u;
 
     /* Tutti i check OK + handler OK => risposta positiva */
     LinDiagSendPosResponse_Expect();
@@ -160,7 +160,7 @@ void test_ApplLinDiagReadDataById_SuccessfulExecution_DidSupported(void)
     ApplLinDiagReadDataById();
 
     /* Verifica: lunghezza = dimensione dati + 2 (per il DID) */
-    TEST_ASSERT_EQUAL_UINT16(MOCK_DID_F308_SIZE + 2u, g_linDiagDataLength);
+    TEST_ASSERT_EQUAL_UINT16(MOCK_DID_F308_SIZE + 2u, g_linDiagDataLength_u16);
 }
 
 /* ============================================================================
@@ -169,13 +169,13 @@ void test_ApplLinDiagReadDataById_SuccessfulExecution_DidSupported(void)
 void test_ApplLinDiagReadDataById_WrongNad_Fails(void)
 {
     extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength;
+    extern uint16_t g_linDiagDataLength_u16;
 
     /* DID valido, ma NAD fallisce: non deve importare il DID */
     pbLinDiagBuffer[1] = 0xF3u;
     pbLinDiagBuffer[2] = 0x08u;
 
-    g_linDiagDataLength = 0u;
+    g_linDiagDataLength_u16 = 0u;
 
     /* Forzo fallimento NAD per questo test */
     checkCurrentNad_StubWithCallback(CurrentNad_Fail_Callback);
@@ -187,7 +187,7 @@ void test_ApplLinDiagReadDataById_WrongNad_Fails(void)
     ApplLinDiagReadDataById();
 
     /* Verifica: lunghezza invariata */
-    TEST_ASSERT_EQUAL_UINT16(0u, g_linDiagDataLength);
+    TEST_ASSERT_EQUAL_UINT16(0u, g_linDiagDataLength_u16);
 }
 
 /* ============================================================================
@@ -196,13 +196,13 @@ void test_ApplLinDiagReadDataById_WrongNad_Fails(void)
 void test_ApplLinDiagReadDataById_MsgDataLength_Fails(void)
 {
     extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength;
+    extern uint16_t g_linDiagDataLength_u16;
 
     /* DID valido, ma fallisce il controllo lunghezza */
     pbLinDiagBuffer[1] = 0xF3u;
     pbLinDiagBuffer[2] = 0x08u;
 
-    g_linDiagDataLength = 10u; /* valore non zero per verificare che resti invariato */
+    g_linDiagDataLength_u16 = 10u; /* valore non zero per verificare che resti invariato */
 
     /* NAD OK, ma controllo lunghezza fallisce */
     checkCurrentNad_StubWithCallback(CurrentNad_Callback);
@@ -214,7 +214,7 @@ void test_ApplLinDiagReadDataById_MsgDataLength_Fails(void)
     ApplLinDiagReadDataById();
 
     /* Verifica: lunghezza invariata */
-    TEST_ASSERT_EQUAL_UINT16(10u, g_linDiagDataLength);
+    TEST_ASSERT_EQUAL_UINT16(10u, g_linDiagDataLength_u16);
 }
 
 /* ============================================================================
@@ -223,13 +223,13 @@ void test_ApplLinDiagReadDataById_MsgDataLength_Fails(void)
 void test_ApplLinDiagReadDataById_HandlerFails(void)
 {
     extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength;
+    extern uint16_t g_linDiagDataLength_u16;
 
     /* DID che normalmente sarebbe anche valido, ma qui forziamo il fallimento del handler */
     pbLinDiagBuffer[1] = 0xF3u;
     pbLinDiagBuffer[2] = 0x08u;
 
-    g_linDiagDataLength = 5u;
+    g_linDiagDataLength_u16 = 5u;
 
     /* NAD OK + MsgDataLength OK, ma handler fallisce */
     checkCurrentNad_StubWithCallback(CurrentNad_Callback);
@@ -242,5 +242,5 @@ void test_ApplLinDiagReadDataById_HandlerFails(void)
     ApplLinDiagReadDataById();
 
     /* Verifica: lunghezza invariata */
-    TEST_ASSERT_EQUAL_UINT16(5u, g_linDiagDataLength);
+    TEST_ASSERT_EQUAL_UINT16(5u, g_linDiagDataLength_u16);
 }

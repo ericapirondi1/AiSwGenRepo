@@ -8,7 +8,7 @@ start
 
 :checkCurrentNad(0, &l_result);
 if (l_result == E_OK) then (OK)
-  :checkMsgDataLength(g_linDiagDataLength, &l_result);
+  :checkMsgDataLength(g_linDiagDataLength_u16, &l_result);
 endif
 
 if (l_result == E_OK) then (OK)
@@ -19,7 +19,7 @@ if (l_result == E_OK) then (OK)
 endif
 
 if (l_result == E_OK) then (POS)
-  :g_linDiagDataLength = l_diagBufSize + 2;
+  :g_linDiagDataLength_u16 = l_diagBufSize + 2;
   :LinDiagSendPosResponse();
 else (NEG)
   :LinDiagSendNegResponse(l_errCode);
@@ -36,7 +36,7 @@ start
 
 :checkCurrentNad(0, &l_result);
 if (l_result == E_OK) then (OK)
-  :checkMsgDataLength(g_linDiagDataLength, &l_result);
+  :checkMsgDataLength(g_linDiagDataLength_u16, &l_result);
 endif
 
 if (l_result == E_OK) then (OK)
@@ -47,7 +47,7 @@ if (l_result == E_OK) then (OK)
 endif
 
 if (l_result == E_OK) then (POS)
-  :g_linDiagDataLength = l_diagBufSize + 2;
+  :g_linDiagDataLength_u16 = l_diagBufSize + 2;
   :LinDiagSendPosResponse();
 else (NEG)
   :LinDiagSendNegResponse(l_errCode);

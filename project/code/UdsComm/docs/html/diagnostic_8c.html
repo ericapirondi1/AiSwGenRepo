@@ -105,9 +105,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a410b1dc1eee1a3843126538fc0242796" id="r_a410b1dc1eee1a3843126538fc0242796"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="diagnostic_8c.html#a410b1dc1eee1a3843126538fc0242796">pbLinDiagBuffer</a> [32]</td></tr>
 <tr class="memdesc:a410b1dc1eee1a3843126538fc0242796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared LIN diagnostic buffer.  <br /></td></tr>
 <tr class="separator:a410b1dc1eee1a3843126538fc0242796"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e6c1490294f976c8876fb0eeab26f3a" id="r_a8e6c1490294f976c8876fb0eeab26f3a"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="diagnostic_8c.html#a8e6c1490294f976c8876fb0eeab26f3a">g_linDiagDataLength</a> = 0</td></tr>
-<tr class="memdesc:a8e6c1490294f976c8876fb0eeab26f3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current LIN diagnostic message length.  <br /></td></tr>
-<tr class="separator:a8e6c1490294f976c8876fb0eeab26f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1532caabea39ff2369083c109c8b71b0" id="r_a1532caabea39ff2369083c109c8b71b0"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="diagnostic_8c.html#a1532caabea39ff2369083c109c8b71b0">g_linDiagDataLength_u16</a> = 0</td></tr>
+<tr class="memdesc:a1532caabea39ff2369083c109c8b71b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current LIN diagnostic message length.  <br /></td></tr>
+<tr class="separator:a1532caabea39ff2369083c109c8b71b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="afa994a86f133db5dbe1e009caad44e85" name="afa994a86f133db5dbe1e009caad44e85"></a>
@@ -132,14 +132,14 @@ Variables</h2></td></tr>
 <p>The processing logic:</p><ul>
 <li>Extracts the DID from <code>pbLinDiagBuffer[1]</code> (MSB) and <code>pbLinDiagBuffer[2]</code> (LSB).</li>
 <li>Validates that the current request is addressed to the correct NAD.</li>
-<li>Validates the received request length (<code>g_linDiagDataLength</code>).</li>
+<li>Validates the received request length (<code>g_linDiagDataLength_u16</code>).</li>
 <li>Calls the DID handler dispatcher to:<ul>
 <li>determine whether the DID is supported,</li>
 <li>fill the response data into the diagnostic buffer starting at <code>pbLinDiagBuffer[3]</code>,</li>
 <li>return the number of payload bytes written.</li>
 </ul>
 </li>
-<li>If processing is successful, updates <code>g_linDiagDataLength</code> to <code>payloadLen + 2</code> (DID bytes) and sends a positive response.</li>
+<li>If processing is successful, updates <code>g_linDiagDataLength_u16</code> to <code>payloadLen + 2</code> (DID bytes) and sends a positive response.</li>
 <li>Otherwise, sends a negative response using the error code.</li>
 </ul>
 <dl class="section user"><dt>Interface summary</dt><dd></dd></dl>
@@ -153,7 +153,7 @@ Variables</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">pbLinDiagBuffer[3..]   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyNone">uint8[]   </td><td class="markdownTableBodyCenter">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">N   </td><td class="markdownTableBodyNone">project-defined   </td><td class="markdownTableBodyNone">[-]    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">g_linDiagDataLength   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyNone">uint16   </td><td class="markdownTableBodyCenter">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0,65535]   </td><td class="markdownTableBodyNone">[byte]    </td></tr>
+<td class="markdownTableBodyNone">g_linDiagDataLength_u16   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyNone">uint16   </td><td class="markdownTableBodyCenter">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0,65535]   </td><td class="markdownTableBodyNone">[byte]    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><a class="el" href="diagnostic__cfg_8c.html#ad158936d88b7d913d4ba0f10bae535a2">checkCurrentNad()</a>   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyNone">void(uint8 nad, Std_ReturnType *result)   </td><td class="markdownTableBodyCenter">-   </td><td class="markdownTableBodyRight">-   </td><td class="markdownTableBodyRight">-   </td><td class="markdownTableBodyRight">-   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">[-]    </td></tr>
 <tr class="markdownTableRowEven">
@@ -169,12 +169,12 @@ Variables</h2></td></tr>
 <div class="plantumlgraph">
 <object type="image/svg+xml" data="inline_umlgraph_1.svg"></object>
 </div>
-<dl class="section return"><dt>Returns</dt><dd>None. The function sends a LIN diagnostic response and may update <code>g_linDiagDataLength</code> and the payload area <code>pbLinDiagBuffer[3..]</code> depending on the outcome. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>None. The function sends a LIN diagnostic response and may update <code>g_linDiagDataLength_u16</code> and the payload area <code>pbLinDiagBuffer[3..]</code> depending on the outcome. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="diagnostic_8c_source.html#l00021">21</a> of file <a class="el" href="diagnostic_8c_source.html">diagnostic.c</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   22</span>{</div>
-<div class="line"><span class="lineno">   23</span>  <span class="keyword">const</span> uint16_t l_did_cu16 = ((uint16_t)(<a class="code hl_variable" href="diagnostic_8c.html#a410b1dc1eee1a3843126538fc0242796">pbLinDiagBuffer</a>[1] &lt;&lt; 8) &amp; 0xFF00) |</div>
-<div class="line"><span class="lineno">   24</span>                              ((uint16_t)<a class="code hl_variable" href="diagnostic_8c.html#a410b1dc1eee1a3843126538fc0242796">pbLinDiagBuffer</a>[2] &amp; 0x00FF);</div>
+<div class="line"><span class="lineno">   23</span>  <span class="keyword">const</span> uint16_t l_did_cu16 = ((uint16_t)(<a class="code hl_variable" href="diagnostic_8c.html#a410b1dc1eee1a3843126538fc0242796">pbLinDiagBuffer</a>[1] &lt;&lt; 8) &amp; (uint16_t)0xFF00) |</div>
+<div class="line"><span class="lineno">   24</span>                              ((uint16_t)<a class="code hl_variable" href="diagnostic_8c.html#a410b1dc1eee1a3843126538fc0242796">pbLinDiagBuffer</a>[2] &amp; (uint16_t)0x00FF);</div>
 <div class="line"><span class="lineno">   25</span>  <a class="code hl_typedef" href="diagnostic__cfg_8h.html#a7ba1ab0e3cce347ba1de27f426253160">Std_ReturnType</a> l_result_ = <a class="code hl_define" href="diagnostic__cfg_8h.html#a1e7cc741c56207a8872ea58373276925">E_OK</a>;</div>
 <div class="line"><span class="lineno">   26</span>  uint8_t l_errCode_u8 = 0;</div>
 <div class="line"><span class="lineno">   27</span>  uint8_t * <span class="keyword">const</span> l_diagBuf_pu8 = &amp;<a class="code hl_variable" href="diagnostic_8c.html#a410b1dc1eee1a3843126538fc0242796">pbLinDiagBuffer</a>[3];</div>
@@ -184,7 +184,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">   31</span>  <a class="code hl_function" href="diagnostic__cfg_8c.html#ad158936d88b7d913d4ba0f10bae535a2">checkCurrentNad</a>((uint8_t)0u, &amp;l_result_);</div>
 <div class="line"><span class="lineno">   32</span> </div>
 <div class="line"><span class="lineno">   33</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="diagnostic__cfg_8h.html#a1e7cc741c56207a8872ea58373276925">E_OK</a> == l_result_) {</div>
-<div class="line"><span class="lineno">   34</span>    <a class="code hl_function" href="diagnostic__cfg_8c.html#a6c372cd2d55d665a5a86e8eedc5ac715">checkMsgDataLength</a>(<a class="code hl_variable" href="diagnostic_8c.html#a8e6c1490294f976c8876fb0eeab26f3a">g_linDiagDataLength</a>, &amp;l_result_);</div>
+<div class="line"><span class="lineno">   34</span>    <a class="code hl_function" href="diagnostic__cfg_8c.html#a6c372cd2d55d665a5a86e8eedc5ac715">checkMsgDataLength</a>(<a class="code hl_variable" href="diagnostic_8c.html#a1532caabea39ff2369083c109c8b71b0">g_linDiagDataLength_u16</a>, &amp;l_result_);</div>
 <div class="line"><span class="lineno">   35</span>  }</div>
 <div class="line"><span class="lineno">   36</span> </div>
 <div class="line"><span class="lineno">   37</span>  <span class="keywordflow">if</span> (<a class="code hl_define" href="diagnostic__cfg_8h.html#a1e7cc741c56207a8872ea58373276925">E_OK</a> == l_result_) {</div>
@@ -194,7 +194,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">   41</span>  <span class="keywordflow">switch</span> (l_result_)</div>
 <div class="line"><span class="lineno">   42</span>  {</div>
 <div class="line"><span class="lineno">   43</span>    <span class="keywordflow">case</span> <a class="code hl_define" href="diagnostic__cfg_8h.html#a1e7cc741c56207a8872ea58373276925">E_OK</a>:</div>
-<div class="line"><span class="lineno">   44</span>      <a class="code hl_variable" href="diagnostic_8c.html#a8e6c1490294f976c8876fb0eeab26f3a">g_linDiagDataLength</a> = l_diagBufSize_u8 + 2u;</div>
+<div class="line"><span class="lineno">   44</span>      <a class="code hl_variable" href="diagnostic_8c.html#a1532caabea39ff2369083c109c8b71b0">g_linDiagDataLength_u16</a> = ((uint16_t)l_diagBufSize_u8 + 2u);</div>
 <div class="line"><span class="lineno">   45</span>      <a class="code hl_function" href="diagnostic_8c.html#adeef6dd72bd779ad261090c13a440525">LinDiagSendPosResponse</a>();</div>
 <div class="line"><span class="lineno">   46</span>      <span class="keywordflow">break</span>;</div>
 <div class="line"><span class="lineno">   47</span>    <span class="keywordflow">default</span>:</div>
@@ -202,9 +202,9 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">   49</span>      <span class="keywordflow">break</span>;</div>
 <div class="line"><span class="lineno">   50</span>  }</div>
 <div class="line"><span class="lineno">   51</span>}</div>
+<div class="ttc" id="adiagnostic_8c_html_a1532caabea39ff2369083c109c8b71b0"><div class="ttname"><a href="diagnostic_8c.html#a1532caabea39ff2369083c109c8b71b0">g_linDiagDataLength_u16</a></div><div class="ttdeci">uint16_t g_linDiagDataLength_u16</div><div class="ttdoc">Current LIN diagnostic message length.</div><div class="ttdef"><b>Definition</b> <a href="diagnostic_8c_source.html#l00006">diagnostic.c:6</a></div></div>
 <div class="ttc" id="adiagnostic_8c_html_a410b1dc1eee1a3843126538fc0242796"><div class="ttname"><a href="diagnostic_8c.html#a410b1dc1eee1a3843126538fc0242796">pbLinDiagBuffer</a></div><div class="ttdeci">uint8_t pbLinDiagBuffer[32]</div><div class="ttdoc">Shared LIN diagnostic buffer.</div><div class="ttdef"><b>Definition</b> <a href="diagnostic_8c_source.html#l00004">diagnostic.c:4</a></div></div>
 <div class="ttc" id="adiagnostic_8c_html_a7a1b596d1ff4b5d45331d4d234e100b0"><div class="ttname"><a href="diagnostic_8c.html#a7a1b596d1ff4b5d45331d4d234e100b0">LinDiagSendNegResponse</a></div><div class="ttdeci">void LinDiagSendNegResponse(uint8_t errorCode)</div><div class="ttdef"><b>Definition</b> <a href="diagnostic_8c_source.html#l00015">diagnostic.c:15</a></div></div>
-<div class="ttc" id="adiagnostic_8c_html_a8e6c1490294f976c8876fb0eeab26f3a"><div class="ttname"><a href="diagnostic_8c.html#a8e6c1490294f976c8876fb0eeab26f3a">g_linDiagDataLength</a></div><div class="ttdeci">uint16_t g_linDiagDataLength</div><div class="ttdoc">Current LIN diagnostic message length.</div><div class="ttdef"><b>Definition</b> <a href="diagnostic_8c_source.html#l00006">diagnostic.c:6</a></div></div>
 <div class="ttc" id="adiagnostic_8c_html_adeef6dd72bd779ad261090c13a440525"><div class="ttname"><a href="diagnostic_8c.html#adeef6dd72bd779ad261090c13a440525">LinDiagSendPosResponse</a></div><div class="ttdeci">void LinDiagSendPosResponse(void)</div><div class="ttdef"><b>Definition</b> <a href="diagnostic_8c_source.html#l00009">diagnostic.c:9</a></div></div>
 <div class="ttc" id="adiagnostic__cfg_8c_html_a6c372cd2d55d665a5a86e8eedc5ac715"><div class="ttname"><a href="diagnostic__cfg_8c.html#a6c372cd2d55d665a5a86e8eedc5ac715">checkMsgDataLength</a></div><div class="ttdeci">void checkMsgDataLength(uint16_t dataLength, Std_ReturnType *result)</div><div class="ttdef"><b>Definition</b> <a href="diagnostic__cfg_8c_source.html#l00013">diagnostic_cfg.c:13</a></div></div>
 <div class="ttc" id="adiagnostic__cfg_8c_html_a975b0982a9f89e799a8a951d119b5805"><div class="ttname"><a href="diagnostic__cfg_8c.html#a975b0982a9f89e799a8a951d119b5805">getHandlersForReadDataById</a></div><div class="ttdeci">Std_ReturnType getHandlersForReadDataById(uint8 l_errCode_u8, uint16 l_did_cu16, uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_, uint8 *l_diagBuf_pu8)</div><div class="ttdef"><b>Definition</b> <a href="diagnostic__cfg_8c_source.html#l00043">diagnostic_cfg.c:43</a></div></div>
@@ -300,14 +300,14 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a8e6c1490294f976c8876fb0eeab26f3a" name="a8e6c1490294f976c8876fb0eeab26f3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e6c1490294f976c8876fb0eeab26f3a">&#9670;&#160;</a></span>g_linDiagDataLength</h2>
+<a id="a1532caabea39ff2369083c109c8b71b0" name="a1532caabea39ff2369083c109c8b71b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1532caabea39ff2369083c109c8b71b0">&#9670;&#160;</a></span>g_linDiagDataLength_u16</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t g_linDiagDataLength = 0</td>
+          <td class="memname">uint16_t g_linDiagDataLength_u16 = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -322,7 +322,7 @@ Here is the caller graph for this function:</div>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Interface   </th><th class="markdownTableHeadCenter">In   </th><th class="markdownTableHeadCenter">Out   </th><th class="markdownTableHeadNone">Data type   </th><th class="markdownTableHeadCenter">Param   </th><th class="markdownTableHeadRight">Data factor   </th><th class="markdownTableHeadRight">Data offset   </th><th class="markdownTableHeadRight">Data size   </th><th class="markdownTableHeadNone">Data range   </th><th class="markdownTableHeadNone">Data unit    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">g_linDiagDataLength   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyNone">uint16   </td><td class="markdownTableBodyCenter">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0,65535]   </td><td class="markdownTableBodyNone">[byte]   </td></tr>
+<td class="markdownTableBodyNone">g_linDiagDataLength_u16   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyNone">uint16   </td><td class="markdownTableBodyCenter">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0,65535]   </td><td class="markdownTableBodyNone">[byte]   </td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="diagnostic_8c_source.html#l00006">6</a> of file <a class="el" href="diagnostic_8c_source.html">diagnostic.c</a>.</p>

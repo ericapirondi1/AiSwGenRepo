@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['state_0',['state',['../structVoltMon__Context__t.html#abd982f3d2f912cec7d9342096792131d',1,'VoltMon_Context_t']]]
+  ['uvactivationtimer_5fms_0',['uvActivationTimer_ms',['../structVoltMon__Context__t.html#a696a5cc9506feb24edf04cc4255779ea',1,'VoltMon_Context_t']]]
 ];

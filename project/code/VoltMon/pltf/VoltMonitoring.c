@@ -12,7 +12,7 @@ uint16_t VoltMon_GetUnderOn_mV(void)
 
 uint16_t VoltMon_GetUnderOff_mV(void)
 {
-    return (uint16_t)(VoltMon_ThresholdUnder_mV + VoltMon_Hysteresis_mV);
+    return (uint32_t)(VoltMon_ThresholdUnder_mV + VoltMon_Hysteresis_mV);
 }
 
 uint16_t VoltMon_GetOverOn_mV(void)
@@ -153,7 +153,4 @@ VoltMon_State_t VoltMon_GetState(void)
 }
 
 
-int main()
-{
-    return 0;
-}
+
