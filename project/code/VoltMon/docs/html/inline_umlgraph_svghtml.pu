@@ -1,5 +1,43 @@
 @startuml inline_umlgraph_1.svg
 start
+:Read l_supplyDcNotFiler_u16;
+:Read l_supplyDcFiler_u16;
+:Read limits (lower, midLow, midHigh, higher);
+
+if (l_supplyDcNotFiler_u16 > lower && l_supplyDcNotFiler_u16 < midLow) then (LOW BAND)
+  :l_voltage_mV = l_supplyDcNotFiler_u16;
+else if (l_supplyDcNotFiler_u16 >= midLow && l_supplyDcNotFiler_u16 <= midHigh) then (MIDDLE BAND)
+  :l_voltage_mV = (l_supplyDcFiler_u16 + l_supplyDcNotFiler_u16) >> 1;
+else if (l_supplyDcNotFiler_u16 > midHigh && l_supplyDcNotFiler_u16 < higher) then (HIGH BAND)
+  :l_voltage_mV = (l_supplyDcFiler_u16 + l_supplyDcNotFiler_u16) >> 1;
+else (OUT OF RANGE)
+  :l_voltage_mV = 0;
+endif
+
+:return l_voltage_mV;
+stop
+@enduml
+@startuml inline_umlgraph_2.svg
+start
+:Read l_supplyDcNotFiler_u16;
+:Read l_supplyDcFiler_u16;
+:Read limits (lower, midLow, midHigh, higher);
+
+if (l_supplyDcNotFiler_u16 > lower && l_supplyDcNotFiler_u16 < midLow) then (LOW BAND)
+  :l_voltage_mV = l_supplyDcNotFiler_u16;
+else if (l_supplyDcNotFiler_u16 >= midLow && l_supplyDcNotFiler_u16 <= midHigh) then (MIDDLE BAND)
+  :l_voltage_mV = (l_supplyDcFiler_u16 + l_supplyDcNotFiler_u16) >> 1;
+else if (l_supplyDcNotFiler_u16 > midHigh && l_supplyDcNotFiler_u16 < higher) then (HIGH BAND)
+  :l_voltage_mV = (l_supplyDcFiler_u16 + l_supplyDcNotFiler_u16) >> 1;
+else (OUT OF RANGE)
+  :l_voltage_mV = 0;
+endif
+
+:return l_voltage_mV;
+stop
+@enduml
+@startuml inline_umlgraph_3.svg
+start
 :Read voltage_mV;
 :Read thresholds: underOn, underOff, overOn, overOff;
 
@@ -48,7 +86,7 @@ endif
 
 stop
 @enduml
-@startuml inline_umlgraph_2.svg
+@startuml inline_umlgraph_4.svg
 start
 :Read voltage_mV;
 :Read thresholds: underOn, underOff, overOn, overOff;

@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">VoltMonitoring_cfg.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Configuration interface for the Voltage Monitoring module.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for VoltMonitoring_cfg.h:</div>
@@ -97,29 +100,49 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a918a11a29eafa8a5bbace76e350e5eba" id="r_a918a11a29eafa8a5bbace76e350e5eba"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VoltMonitoring__cfg_8h.html#a918a11a29eafa8a5bbace76e350e5eba">READ_VOLT_PROJECT_MV</a>&#160;&#160;&#160;<a class="el" href="VoltMonitoring__cfg_8c.html#ac869178976e1448cf334b335aefd7b8e">VoltMon_ReadVoltageProject_mV</a>()</td></tr>
+<tr class="memdesc:a918a11a29eafa8a5bbace76e350e5eba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Project-specific macro to read the supply voltage in millivolts.  <br /></td></tr>
 <tr class="separator:a918a11a29eafa8a5bbace76e350e5eba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ac869178976e1448cf334b335aefd7b8e" id="r_ac869178976e1448cf334b335aefd7b8e"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VoltMonitoring__cfg_8h.html#ac869178976e1448cf334b335aefd7b8e">VoltMon_ReadVoltageProject_mV</a> (void)</td></tr>
+<tr class="memdesc:ac869178976e1448cf334b335aefd7b8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read and condition the project supply voltage in millivolts.  <br /></td></tr>
 <tr class="separator:ac869178976e1448cf334b335aefd7b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:acac11666a1d1a484c12d34a85c481b49" id="r_acac11666a1d1a484c12d34a85c481b49"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VoltMonitoring__cfg_8h.html#acac11666a1d1a484c12d34a85c481b49">VoltMon_ThresholdUnder_mV</a></td></tr>
+<tr class="memdesc:acac11666a1d1a484c12d34a85c481b49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Undervoltage threshold in millivolts.  <br /></td></tr>
 <tr class="separator:acac11666a1d1a484c12d34a85c481b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92987f37858e7d4dc32bbd9073a311db" id="r_a92987f37858e7d4dc32bbd9073a311db"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VoltMonitoring__cfg_8h.html#a92987f37858e7d4dc32bbd9073a311db">VoltMon_ThresholdOver_mV</a></td></tr>
+<tr class="memdesc:a92987f37858e7d4dc32bbd9073a311db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overvoltage threshold in millivolts.  <br /></td></tr>
 <tr class="separator:a92987f37858e7d4dc32bbd9073a311db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c480677102e006f2f523e4f70838ade" id="r_a1c480677102e006f2f523e4f70838ade"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VoltMonitoring__cfg_8h.html#a1c480677102e006f2f523e4f70838ade">VoltMon_Hysteresis_mV</a></td></tr>
+<tr class="memdesc:a1c480677102e006f2f523e4f70838ade"><td class="mdescLeft">&#160;</td><td class="mdescRight">Voltage hysteresis in millivolts.  <br /></td></tr>
 <tr class="separator:a1c480677102e006f2f523e4f70838ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4865bd65858ef8e80dc8676ce4842d6b" id="r_a4865bd65858ef8e80dc8676ce4842d6b"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VoltMonitoring__cfg_8h.html#a4865bd65858ef8e80dc8676ce4842d6b">VoltMon_ActivationTime_ms</a></td></tr>
+<tr class="memdesc:a4865bd65858ef8e80dc8676ce4842d6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Activation time in milliseconds.  <br /></td></tr>
 <tr class="separator:a4865bd65858ef8e80dc8676ce4842d6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8654139cec06d95bdb3dc890ca58b731" id="r_a8654139cec06d95bdb3dc890ca58b731"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VoltMonitoring__cfg_8h.html#a8654139cec06d95bdb3dc890ca58b731">VoltMon_DeactivationTime_ms</a></td></tr>
+<tr class="memdesc:a8654139cec06d95bdb3dc890ca58b731"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deactivation time in milliseconds.  <br /></td></tr>
 <tr class="separator:a8654139cec06d95bdb3dc890ca58b731"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2ae6432d40a365e7315f8808774735c" id="r_ab2ae6432d40a365e7315f8808774735c"><td class="memItemLeft" align="right" valign="top">const uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VoltMonitoring__cfg_8h.html#ab2ae6432d40a365e7315f8808774735c">VoltMon_TaskPeriod_ms</a></td></tr>
+<tr class="memdesc:ab2ae6432d40a365e7315f8808774735c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Voltage monitoring task period in milliseconds.  <br /></td></tr>
 <tr class="separator:ab2ae6432d40a365e7315f8808774735c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Configuration interface for the Voltage Monitoring module. </p>
+<p>This header defines all project-specific configuration parameters required by the Voltage Monitoring module.</p>
+<p>The configuration layer is responsible for:</p><ul>
+<li>Providing the project-specific supply voltage reading interface.</li>
+<li>Defining undervoltage and overvoltage thresholds.</li>
+<li>Defining hysteresis and timing parameters used by the monitoring state machine.</li>
+</ul>
+<p>All symbols declared in this file must be defined in the corresponding <code><a class="el" href="VoltMonitoring__cfg_8c.html">VoltMonitoring_cfg.c</a></code> file.</p>
+<dl class="section note"><dt>Note</dt><dd>No application logic shall be implemented in this file. This file must only contain configuration data and interfaces. </dd></dl>
+
+<p class="definition">Definition in file <a class="el" href="VoltMonitoring__cfg_8h_source.html">VoltMonitoring_cfg.h</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a918a11a29eafa8a5bbace76e350e5eba" name="a918a11a29eafa8a5bbace76e350e5eba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a918a11a29eafa8a5bbace76e350e5eba">&#9670;&#160;</a></span>READ_VOLT_PROJECT_MV</h2>
 
@@ -132,7 +155,12 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8h_source.html#l00007">7</a> of file <a class="el" href="VoltMonitoring__cfg_8h_source.html">VoltMonitoring_cfg.h</a>.</p>
+<p>Project-specific macro to read the supply voltage in millivolts. </p>
+<p>This macro abstracts the project-specific voltage acquisition function. It allows the Voltage Monitoring platform code to remain independent from the actual ADC / HAL / hardware implementation.</p>
+<p>The macro shall expand to a function call returning the measured voltage expressed in millivolts.</p>
+<dl class="section return"><dt>Returns</dt><dd>Supply voltage in millivolts [mV]. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8h_source.html#l00044">44</a> of file <a class="el" href="VoltMonitoring__cfg_8h_source.html">VoltMonitoring_cfg.h</a>.</p>
 
 </div>
 </div>
@@ -153,12 +181,66 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00017">17</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>{</div>
-<div class="line"><span class="lineno">   19</span>    <span class="comment">/* TODO: sostituisci con lettura reale della tensione in mV */</span></div>
-<div class="line"><span class="lineno">   20</span>    uint16_t dummyVoltage = 12000u;</div>
-<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">return</span> dummyVoltage;</div>
-<div class="line"><span class="lineno">   22</span>}</div>
+<p>Read and condition the project supply voltage in millivolts. </p>
+<p><b>Goal of the function</b></p>
+<p>The purpose of this function is to provide a robust project-specific voltage measurement (in mV) by selecting/combining two internal voltage samples: an unfiltered value (<code>supplyDcNotFiler_u16</code>) and a filtered value (<code>supplyDcFiler_u16</code>).</p>
+<dl class="section user"><dt>Interface summary</dt><dd></dd></dl>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Interface   </th><th class="markdownTableHeadCenter">In   </th><th class="markdownTableHeadCenter">Out   </th><th class="markdownTableHeadNone">Data type   </th><th class="markdownTableHeadNone">Param   </th><th class="markdownTableHeadRight">Data factor   </th><th class="markdownTableHeadRight">Data offset   </th><th class="markdownTableHeadRight">Data size   </th><th class="markdownTableHeadNone">Data range   </th><th class="markdownTableHeadNone">Data unit    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">supplyDcNotFiler_u16   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyNone">uint16   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0, 65535]   </td><td class="markdownTableBodyNone">[mV]    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">supplyDcFiler_u16   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyNone">uint16   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0, 65535]   </td><td class="markdownTableBodyNone">[mV]    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">lowerVoltMonCfg_cu16   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyNone">const uint16   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0, 20000]   </td><td class="markdownTableBodyNone">[mV]    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">middleLowerVoltMonCfg_cu16   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyNone">const uint16   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0, 20000]   </td><td class="markdownTableBodyNone">[mV]    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">middleHigherVoltMonCfg_cu16   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyNone">const uint16   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0, 20000]   </td><td class="markdownTableBodyNone">[mV]    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">higherVoltMonCfg_cu16   </td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyNone">const uint16   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0, 20000]   </td><td class="markdownTableBodyNone">[mV]    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="VoltMonitoring__cfg_8h.html#ac869178976e1448cf334b335aefd7b8e" title="Read and condition the project supply voltage in millivolts.">VoltMon_ReadVoltageProject_mV()</a>   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">X   </td><td class="markdownTableBodyNone">uint16(void)   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyRight">0   </td><td class="markdownTableBodyRight">1   </td><td class="markdownTableBodyNone">[0, 19999]   </td><td class="markdownTableBodyNone">[mV]   </td></tr>
+</table>
+<dl class="section user"><dt>Activity diagram (PlantUML)</dt><dd></dd></dl>
+<div class="plantumlgraph">
+<object type="image/svg+xml" data="inline_umlgraph_2.svg"></object>
+</div>
+<dl class="section return"><dt>Returns</dt><dd>Conditioned project voltage in millivolts. Returns 0u if the unfiltered voltage is outside the configured valid range. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00025">25</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>{</div>
+<div class="line"><span class="lineno">   27</span>    uint16_t l_voltage_mV = 0u;</div>
+<div class="line"><span class="lineno">   28</span>    uint16_t l_supplyDcFiler_u16 = <a class="code hl_variable" href="VoltMonitoring__cfg_8c.html#ae3f0d387137bfaa84d44f64c5311a99b">supplyDcFiler_u16</a>;</div>
+<div class="line"><span class="lineno">   29</span>    uint16_t l_supplyDcNotFiler_u16 = <a class="code hl_variable" href="VoltMonitoring__cfg_8c.html#aa0c3e8965434f21bd5f18da3274bb357">supplyDcNotFiler_u16</a>;</div>
+<div class="line"><span class="lineno">   30</span> </div>
+<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">if</span>(l_supplyDcNotFiler_u16 &gt; <a class="code hl_variable" href="VoltMonitoring__cfg_8c.html#ac76d9312534300404b8fa0ae76ed5503">lowerVoltMonCfg_cu16</a> &amp;&amp; l_supplyDcNotFiler_u16 &lt;  <a class="code hl_variable" href="VoltMonitoring__cfg_8c.html#a390f322e5bda04c7542499ce130a00f0">middleLowerVoltMonCfg_cu16</a>)</div>
+<div class="line"><span class="lineno">   32</span>    {</div>
+<div class="line"><span class="lineno">   33</span>        l_voltage_mV = l_supplyDcNotFiler_u16;</div>
+<div class="line"><span class="lineno">   34</span>    }</div>
+<div class="line"><span class="lineno">   35</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(l_supplyDcNotFiler_u16 &gt;= <a class="code hl_variable" href="VoltMonitoring__cfg_8c.html#a390f322e5bda04c7542499ce130a00f0">middleLowerVoltMonCfg_cu16</a> &amp;&amp; l_supplyDcNotFiler_u16 &lt;= <a class="code hl_variable" href="VoltMonitoring__cfg_8c.html#a866a876cc1bc775b76ce16608b63dc31">middleHigherVoltMonCfg_cu16</a>)</div>
+<div class="line"><span class="lineno">   36</span>    {</div>
+<div class="line"><span class="lineno">   37</span>        l_voltage_mV = ((l_supplyDcFiler_u16+l_supplyDcNotFiler_u16)&gt;&gt;1);</div>
+<div class="line"><span class="lineno">   38</span>    }</div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span>(l_supplyDcNotFiler_u16 &gt; <a class="code hl_variable" href="VoltMonitoring__cfg_8c.html#a866a876cc1bc775b76ce16608b63dc31">middleHigherVoltMonCfg_cu16</a> &amp;&amp; l_supplyDcNotFiler_u16 &lt; <a class="code hl_variable" href="VoltMonitoring__cfg_8c.html#aadb9835bfe3501f02fe676f67ba05cbe">higherVoltMonCfg_cu16</a>)</div>
+<div class="line"><span class="lineno">   40</span>    {</div>
+<div class="line"><span class="lineno">   41</span>        l_voltage_mV = ((l_supplyDcFiler_u16+l_supplyDcNotFiler_u16)&gt;&gt;1);</div>
+<div class="line"><span class="lineno">   42</span>    }</div>
+<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   44</span>    {</div>
+<div class="line"><span class="lineno">   45</span>        <span class="comment">/* valore fuori range */</span></div>
+<div class="line"><span class="lineno">   46</span>       l_voltage_mV = 0u;</div>
+<div class="line"><span class="lineno">   47</span>    }</div>
+<div class="line"><span class="lineno">   48</span> </div>
+<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">return</span> l_voltage_mV;</div>
+<div class="line"><span class="lineno">   50</span>}</div>
+<div class="ttc" id="aVoltMonitoring__cfg_8c_html_a390f322e5bda04c7542499ce130a00f0"><div class="ttname"><a href="VoltMonitoring__cfg_8c.html#a390f322e5bda04c7542499ce130a00f0">middleLowerVoltMonCfg_cu16</a></div><div class="ttdeci">const uint16_t middleLowerVoltMonCfg_cu16</div><div class="ttdef"><b>Definition</b> <a href="VoltMonitoring__cfg_8c_source.html#l00021">VoltMonitoring_cfg.c:21</a></div></div>
+<div class="ttc" id="aVoltMonitoring__cfg_8c_html_a866a876cc1bc775b76ce16608b63dc31"><div class="ttname"><a href="VoltMonitoring__cfg_8c.html#a866a876cc1bc775b76ce16608b63dc31">middleHigherVoltMonCfg_cu16</a></div><div class="ttdeci">const uint16_t middleHigherVoltMonCfg_cu16</div><div class="ttdef"><b>Definition</b> <a href="VoltMonitoring__cfg_8c_source.html#l00022">VoltMonitoring_cfg.c:22</a></div></div>
+<div class="ttc" id="aVoltMonitoring__cfg_8c_html_aa0c3e8965434f21bd5f18da3274bb357"><div class="ttname"><a href="VoltMonitoring__cfg_8c.html#aa0c3e8965434f21bd5f18da3274bb357">supplyDcNotFiler_u16</a></div><div class="ttdeci">static uint16_t supplyDcNotFiler_u16</div><div class="ttdef"><b>Definition</b> <a href="VoltMonitoring__cfg_8c_source.html#l00018">VoltMonitoring_cfg.c:18</a></div></div>
+<div class="ttc" id="aVoltMonitoring__cfg_8c_html_aadb9835bfe3501f02fe676f67ba05cbe"><div class="ttname"><a href="VoltMonitoring__cfg_8c.html#aadb9835bfe3501f02fe676f67ba05cbe">higherVoltMonCfg_cu16</a></div><div class="ttdeci">const uint16_t higherVoltMonCfg_cu16</div><div class="ttdef"><b>Definition</b> <a href="VoltMonitoring__cfg_8c_source.html#l00020">VoltMonitoring_cfg.c:20</a></div></div>
+<div class="ttc" id="aVoltMonitoring__cfg_8c_html_ac76d9312534300404b8fa0ae76ed5503"><div class="ttname"><a href="VoltMonitoring__cfg_8c.html#ac76d9312534300404b8fa0ae76ed5503">lowerVoltMonCfg_cu16</a></div><div class="ttdeci">const uint16_t lowerVoltMonCfg_cu16</div><div class="ttdef"><b>Definition</b> <a href="VoltMonitoring__cfg_8c_source.html#l00019">VoltMonitoring_cfg.c:19</a></div></div>
+<div class="ttc" id="aVoltMonitoring__cfg_8c_html_ae3f0d387137bfaa84d44f64c5311a99b"><div class="ttname"><a href="VoltMonitoring__cfg_8c.html#ae3f0d387137bfaa84d44f64c5311a99b">supplyDcFiler_u16</a></div><div class="ttdeci">static uint16_t supplyDcFiler_u16</div><div class="ttdef"><b>Definition</b> <a href="VoltMonitoring__cfg_8c_source.html#l00017">VoltMonitoring_cfg.c:17</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -183,7 +265,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00009">9</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
+<p>Activation time in milliseconds. </p>
+<p>Minimum time the voltage must continuously violate a threshold before entering an undervoltage or overvoltage state.</p>
+<p>Typical value: 500 ms. </p>
+
+<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00011">11</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
 
 </div>
 </div>
@@ -207,7 +293,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00010">10</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
+<p>Deactivation time in milliseconds. </p>
+<p>Minimum time the voltage must continuously remain inside the safe range before returning to the NORMAL state.</p>
+<p>Typical value: 500 ms. </p>
+
+<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00012">12</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
 
 </div>
 </div>
@@ -231,7 +321,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00007">7</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
+<p>Voltage hysteresis in millivolts. </p>
+<p>This parameter defines the hysteresis band applied when recovering from undervoltage or overvoltage conditions.</p>
+<p>Typical value: 500 mV. </p>
+
+<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00009">9</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
 
 </div>
 </div>
@@ -255,7 +349,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00013">13</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
+<p>Voltage monitoring task period in milliseconds. </p>
+<p>Period at which the voltage monitoring function (<code>voltMonRun</code>) is called. This value may be used to convert time-based parameters (ms) into execution cycles if required.</p>
+<p>Typical value: application dependent. </p>
+
+<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00015">15</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
 
 </div>
 </div>
@@ -279,7 +377,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00006">6</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
+<p>Overvoltage threshold in millivolts. </p>
+<p>If the measured supply voltage is above this threshold for at least <code>VoltMon_ActivationTime_ms</code>, an overvoltage condition is detected.</p>
+<p>Typical value: 13000 mV. </p>
+
+<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00008">8</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
 
 </div>
 </div>
@@ -303,7 +405,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00005">5</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
+<p>Undervoltage threshold in millivolts. </p>
+<p>If the measured supply voltage is below this threshold for at least <code>VoltMon_ActivationTime_ms</code>, an undervoltage condition is detected.</p>
+<p>Typical value: 8000 mV. </p>
+
+<p class="definition">Definition at line <a class="el" href="VoltMonitoring__cfg_8c_source.html#l00007">7</a> of file <a class="el" href="VoltMonitoring__cfg_8c_source.html">VoltMonitoring_cfg.c</a>.</p>
 
 </div>
 </div>

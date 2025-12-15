@@ -1,0 +1,87 @@
+---
+:source:
+  :file: utExecutionAndResults/utUnderTest/test/test_VoltMon_ReadVoltageProject_mV.c
+  :dirname: utExecutionAndResults/utUnderTest/test
+  :basename: test_VoltMon_ReadVoltageProject_mV.c
+:successes:
+- :test: test_VoltMon_ReadVoltageProject_mV_LowBand_LowerBoundaryPlus1
+  :line: 39
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_LowBand_MidValue
+  :line: 54
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_LowBand_UpperBoundaryMinus1
+  :line: 69
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_MiddleBand_LowerBoundary
+  :line: 90
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_MiddleBand_MidValue
+  :line: 106
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_MiddleBand_UpperBoundary
+  :line: 122
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_MiddleBand_SameValues
+  :line: 138
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_HighBand_LowerBoundaryPlus1
+  :line: 160
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_HighBand_MidValue
+  :line: 176
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_HighBand_UpperBoundaryMinus1
+  :line: 192
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_OutOfRange_AtLowerBoundary
+  :line: 214
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_OutOfRange_AtUpperBoundary
+  :line: 229
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_OutOfRange_AboveUpperBoundary
+  :line: 244
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_OutOfRange_MaxUint16
+  :line: 259
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_MiddleBand_FilteredZero
+  :line: 278
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_MiddleBand_FilteredMaxValue
+  :line: 294
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_BoundaryTransition_5000
+  :line: 309
+  :message: ''
+  :unity_test_time: 0
+- :test: test_VoltMon_ReadVoltageProject_mV_BoundaryTransition_10000
+  :line: 325
+  :message: ''
+  :unity_test_time: 0
+:failures: []
+:ignores: []
+:counts:
+  :total: 18
+  :passed: 18
+  :failed: 0
+  :ignored: 0
+:stdout: []
+:time: 0.010588580999865371
