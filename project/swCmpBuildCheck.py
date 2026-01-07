@@ -16,6 +16,7 @@ from common_utils import (
     require_python, require_command, require_file, require_dir,
     require_docker_running,
     run_cmd,
+    find_targets_with_subfolders,
 )
 
 # Default MISRA rules file path (adjust if needed)
@@ -261,20 +262,11 @@ def generate_cppcheck_html_reports(root_folder: Union[str, Path], misra_rules_pa
                     error(f"Failed to process {xml_path}: {e}")
 
 
-def find_targets_with_pltf_or_cfg(root: Path):
-    for dirpath, dirnames, _ in os.walk(root):
-        dirpath = Path(dirpath)
-        has_pltf = "pltf" in dirnames and (dirpath / "pltf").is_dir()
-        has_cfg = "cfg" in dirnames and (dirpath / "cfg").is_dir()
-        if has_pltf or has_cfg:
-            yield dirpath
-
-
 def scan_components(codebase_root: Path, template_content: str) -> list[Path]:
     info(f"Scanning for components under: {codebase_root}")
     created: list[Path] = []
 
-    for target_dir in find_targets_with_pltf_or_cfg(codebase_root):
+    for target_dir in find_targets_with_subfolders(codebase_root, ("pltf", "cfg")):
         cmake_path = target_dir / "CMakeLists.txt"
         if cmake_path.exists():
             info(f"Skipping existing CMakeLists.txt in: {target_dir}")

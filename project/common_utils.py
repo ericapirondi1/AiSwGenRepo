@@ -154,3 +154,23 @@ def safe_restore(backup: Optional[Path], dest: Path):
             shutil.move(str(backup), str(dest))
         except Exception as e:
             warn(f"Could not restore backup {backup} -> {dest}: {e}")
+
+
+from typing import Iterable, Sequence
+
+def find_targets_with_subfolders(root: Path, subfolders: Sequence[str] = ("pltf", "cfg")) -> Iterable[Path]:
+    """
+    Yield directories under `root` that contain at least one of the given subfolders.
+
+    Example:
+        for d in find_targets_with_subfolders(Path("code"), ("pltf", "cfg")):
+            ...
+
+    This generalizes the old find_targets_with_pltf_or_cfg().
+    """
+    for dirpath, dirnames, _ in os.walk(root):
+        dirpath = Path(dirpath)
+        for sub in subfolders:
+            if sub in dirnames and (dirpath / sub).is_dir():
+                yield dirpath
+                break

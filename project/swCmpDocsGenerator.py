@@ -16,7 +16,8 @@ from common_utils import (
     require_python, require_command, require_dir, require_file,
     require_docker_running,
     run_cmd, docker_mount_path,
-    safe_unlink, safe_restore
+    safe_unlink, safe_restore,
+    find_targets_with_subfolders
 )
 
 IMAGE_NAME = "doxygen-plantuml"
@@ -51,15 +52,6 @@ def preflight_checks(script_dir: Path, codebase_root: Path, template_dockerfile:
     require_file(template_doxyfile, "Template Doxyfile")
     require_docker_running()
     info("Preflight checks OK.")
-
-
-def find_targets_with_pltf_or_cfg(root: Path):
-    for dirpath, dirnames, _ in os.walk(root):
-        dirpath = Path(dirpath)
-        has_pltf = "pltf" in dirnames and (dirpath / "pltf").is_dir()
-        has_cfg = "cfg" in dirnames and (dirpath / "cfg").is_dir()
-        if has_pltf or has_cfg:
-            yield dirpath
 
 
 def patch_doxyfile(doxy_path: Path, project_name: str, has_pltf: bool, has_cfg: bool) -> None:
@@ -102,7 +94,7 @@ def main():
     info(f"Template Doxyfile   : {template_doxyfile}")
     info(f"Scanning targets in : {codebase_root}")
 
-    targets = list(find_targets_with_pltf_or_cfg(codebase_root))
+    targets = list(find_targets_with_subfolders(codebase_root, ("pltf", "cfg")))
     if not targets:
         warn("No folders found containing 'pltf' or 'cfg'. Nothing to do.")
         return
