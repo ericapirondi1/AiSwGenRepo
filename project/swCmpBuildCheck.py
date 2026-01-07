@@ -17,6 +17,7 @@ from common_utils import (
     require_docker_running,
     run_cmd,
     find_targets_with_subfolders,
+    preflight_check,
 )
 
 # Default MISRA rules file path (adjust if needed)
@@ -331,7 +332,15 @@ def main():
     script_dir = Path(__file__).resolve().parent
     os.chdir(script_dir)
 
-    preflight_checks(script_dir)
+    preflight_check(
+        script_dir=script_dir,
+        min_python=(3,8),
+        require_docker=True,
+        check_docker_daemon=True,
+        required_dirs=[(script_dir / 'code', 'Code directory')],
+        required_files=[(script_dir / 'CMakeLists.txt', 'Template CMakeLists.txt')],
+        optional_files=[(MISRA_RULES_PATH, 'MISRA rules file')],
+    )
 
     template_path = script_dir / "CMakeLists.txt"
     codebase_root = script_dir / "code"

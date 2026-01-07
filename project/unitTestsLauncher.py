@@ -16,7 +16,8 @@ from common_utils import (
     info, warn, error, fatal,
     require_python, require_command, require_dir,
     require_docker_running,
-    run_cmd, docker_mount_path
+    run_cmd, docker_mount_path,
+    preflight_check
 )
 
 UNIT_TEST_PREFIX = "TEST_"
@@ -480,7 +481,13 @@ Usage:
 
 
 if __name__ == "__main__":
-    preflight_checks(PROJECT_ROOT)
+    preflight_check(
+        script_dir=PROJECT_ROOT,
+        min_python=(3,8),
+        require_docker=True,
+        check_docker_daemon=True,
+        required_dirs=[(PROJECT_ROOT, 'Project root'), (PROJECT_ROOT / 'code', "Code directory ('code')")],
+    )
 
     if len(sys.argv) < 2:
         print_help()

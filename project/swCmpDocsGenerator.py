@@ -17,7 +17,11 @@ from common_utils import (
     require_docker_running,
     run_cmd, docker_mount_path,
     safe_unlink, safe_restore,
-    find_targets_with_subfolders
+    find_targets_with_subfolders,
+    preflight_check,
+    resolve_template,
+    print_summary,
+    exit_code_from_failures
 )
 
 IMAGE_NAME = "doxygen-plantuml"
@@ -29,29 +33,6 @@ TEMPLATE_DOXYFILE_FALLBACK = "Doxyfile"
 
 DEST_DOCKERFILE = "Dockerfile"
 DEST_DOXYFILE = "Doxyfile"
-
-
-def resolve_template(script_dir: Path, primary: str, fallback: str) -> Path:
-    p = script_dir / primary
-    if p.is_file():
-        return p
-    p2 = script_dir / fallback
-    if p2.is_file():
-        return p2
-    fatal(f"Template not found. Tried: {primary} and {fallback} in {script_dir}")
-    return p  # unreachable
-
-
-def preflight_checks(script_dir: Path, codebase_root: Path, template_dockerfile: Path, template_doxyfile: Path):
-    info("Performing preflight checks...")
-    require_python(3, 8)
-    require_command("docker")
-    require_dir(script_dir, "Script directory")
-    require_dir(codebase_root, "Code directory ('./code')")
-    require_file(template_dockerfile, "Template Dockerfile")
-    require_file(template_doxyfile, "Template Doxyfile")
-    require_docker_running()
-    info("Preflight checks OK.")
 
 
 def patch_doxyfile(doxy_path: Path, project_name: str, has_pltf: bool, has_cfg: bool) -> None:
@@ -88,7 +69,14 @@ def main():
     template_dockerfile = resolve_template(script_dir, TEMPLATE_DOCKERFILE_PRIMARY, TEMPLATE_DOCKERFILE_FALLBACK)
     template_doxyfile = resolve_template(script_dir, TEMPLATE_DOXYFILE_PRIMARY, TEMPLATE_DOXYFILE_FALLBACK)
 
-    preflight_checks(script_dir, codebase_root, template_dockerfile, template_doxyfile)
+    preflight_check(
+        script_dir=script_dir,
+        min_python=(3,8),
+        require_docker=True,
+        check_docker_daemon=True,
+        required_dirs=[(script_dir, 'Script directory'), (codebase_root, "Code directory ('./code')")],
+        required_files=[(template_dockerfile, 'Template Dockerfile'), (template_doxyfile, 'Template Doxyfile')],
+    )
 
     info(f"Template Dockerfile : {template_dockerfile}")
     info(f"Template Doxyfile   : {template_doxyfile}")
@@ -160,20 +148,8 @@ def main():
             safe_restore(doxy_backup, dest_doxyfile)
             info("[Cleanup] Done.\n")
 
-    print("\n============================")
-    print("          SUMMARY           ")
-    print("============================")
-    print(f"SUCCESS ({len(ok_targets)}):")
-    for t in ok_targets:
-        print(f" - {t}")
-
-    print(f"\nFAILED  ({len(fail_targets)}):")
-    for t, msg in fail_targets:
-        print(f" - {t} :: {msg}")
-
-    print("============================\n")
-
-    sys.exit(1 if fail_targets else 0)
+        print_summary('SUMMARY', ok_targets, fail_targets)
+    sys.exit(exit_code_from_failures(fail_targets))
 
 
 if __name__ == "__main__":
