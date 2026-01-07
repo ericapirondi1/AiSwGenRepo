@@ -1,37 +1,33 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from __future__ import annotations
+
 import os
 import re
 import shutil
 import subprocess
 from pathlib import Path
 import sys
+from typing import Optional, List, Tuple
 
+from common_utils import (
+    info, warn, error, fatal,
+    require_python, require_command, require_dir, require_file,
+    require_docker_running,
+    run_cmd, docker_mount_path,
+    safe_unlink, safe_restore
+)
 
 IMAGE_NAME = "doxygen-plantuml"
 
-# Template names (as requested)
 TEMPLATE_DOCKERFILE_PRIMARY = "DoxDockerfile"
 TEMPLATE_DOXYFILE_PRIMARY = "Doxygen"
-
-# Fallback names (what you typically have)
 TEMPLATE_DOCKERFILE_FALLBACK = "Dockerfile"
 TEMPLATE_DOXYFILE_FALLBACK = "Doxyfile"
 
-# Destination names inside each target folder
 DEST_DOCKERFILE = "Dockerfile"
 DEST_DOXYFILE = "Doxyfile"
-
-
-def find_targets_with_pltf_or_cfg(root: Path):
-    """Yield directories under root that contain a 'pltf' and/or 'cfg' subfolder."""
-    for dirpath, dirnames, _ in os.walk(root):
-        dirpath = Path(dirpath)
-
-        has_pltf = "pltf" in dirnames and (dirpath / "pltf").is_dir()
-        has_cfg = "cfg" in dirnames and (dirpath / "cfg").is_dir()
-
-        if has_pltf or has_cfg:
-            yield dirpath
 
 
 def resolve_template(script_dir: Path, primary: str, fallback: str) -> Path:
@@ -41,26 +37,34 @@ def resolve_template(script_dir: Path, primary: str, fallback: str) -> Path:
     p2 = script_dir / fallback
     if p2.is_file():
         return p2
-    raise SystemExit(f"ERROR: Template not found. Tried: {primary} and {fallback} in {script_dir}")
+    fatal(f"Template not found. Tried: {primary} and {fallback} in {script_dir}")
+    return p  # unreachable
 
 
-def docker_mount_path(p: Path) -> str:
-    """
-    Convert to a Docker-friendly absolute path for -v.
-    On Windows + Docker Desktop, forward slashes are safer.
-    """
-    return str(p.resolve()).replace("\\", "/")
+def preflight_checks(script_dir: Path, codebase_root: Path, template_dockerfile: Path, template_doxyfile: Path):
+    info("Performing preflight checks...")
+    require_python(3, 8)
+    require_command("docker")
+    require_dir(script_dir, "Script directory")
+    require_dir(codebase_root, "Code directory ('./code')")
+    require_file(template_dockerfile, "Template Dockerfile")
+    require_file(template_doxyfile, "Template Doxyfile")
+    require_docker_running()
+    info("Preflight checks OK.")
+
+
+def find_targets_with_pltf_or_cfg(root: Path):
+    for dirpath, dirnames, _ in os.walk(root):
+        dirpath = Path(dirpath)
+        has_pltf = "pltf" in dirnames and (dirpath / "pltf").is_dir()
+        has_cfg = "cfg" in dirnames and (dirpath / "cfg").is_dir()
+        if has_pltf or has_cfg:
+            yield dirpath
 
 
 def patch_doxyfile(doxy_path: Path, project_name: str, has_pltf: bool, has_cfg: bool) -> None:
-    """
-    - Set PROJECT_NAME to project_name
-    - Set INPUT to include existing ./pltf and/or ./cfg in ONE line
-      (Avoids multiple INPUT lines overriding each other)
-    """
     content = doxy_path.read_text(encoding="utf-8", errors="replace")
 
-    # Replace PROJECT_NAME (robust: handles spaces around '=')
     if re.search(r"^\s*PROJECT_NAME\s*=", content, flags=re.MULTILINE):
         content = re.sub(
             r"^\s*PROJECT_NAME\s*=.*$",
@@ -69,10 +73,8 @@ def patch_doxyfile(doxy_path: Path, project_name: str, has_pltf: bool, has_cfg: 
             flags=re.MULTILINE,
         )
     else:
-        # If missing, prepend it
         content = f'PROJECT_NAME           = "{project_name}"\n' + content
 
-    # Build INPUT list based on what exists
     inputs = []
     if has_cfg:
         inputs.append("./cfg")
@@ -81,7 +83,6 @@ def patch_doxyfile(doxy_path: Path, project_name: str, has_pltf: bool, has_cfg: 
 
     input_line = "INPUT                  = " + " ".join(inputs)
 
-    # Remove all existing INPUT lines, then add the single correct one
     content = re.sub(r"^\s*INPUT\s*=.*$\n?", "", content, flags=re.MULTILINE)
     content = input_line + "\n" + content
 
@@ -92,24 +93,22 @@ def main():
     script_dir = Path(__file__).resolve().parent
     codebase_root = script_dir / "code"
 
-    if not codebase_root.is_dir():
-        raise SystemExit(f"ERROR: code directory not found at: {codebase_root}")
+    template_dockerfile = resolve_template(script_dir, TEMPLATE_DOCKERFILE_PRIMARY, TEMPLATE_DOCKERFILE_FALLBACK)
+    template_doxyfile = resolve_template(script_dir, TEMPLATE_DOXYFILE_PRIMARY, TEMPLATE_DOXYFILE_FALLBACK)
 
-    template_dockerfile = resolve_template(
-        script_dir, TEMPLATE_DOCKERFILE_PRIMARY, TEMPLATE_DOCKERFILE_FALLBACK
-    )
-    template_doxyfile = resolve_template(
-        script_dir, TEMPLATE_DOXYFILE_PRIMARY, TEMPLATE_DOXYFILE_FALLBACK
-    )
+    preflight_checks(script_dir, codebase_root, template_dockerfile, template_doxyfile)
 
-    print(f"Template Dockerfile : {template_dockerfile}")
-    print(f"Template Doxyfile   : {template_doxyfile}")
-    print(f"Scanning targets in : {codebase_root}\n")
+    info(f"Template Dockerfile : {template_dockerfile}")
+    info(f"Template Doxyfile   : {template_doxyfile}")
+    info(f"Scanning targets in : {codebase_root}")
 
     targets = list(find_targets_with_pltf_or_cfg(codebase_root))
     if not targets:
-        print("No folders found containing 'pltf' or 'cfg'.")
+        warn("No folders found containing 'pltf' or 'cfg'. Nothing to do.")
         return
+
+    ok_targets: List[Path] = []
+    fail_targets: List[Tuple[Path, str]] = []
 
     for target_dir in targets:
         has_pltf = (target_dir / "pltf").is_dir()
@@ -119,15 +118,14 @@ def main():
         dest_dockerfile = target_dir / DEST_DOCKERFILE
         dest_doxyfile = target_dir / DEST_DOXYFILE
 
-        # Backup any existing files so we can restore them
         docker_backup = None
         doxy_backup = None
 
         print("------------------------------------------------------------")
-        print(f"Target: {target_dir}")
-        print(f"  - has cfg : {has_cfg}")
-        print(f"  - has pltf: {has_pltf}")
-        print(f"  - PROJECT_NAME -> {project_name}")
+        info(f"Target: {target_dir}")
+        info(f"  - has cfg : {has_cfg}")
+        info(f"  - has pltf: {has_pltf}")
+        info(f"  - PROJECT_NAME -> {project_name}")
 
         try:
             if dest_dockerfile.exists():
@@ -138,101 +136,53 @@ def main():
                 doxy_backup = target_dir / (DEST_DOXYFILE + ".bak")
                 shutil.move(str(dest_doxyfile), str(doxy_backup))
 
-            # Copy templates in place
             shutil.copy2(str(template_dockerfile), str(dest_dockerfile))
             shutil.copy2(str(template_doxyfile), str(dest_doxyfile))
 
-            # Patch Doxyfile
             patch_doxyfile(dest_doxyfile, project_name, has_pltf=has_pltf, has_cfg=has_cfg)
 
-            # Run docker build + run inside the target directory
-            print(f"\n[Docker] Building image in: {target_dir}")
-            subprocess.run(
-                ["docker", "build", "-t", IMAGE_NAME, "."],
-                cwd=str(target_dir),
-                check=True,
-            )
+            info(f"[Docker] Building image in: {target_dir}")
+            run_cmd(["docker", "build", "-t", IMAGE_NAME, "."], cwd=target_dir, check=True)
 
             mount = docker_mount_path(target_dir)
-            print(f"[Docker] Running doxygen with mount: {mount} -> /workspace")
-            subprocess.run(
-                ["docker", "run", "--rm", "-v", f"{mount}:/workspace", IMAGE_NAME],
-                cwd=str(target_dir),
-                check=True,
-            )
+            info(f"[Docker] Running doxygen with mount: {mount} -> /workspace")
+            run_cmd(["docker", "run", "--rm", "-v", f"{mount}:/workspace", IMAGE_NAME], cwd=target_dir, check=True)
 
-            print("[OK] Documentation generated (check ./docs/html/index.html if OUTPUT_DIRECTORY=./docs).")
+            info("[OK] Documentation generated.")
+            ok_targets.append(target_dir)
 
         except subprocess.CalledProcessError as e:
-            print(f"[ERROR] Command failed in {target_dir}: {e}")
+            msg = f"Command failed (exit={e.returncode})"
+            error(f"[FAIL] {target_dir}: {msg}")
+            fail_targets.append((target_dir, msg))
+
+        except Exception as e:
+            msg = f"Unexpected error: {repr(e)}"
+            error(f"[FAIL] {target_dir}: {msg}")
+            fail_targets.append((target_dir, msg))
+
         finally:
-            # Remove copied template files and restore previous ones if they existed
-            try:
-                if dest_dockerfile.exists():
-                    dest_dockerfile.unlink()
-            except Exception as ex:
-                print(f"[WARN] Could not remove {dest_dockerfile}: {ex}")
+            safe_unlink(dest_dockerfile)
+            safe_unlink(dest_doxyfile)
+            safe_restore(docker_backup, dest_dockerfile)
+            safe_restore(doxy_backup, dest_doxyfile)
+            info("[Cleanup] Done.\n")
 
-            try:
-                if dest_doxyfile.exists():
-                    dest_doxyfile.unlink()
-            except Exception as ex:
-                print(f"[WARN] Could not remove {dest_doxyfile}: {ex}")
+    print("\n============================")
+    print("          SUMMARY           ")
+    print("============================")
+    print(f"SUCCESS ({len(ok_targets)}):")
+    for t in ok_targets:
+        print(f" - {t}")
 
-            if docker_backup and docker_backup.exists():
-                shutil.move(str(docker_backup), str(dest_dockerfile))
+    print(f"\nFAILED  ({len(fail_targets)}):")
+    for t, msg in fail_targets:
+        print(f" - {t} :: {msg}")
 
-            if doxy_backup and doxy_backup.exists():
-                shutil.move(str(doxy_backup), str(dest_doxyfile))
+    print("============================\n")
 
-            print("[Cleanup] Done.\n")
-
-def print_help():
-    print(
-        """
-swCmpDocsGenerator.py
-=====================
-
-DESCRIPTION
------------
-Generates Doxygen documentation (with PlantUML diagrams) for each software
-component under ./code that contains a 'pltf' and/or 'cfg' folder.
-
-For each matching component, the script will:
-  1. Copy DoxDockerfile and Doxygen (or Dockerfile / Doxyfile as fallback)
-     into the component folder.
-  2. Replace PROJECT_NAME in the Doxyfile with the component folder name.
-  3. Adjust INPUT in the Doxyfile to include ./pltf and/or ./cfg.
-  4. Run:
-       docker build -t doxygen-plantuml .
-       docker run --rm -v "<component_path>:/workspace" doxygen-plantuml
-  5. Remove the copied files and restore any originals.
-
-REQUIREMENTS
-------------
-- Docker installed and running
-- The script must be executed from the project root
-- Folder structure:
-      ./code/<component>/(pltf|cfg)
-
-USAGE
------
-  python swCmpDocsGenerator.py
-  python swCmpDocsGenerator.py -help
-  python swCmpDocsGenerator.py --help
-
-OUTPUT
-------
-Documentation is generated according to the Doxyfile settings
-(e.g. ./docs/html/index.html inside each component).
-
-"""
-    )
+    sys.exit(1 if fail_targets else 0)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help", "-help"):
-        print_help()
-        sys.exit(0)
-
     main()

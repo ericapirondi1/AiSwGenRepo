@@ -21,11 +21,6 @@ paths:
   docs_dir: "./docs"
   logs_dir: "./logs"
 
-environment:
-  python_version: "3.11"
-  venv_path: "./.venv"
-  requirements_file: "./requirements.txt"
-
 workflow:
   steps:
     - "unitTestsLauncher.py all"
