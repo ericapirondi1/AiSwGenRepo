@@ -1,0 +1,106 @@
+@startuml inline_umlgraph_1.svg
+start
+:Validate pointers;
+if (data == NULL OR crc_out == NULL) then (YES)
+  :return EDD_NULL_PTR;
+  stop
+endif
+:Validate length;
+if (length == 0) then (YES)
+  :return EDD_INVALID_LENGTH;
+  stop
+endif
+:crc = 0x00;
+while (i < length)
+  :crc = Table[crc XOR data[i]];
+endwhile
+:*crc_out = crc;
+:return EDD_OK;
+stop
+@enduml
+@startuml inline_umlgraph_2.svg
+start
+:Validate crc_in_out pointer;
+if (crc_in_out == NULL) then (YES)
+  :return EDD_NULL_PTR;
+  stop
+endif
+:idx = (*crc_in_out) XOR byte;
+:*crc_in_out = Table[idx];
+:return EDD_OK;
+stop
+@enduml
+@startuml inline_umlgraph_3.svg
+start
+:Validate pointers;
+if (data == NULL OR result_out == NULL) then (YES)
+  :return EDD_NULL_PTR;
+  stop
+endif
+:Validate length;
+if (length == 0) then (YES)
+  :return EDD_INVALID_LENGTH;
+  stop
+endif
+:computed = CalcCrc8(data, length);
+if (computed == expected_crc) then (YES)
+  :*result_out = 1;
+else (NO)
+  :*result_out = 0;
+endif
+:return EDD_OK;
+stop
+@enduml
+@startuml inline_umlgraph_4.svg
+start
+:Validate pointers;
+if (data == NULL OR crc_out == NULL) then (YES)
+  :return EDD_NULL_PTR;
+  stop
+endif
+:Validate length;
+if (length == 0) then (YES)
+  :return EDD_INVALID_LENGTH;
+  stop
+endif
+:crc = 0x00;
+while (i < length)
+  :crc = Table[crc XOR data[i]];
+endwhile
+:*crc_out = crc;
+:return EDD_OK;
+stop
+@enduml
+@startuml inline_umlgraph_5.svg
+start
+:Validate crc_in_out pointer;
+if (crc_in_out == NULL) then (YES)
+  :return EDD_NULL_PTR;
+  stop
+endif
+:idx = (*crc_in_out) XOR byte;
+:*crc_in_out = Table[idx];
+:return EDD_OK;
+stop
+@enduml
+@startuml inline_umlgraph_6.svg
+start
+:Validate pointers;
+if (data == NULL OR result_out == NULL) then (YES)
+  :return EDD_NULL_PTR;
+  stop
+endif
+:Validate length;
+if (length == 0) then (YES)
+  :return EDD_INVALID_LENGTH;
+  stop
+endif
+:computed = CalcCrc8(data, length);
+if (computed == expected_crc) then (YES)
+  :*result_out = 1;
+else (NO)
+  :*result_out = 0;
+endif
+:return EDD_OK;
+stop
+@enduml

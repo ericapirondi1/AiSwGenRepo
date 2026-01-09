@@ -1,0 +1,2 @@
+/usr/bin/ar qc libErrorDataDetection.a CMakeFiles/ErrorDataDetection.dir/pltf/errorDataDetection.c.o
+/usr/bin/ranlib libErrorDataDetection.a

@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/workspace/code/ErrorDataDetection/build",
+  "command": "/usr/bin/cc  -I/workspace/code/ErrorDataDetection/pltf -I/workspace/code/ErrorDataDetection/cfg -Wall -Wextra -Wpedantic -o CMakeFiles/ErrorDataDetection.dir/pltf/errorDataDetection.c.o -c /workspace/code/ErrorDataDetection/pltf/errorDataDetection.c",
+  "file": "/workspace/code/ErrorDataDetection/pltf/errorDataDetection.c",
+  "output": "CMakeFiles/ErrorDataDetection.dir/pltf/errorDataDetection.c.o"
+}
+]

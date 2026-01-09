@@ -1,0 +1,7 @@
+var searchData=
+[
+  ['edd_5fcalccrc8_0',['edd_calccrc8',['../errorDataDetection_8c.html#ad3172747a1de5056f8c925135b9c326a',1,'EDD_CalcCrc8(const uint8_t *data, uint8_t length, uint8_t *crc_out):&#160;errorDataDetection.c'],['../errorDataDetection_8h.html#ad3172747a1de5056f8c925135b9c326a',1,'EDD_CalcCrc8(const uint8_t *data, uint8_t length, uint8_t *crc_out):&#160;errorDataDetection.c']]],
+  ['edd_5fcrc8computeinternal_1',['edd_crc8computeinternal',['../errorDataDetection_8c.html#abfb61b1f8f1de70c99b605f9a4955f5c',1,'EDD_Crc8ComputeInternal(const uint8_t *data, uint8_t length):&#160;errorDataDetection.c'],['../errorDataDetection__priv_8h.html#abfb61b1f8f1de70c99b605f9a4955f5c',1,'EDD_Crc8ComputeInternal(const uint8_t *data, uint8_t length):&#160;errorDataDetection_priv.h']]],
+  ['edd_5fcrc8update_2',['edd_crc8update',['../errorDataDetection_8c.html#abc189c3306ad8c2aadb62b1dc90c5b02',1,'EDD_Crc8Update(uint8_t *crc_in_out, uint8_t byte):&#160;errorDataDetection.c'],['../errorDataDetection_8h.html#abc189c3306ad8c2aadb62b1dc90c5b02',1,'EDD_Crc8Update(uint8_t *crc_in_out, uint8_t byte):&#160;errorDataDetection.c']]],
+  ['edd_5fverifycrc8_3',['edd_verifycrc8',['../errorDataDetection_8c.html#afb5bf6ce5e59dad91ebb0d9331f4a595',1,'EDD_VerifyCrc8(const uint8_t *data, uint8_t length, uint8_t expected_crc, uint8_t *result_out):&#160;errorDataDetection.c'],['../errorDataDetection_8h.html#afb5bf6ce5e59dad91ebb0d9331f4a595',1,'EDD_VerifyCrc8(const uint8_t *data, uint8_t length, uint8_t expected_crc, uint8_t *result_out):&#160;errorDataDetection.c']]]
+];
