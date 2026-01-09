@@ -10553,7 +10553,7 @@ void test_EDD_VerifyCrc8_ValidCrcMatch(void)
     EDD_ReturnType ret;
 
     /* Mock the CRC computation to return the expected value */
-    EDD_Crc8ComputeInternal_ExpectAndReturn(data, 5, expected_crc);
+    EDD_Crc8ComputeInternal_ExpectAndReturn(data, 4, expected_crc);
 
     ret = EDD_VerifyCrc8(data, 4, expected_crc, &result);
 

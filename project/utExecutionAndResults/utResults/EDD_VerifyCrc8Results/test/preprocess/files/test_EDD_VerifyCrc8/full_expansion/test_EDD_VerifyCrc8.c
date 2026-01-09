@@ -2373,7 +2373,7 @@ void test_EDD_VerifyCrc8_ValidCrcMatch(void)
     EDD_ReturnType ret;
 
 
-    EDD_Crc8ComputeInternal_CMockExpectAndReturn(95, data, 5, expected_crc);
+    EDD_Crc8ComputeInternal_CMockExpectAndReturn(95, data, 4, expected_crc);
 
     ret = EDD_VerifyCrc8(data, 4, expected_crc, &result);
 
