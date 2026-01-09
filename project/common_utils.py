@@ -33,8 +33,8 @@ from typing import Optional, Iterable, Sequence, List, Tuple, Dict, Any
 # Logging helpers
 # -------------------------
 def info(msg: str):  print(f"[INFO] {msg}")
-def warn(msg: str):  print(f"[WARNING_____] {msg}")
-def error(msg: str): print(f"[ERROR_______] {msg}")
+def warn(msg: str):  print(f"[WARNING] {msg}")
+def error(msg: str): print(f"[ ++++++++++++++++++++++++++++++++++  ERROR  ++++++++++++++++++++++++++++++++++] {msg}")
 def fatal(msg: str, code: int = 1):
     print(f"[FATAL] {msg}")
     sys.exit(code)
@@ -63,13 +63,23 @@ def require_dir(path: Path, desc: str = "Directory"):
         fatal(f"{desc} not found: {path}")
 
 
-# -------------------------
-# Robust command runner
-# -------------------------
-def run_cmd(cmd: list[str], cwd: Optional[Path] = None, check: bool = True) -> subprocess.CompletedProcess:
+
+def run_cmd(
+    cmd: list[str],
+    cwd: Optional[Path] = None,
+    check: bool = True,
+    stopScript: bool = True
+) -> subprocess.CompletedProcess:
     """
     Run a command capturing output as bytes and decoding safely.
     Prevents UnicodeDecodeError on Windows (cp1252).
+
+    Behavior:
+    - If stopScript == True:
+        - raise on failures (like before)
+    - If stopScript == False:
+        - NEVER raise (even if command fails or cannot be executed)
+        - return a CompletedProcess with returncode != 0 and stderr set
     """
     info("Running: " + " ".join(cmd) + (f" (cwd={cwd})" if cwd else ""))
 
@@ -77,21 +87,43 @@ def run_cmd(cmd: list[str], cwd: Optional[Path] = None, check: bool = True) -> s
         p = subprocess.run(
             cmd,
             cwd=str(cwd) if cwd else None,
-            capture_output=True  # bytes
+            capture_output=True  # Always capture, even if stopScript == False
         )
+
     except FileNotFoundError:
-        fatal(f"Command not found: {cmd[0]} (is it installed and in PATH?)")
+        msg = f"Command not found: {cmd[0]} (is it installed and in PATH?)"
+        error(msg)
+        if stopScript:
+            fatal(msg)
+
+        # Return a fake CompletedProcess object instead of raising
+        p = subprocess.CompletedProcess(cmd, returncode=127, stdout=b"", stderr=msg.encode("utf-8"))
+
     except PermissionError as e:
-        fatal(f"Permission denied running: {' '.join(cmd)}\nDetails: {e}")
+        msg = f"Permission denied running: {' '.join(cmd)}\nDetails: {e}"
+        error(msg)
+        if stopScript:
+            fatal(msg)
+
+        p = subprocess.CompletedProcess(cmd, returncode=126, stdout=b"", stderr=msg.encode("utf-8"))
+
     except Exception as e:
-        fatal(f"Unexpected error while running: {' '.join(cmd)}\nDetails: {repr(e)}")
+        msg = f"Unexpected error while running: {' '.join(cmd)}\nDetails: {repr(e)}"
+        error(msg)
+        if stopScript:
+            fatal(msg)
+
+        p = subprocess.CompletedProcess(cmd, returncode=1, stdout=b"", stderr=msg.encode("utf-8"))
 
     stdout = p.stdout.decode("utf-8", errors="replace") if p.stdout else ""
     stderr = p.stderr.decode("utf-8", errors="replace") if p.stderr else ""
 
+    # Attach decoded outputs (your convenience API)
     p.stdout_text = stdout  # type: ignore[attr-defined]
     p.stderr_text = stderr  # type: ignore[attr-defined]
 
+    # ✅ IMPORTANT CHANGE:
+    # If stopScript == False => do not raise even if check=True and returncode != 0
     if check and p.returncode != 0:
         error(f"Command failed with exit code {p.returncode}: {' '.join(cmd)}")
         if stdout.strip():
@@ -100,7 +132,8 @@ def run_cmd(cmd: list[str], cwd: Optional[Path] = None, check: bool = True) -> s
         if stderr.strip():
             print("---- STDERR ----")
             print(stderr)
-        raise subprocess.CalledProcessError(p.returncode, cmd, output=stdout, stderr=stderr)
+        if stopScript:
+            raise subprocess.CalledProcessError(p.returncode, cmd, output=stdout, stderr=stderr)
 
     return p
 

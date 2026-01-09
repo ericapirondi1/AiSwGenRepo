@@ -20,10 +20,6 @@
   :line: 72
   :message: ''
   :unity_test_time: 0
-- :test: test_EDD_VerifyCrc8_ValidCrcMatch
-  :line: 87
-  :message: ''
-  :unity_test_time: 0
 - :test: test_EDD_VerifyCrc8_ValidCrcMismatch
   :line: 107
   :message: ''
@@ -48,12 +44,17 @@
   :line: 210
   :message: ''
   :unity_test_time: 0
-:failures: []
+:failures:
+- :test: test_EDD_VerifyCrc8_ValidCrcMatch
+  :line: 95
+  :message: Expected 0x05 Was 0x04. Function EDD_Crc8ComputeInternal Argument length.
+    Function called with unexpected argument value.
+  :unity_test_time: 0
 :ignores: []
 :counts:
   :total: 11
-  :passed: 11
-  :failed: 0
+  :passed: 10
+  :failed: 1
   :ignored: 0
 :stdout: []
-:time: 0.007633495999925799
+:time: 0.009276179000153206
