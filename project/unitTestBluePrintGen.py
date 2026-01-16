@@ -735,7 +735,7 @@ def find_declaration_and_doxygen_in_module(module_root: Path, func_name: str) ->
     def is_ident_char(ch: str) -> bool:
         return ch.isalnum() or ch == "_"
 
-    def find_decl_span(txt: str) -> Optional[Tuple[int, int]]:
+    def find_decl_span(txt: str, masked: str) -> Optional[Tuple[int, int]]:
         i = 0
         name = func_name
         while True:
@@ -769,21 +769,51 @@ def find_declaration_and_doxygen_in_module(module_root: Path, func_name: str) ->
                 i = idx + len(name)
                 continue
 
-            stmt_start = txt.rfind(";", 0, idx)
+            # Find statement start robustly: ignore ';' inside comments/strings
+            # (masked has comments/strings replaced by spaces, indices preserved)
+            stmt_start = masked.rfind(";", 0, idx)
             stmt_start = 0 if stmt_start == -1 else stmt_start + 1
-            while stmt_start < len(txt) and txt[stmt_start] in " \t\r\n":
-                stmt_start += 1
+            # Skip leading whitespace and any comments between the previous statement and the decl
+            while stmt_start < len(txt):
+                # whitespace
+                while stmt_start < len(txt) and txt[stmt_start] in " \t\r\n":
+                    stmt_start += 1
+                if stmt_start >= len(txt):
+                    break
+
+                # line comment
+                if txt.startswith("//", stmt_start):
+                    nl = txt.find("\n", stmt_start)
+                    stmt_start = len(txt) if nl == -1 else nl + 1
+                    continue
+
+                # block comment
+                if txt.startswith("/*", stmt_start):
+                    endc = txt.find("*/", stmt_start + 2)
+                    if endc == -1:
+                        break
+                    stmt_start = endc + 2
+                    continue
+
+                break
 
             return (stmt_start, semi + 1)
 
     def extract_doxygen_comment_above(text: str, decl_start: int) -> Optional[str]:
-        """        Extract the doxygen block comment immediately above a declaration, exactly:
-            /** ... */
+        """Extract the doxygen *block* comment immediately above a declaration.
+
+        Supported starters:
+          - /** ... */
+          - /*! ... */
 
         Rules:
-          - The comment must end with '*/' and start with '/**'.
+          - The comment must end with '*/'.
           - Between the end of the comment and decl_start there must be only whitespace.
           - Returns the full block preserving formatting + a trailing newline.
+
+        Notes:
+          - This is intentionally "best effort" and avoids removing blocks that contain nested
+            '*/' sequences (rare, but can appear inside examples).
         """
         # Move backward over whitespace to land on the character right before decl_start
         k = decl_start - 1
@@ -798,21 +828,30 @@ def find_declaration_and_doxygen_in_module(module_root: Path, func_name: str) ->
         end = k + 1  # include final '/'
 
         # Ensure only whitespace between comment end and decl_start
-        if text[end:decl_start].strip() != '':
+        if text[end:decl_start].strip() != "":
             return None
 
-        # Find the matching '/**' for this '*/'.
-        # We pick the nearest '/**' before end that is NOT followed by another '*/' before end.
-        search_end = end
-        while True:
-            start = text.rfind('/**', 0, search_end)
-            if start == -1:
-                return None
-            inner_close = text.rfind('*/', start + 3, end)
-            if inner_close == -1:
-                block = text[start:end]
-                return block.rstrip() + "\n"
-            search_end = start
+        # Find the nearest preceding doxygen block start (/** or /*!)
+        start_candidates = []
+        s1 = text.rfind('/**', 0, end)
+        if s1 != -1:
+            start_candidates.append(s1)
+        s2 = text.rfind('/*!', 0, end)
+        if s2 != -1:
+            start_candidates.append(s2)
+        if not start_candidates:
+            return None
+
+        start = max(start_candidates)
+
+        # Sanity: ensure there's no earlier close '*/' between start and the final close (end)
+        # (i.e., avoid matching an opening that actually closes before this end).
+        inner_close = text.find('*/', start + 3, end - 1)
+        if inner_close != -1:
+            return None
+
+        block = text[start:end]
+        return block.rstrip() + "\n"
 
     for root in (module_root / "pltf", module_root / "cfg"):
         if not root.exists():
@@ -821,7 +860,8 @@ def find_declaration_and_doxygen_in_module(module_root: Path, func_name: str) ->
             txt = read_text_file(hp)
             if txt is None:
                 continue
-            span = find_decl_span(txt)
+            masked = _strip_c_comments_and_strings_keep_len(txt)
+            span = find_decl_span(txt, masked)
             if not span:
                 continue
             start, end = span
