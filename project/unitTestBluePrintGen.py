@@ -751,6 +751,23 @@ def find_declaration_and_doxygen_in_module(module_root: Path, func_name: str) ->
                 i = idx + len(name)
                 continue
 
+            # Check if this occurrence is NOT in a comment/string (masked will have spaces there)
+            if masked[idx] != name[0]:
+                # This match is inside a comment or string
+                i = idx + len(name)
+                continue
+
+            # Reject if this is inside a #define (look backward for # before any semicolon or newline)
+            line_start = txt.rfind('\n', 0, idx)
+            if line_start == -1:
+                line_start = 0
+            else:
+                line_start += 1
+            line_before_func = txt[line_start:idx].strip()
+            if line_before_func.startswith('#define '):
+                i = idx + len(name)
+                continue
+
             # followed by '(' (after optional whitespace)
             j = after_idx
             while j < len(txt) and txt[j].isspace():
@@ -773,13 +790,19 @@ def find_declaration_and_doxygen_in_module(module_root: Path, func_name: str) ->
             # (masked has comments/strings replaced by spaces, indices preserved)
             stmt_start = masked.rfind(";", 0, idx)
             stmt_start = 0 if stmt_start == -1 else stmt_start + 1
-            # Skip leading whitespace and any comments between the previous statement and the decl
+            # Skip leading whitespace, comments, and preprocessor directives between the previous statement and the decl
             while stmt_start < len(txt):
                 # whitespace
                 while stmt_start < len(txt) and txt[stmt_start] in " \t\r\n":
                     stmt_start += 1
                 if stmt_start >= len(txt):
                     break
+
+                # preprocessor line (skip entire line)
+                if txt[stmt_start] == '#':
+                    nl = txt.find("\n", stmt_start)
+                    stmt_start = len(txt) if nl == -1 else nl + 1
+                    continue
 
                 # line comment
                 if txt.startswith("//", stmt_start):
