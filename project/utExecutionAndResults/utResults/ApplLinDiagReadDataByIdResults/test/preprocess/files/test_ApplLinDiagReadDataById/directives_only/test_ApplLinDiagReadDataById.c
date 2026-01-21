@@ -824,46 +824,23 @@
 
 # 0 "<command-line>" 2
 # 1 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c"
-# 1 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity.h" 1
-/* =========================================================================
-    Unity - A Test Framework for C
-    ThrowTheSwitch.org
-    Copyright (c) 2007-25 Mike Karlesky, Mark VanderVoord, & Greg Williams
-    SPDX-License-Identifier: MIT
-========================================================================= */
+# 1 "utExecutionAndResults/utUnderTest/src/ApplLinDiagReadDataById.h" 1
 
 
-#define UNITY_FRAMEWORK_H 
-#define UNITY 
 
-#define UNITY_VERSION_MAJOR 2
-#define UNITY_VERSION_MINOR 6
-#define UNITY_VERSION_BUILD 1
-#define UNITY_VERSION ((UNITY_VERSION_MAJOR << 16) | (UNITY_VERSION_MINOR << 8) | UNITY_VERSION_BUILD)
+#define DIAGNOSTIC_H 
+
+# 1 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h" 1 3 4
 
 
 
 
 
 
-# 1 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity_internals.h" 1
-/* =========================================================================
-    Unity - A Test Framework for C
-    ThrowTheSwitch.org
-    Copyright (c) 2007-25 Mike Karlesky, Mark VanderVoord, & Greg Williams
-    SPDX-License-Identifier: MIT
-========================================================================= */
 
 
-#define UNITY_INTERNALS_H 
-
-
-
-
-
-
-# 1 "/usr/include/setjmp.h" 1 3 4
-/* Copyright (C) 1991-2022 Free Software Foundation, Inc.
+# 1 "/usr/include/stdint.h" 1 3 4
+/* Copyright (C) 1997-2022 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -881,11 +858,45 @@
    <https://www.gnu.org/licenses/>.  */
 
 /*
- *	ISO C99 Standard: 7.13 Nonlocal jumps	<setjmp.h>
+ *	ISO C99: 7.18 Integer types <stdint.h>
  */
 
 
-#define _SETJMP_H 1
+#define _STDINT_H 1
+
+#define __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION 
+# 1 "/usr/include/x86_64-linux-gnu/bits/libc-header-start.h" 1 3 4
+/* Handle feature test macros at the start of a header.
+   Copyright (C) 2016-2022 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <https://www.gnu.org/licenses/>.  */
+
+/* This header is internal to glibc and should not be included outside
+   of glibc headers.  Headers including it must define
+   __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION first.  This header
+   cannot have multiple include guards because ISO C feature test
+   macros depend on the definition of the macro when an affected
+   header is included, not when the first system header is
+   included.  */
+
+
+
+
+
+#undef __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION
 
 # 1 "/usr/include/features.h" 1 3 4
 /* Copyright (C) 1991-2022 Free Software Foundation, Inc.
@@ -2000,241 +2011,7 @@
 # 514 "/usr/include/features.h" 2 3 4
 
 
-# 26 "/usr/include/setjmp.h" 2 3 4
-
-__BEGIN_DECLS
-
-# 1 "/usr/include/x86_64-linux-gnu/bits/setjmp.h" 1 3 4
-/* Copyright (C) 2001-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <https://www.gnu.org/licenses/>.  */
-
-/* Define the machine-dependent type `jmp_buf'.  x86-64 version.  */
-
-#define _BITS_SETJMP_H 1
-
-
-
-
-
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
-/* Determine the wordsize from the preprocessor defines.  */
-
-
-#define __WORDSIZE 64
-
-
-
-
-
-
-#define __WORDSIZE_TIME64_COMPAT32 1
-
-
-/* Both x86-64 and x32 use the 64-bit system call interface.  */
-#define __SYSCALL_WORDSIZE 64
-# 27 "/usr/include/x86_64-linux-gnu/bits/setjmp.h" 2 3 4
-
-
-
-
-typedef long int __jmp_buf[8];
-
-
-
-
-
-
-
-
-# 30 "/usr/include/setjmp.h" 2 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h" 1 3 4
-/* Define struct __jmp_buf_tag.
-   Copyright (C) 1991-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <https://www.gnu.org/licenses/>.  */
-
-
-#define __jmp_buf_tag_defined 1
-
-
-# 1 "/usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h" 1 3 4
-
-#define ____sigset_t_defined 
-
-#define _SIGSET_NWORDS (1024 / (8 * sizeof (unsigned long int)))
-typedef struct
-{
-  unsigned long int __val[_SIGSET_NWORDS];
-} __sigset_t;
-
-# 24 "/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h" 2 3 4
-
-/* Calling environment, plus possibly a saved signal mask.  */
-struct __jmp_buf_tag
-  {
-    /* NOTE: The machine-dependent definitions of `__sigsetjmp'
-       assume that a `jmp_buf' begins with a `__jmp_buf' and that
-       `__mask_was_saved' follows it.  Do not move these members
-       or add others before it.  */
-    __jmp_buf __jmpbuf;		/* Calling environment.  */
-    int __mask_was_saved;	/* Saved the signal mask?  */
-    __sigset_t __saved_mask;	/* Saved signal mask.  */
-  };
-
-# 31 "/usr/include/setjmp.h" 2 3 4
-
-typedef struct __jmp_buf_tag jmp_buf[1];
-
-/* Store the calling environment in ENV, also saving the signal mask.
-   Return 0.  */
-extern int setjmp (jmp_buf __env) __THROWNL;
-
-/* Store the calling environment in ENV, also saving the
-   signal mask if SAVEMASK is nonzero.  Return 0.
-   This is the internal name for `sigsetjmp'.  */
-extern int __sigsetjmp (struct __jmp_buf_tag __env[1], int __savemask) __THROWNL;
-
-/* Store the calling environment in ENV, not saving the signal mask.
-   Return 0.  */
-extern int _setjmp (struct __jmp_buf_tag __env[1]) __THROWNL;
-
-/* Do not save the signal mask.  This is equivalent to the `_setjmp'
-   BSD function.  */
-#define setjmp(env) _setjmp (env)
-
-
-/* Jump to the environment saved in ENV, making the
-   `setjmp' call there return VAL, or 1 if VAL is 0.  */
-extern void longjmp (struct __jmp_buf_tag __env[1], int __val)
-     __THROWNL __attribute__ ((__noreturn__));
-
-
-/* Same.  Usually `_longjmp' is used with `_setjmp', which does not save
-   the signal mask.  But it is how ENV was saved that determines whether
-   `longjmp' restores the mask; `_longjmp' is just an alias.  */
-extern void _longjmp (struct __jmp_buf_tag __env[1], int __val)
-     __THROWNL __attribute__ ((__noreturn__));
-
-
-
-
-/* Use the same type for `jmp_buf' and `sigjmp_buf'.
-   The `__mask_was_saved' flag determines whether
-   or not `longjmp' will restore the signal mask.  */
-typedef struct __jmp_buf_tag sigjmp_buf[1];
-
-/* Store the calling environment in ENV, also saving the
-   signal mask if SAVEMASK is nonzero.  Return 0.  */
-#define sigsetjmp(env,savemask) __sigsetjmp (env, savemask)
-
-/* Jump to the environment saved in ENV, making the
-   sigsetjmp call there return VAL, or 1 if VAL is 0.
-   Restore the signal mask if that sigsetjmp call saved it.
-   This is just an alias `longjmp'.  */
-extern void siglongjmp (sigjmp_buf __env, int __val)
-     __THROWNL __attribute__ ((__noreturn__));
-
-
-
-/* Define helper functions to catch unsafe code.  */
-
-
-
-
-__END_DECLS
-
-# 17 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity_internals.h" 2
-
-
-
-# 1 "/usr/include/math.h" 1 3 4
-/* Declarations for math functions.
-   Copyright (C) 1991-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <https://www.gnu.org/licenses/>.  */
-
-/*
- *	ISO C99 Standard: 7.12 Mathematics	<math.h>
- */
-
-
-#define _MATH_H 1
-
-#define __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION 
-# 1 "/usr/include/x86_64-linux-gnu/bits/libc-header-start.h" 1 3 4
-/* Handle feature test macros at the start of a header.
-   Copyright (C) 2016-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <https://www.gnu.org/licenses/>.  */
-
-/* This header is internal to glibc and should not be included outside
-   of glibc headers.  Headers including it must define
-   __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION first.  This header
-   cannot have multiple include guards because ISO C feature test
-   macros depend on the definition of the macro when an affected
-   header is included, not when the first system header is
-   included.  */
-
-
-
-
-
-#undef __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION
-
-
+# 34 "/usr/include/x86_64-linux-gnu/bits/libc-header-start.h" 2 3 4
 
 /* ISO/IEC TR 24731-2:2010 defines the __STDC_WANT_LIB_EXT2__
    macro.  */
@@ -2311,16 +2088,7 @@ __END_DECLS
 
 
 #define __GLIBC_USE_IEC_60559_TYPES_EXT 0
-# 28 "/usr/include/math.h" 2 3 4
-
-
-
-
-
-
-__BEGIN_DECLS
-
-/* Get definitions of __intmax_t and __uintmax_t.  */
+# 27 "/usr/include/stdint.h" 2 3 4
 # 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2022 Free Software Foundation, Inc.
@@ -2738,7 +2506,776 @@ typedef int __sig_atomic_t;
 
 #undef __STD_TYPE
 
-# 38 "/usr/include/math.h" 2 3 4
+# 28 "/usr/include/stdint.h" 2 3 4
+# 1 "/usr/include/x86_64-linux-gnu/bits/wchar.h" 1 3 4
+/* wchar_t type related definitions.
+   Copyright (C) 2000-2022 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <https://www.gnu.org/licenses/>.  */
+
+
+#define _BITS_WCHAR_H 1
+
+/* The fallback definitions, for when __WCHAR_MAX__ or __WCHAR_MIN__
+   are not defined, give the right value and type as long as both int
+   and wchar_t are 32-bit types.  Adding L'\0' to a constant value
+   ensures that the type is correct; it is necessary to use (L'\0' +
+   0) rather than just L'\0' so that the type in C++ is the promoted
+   version of wchar_t rather than the distinct wchar_t type itself.
+   Because wchar_t in preprocessor #if expressions is treated as
+   intmax_t or uintmax_t, the expression (L'\0' - 1) would have the
+   wrong value for WCHAR_MAX in such expressions and so cannot be used
+   to define __WCHAR_MAX in the unsigned case.  */
+
+
+#define __WCHAR_MAX __WCHAR_MAX__
+
+
+
+
+
+
+
+#define __WCHAR_MIN __WCHAR_MIN__
+
+
+
+
+
+
+# 29 "/usr/include/stdint.h" 2 3 4
+# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+/* Determine the wordsize from the preprocessor defines.  */
+
+
+#define __WORDSIZE 64
+
+
+
+
+
+
+#define __WORDSIZE_TIME64_COMPAT32 1
+
+
+/* Both x86-64 and x32 use the 64-bit system call interface.  */
+#define __SYSCALL_WORDSIZE 64
+# 30 "/usr/include/stdint.h" 2 3 4
+
+/* Exact integral types.  */
+
+/* Signed.  */
+# 1 "/usr/include/x86_64-linux-gnu/bits/stdint-intn.h" 1 3 4
+/* Define intN_t types.
+   Copyright (C) 2017-2022 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <https://www.gnu.org/licenses/>.  */
+
+
+#define _BITS_STDINT_INTN_H 1
+
+
+
+typedef __int8_t int8_t;
+typedef __int16_t int16_t;
+typedef __int32_t int32_t;
+typedef __int64_t int64_t;
+
+# 35 "/usr/include/stdint.h" 2 3 4
+
+/* Unsigned.  */
+# 1 "/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h" 1 3 4
+/* Define uintN_t types.
+   Copyright (C) 2017-2022 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <https://www.gnu.org/licenses/>.  */
+
+
+#define _BITS_STDINT_UINTN_H 1
+
+
+
+typedef __uint8_t uint8_t;
+typedef __uint16_t uint16_t;
+typedef __uint32_t uint32_t;
+typedef __uint64_t uint64_t;
+
+# 38 "/usr/include/stdint.h" 2 3 4
+
+
+/* Small types.  */
+
+/* Signed.  */
+typedef __int_least8_t int_least8_t;
+typedef __int_least16_t int_least16_t;
+typedef __int_least32_t int_least32_t;
+typedef __int_least64_t int_least64_t;
+
+/* Unsigned.  */
+typedef __uint_least8_t uint_least8_t;
+typedef __uint_least16_t uint_least16_t;
+typedef __uint_least32_t uint_least32_t;
+typedef __uint_least64_t uint_least64_t;
+
+
+/* Fast types.  */
+
+/* Signed.  */
+typedef signed char		int_fast8_t;
+
+typedef long int		int_fast16_t;
+typedef long int		int_fast32_t;
+typedef long int		int_fast64_t;
+
+
+
+
+
+
+
+/* Unsigned.  */
+typedef unsigned char		uint_fast8_t;
+
+typedef unsigned long int	uint_fast16_t;
+typedef unsigned long int	uint_fast32_t;
+typedef unsigned long int	uint_fast64_t;
+
+
+
+
+
+
+
+
+/* Types for `void *' pointers.  */
+
+
+typedef long int		intptr_t;
+#define __intptr_t_defined 
+
+typedef unsigned long int	uintptr_t;
+
+
+
+
+
+
+
+
+
+/* Largest integral types.  */
+typedef __intmax_t		intmax_t;
+typedef __uintmax_t		uintmax_t;
+
+
+
+#define __INT64_C(c) c ## L
+#define __UINT64_C(c) c ## UL
+
+
+
+
+
+/* Limits of integral types.  */
+
+/* Minimum of signed integral types.  */
+#define INT8_MIN (-128)
+#define INT16_MIN (-32767-1)
+#define INT32_MIN (-2147483647-1)
+#define INT64_MIN (-__INT64_C(9223372036854775807)-1)
+/* Maximum of signed integral types.  */
+#define INT8_MAX (127)
+#define INT16_MAX (32767)
+#define INT32_MAX (2147483647)
+#define INT64_MAX (__INT64_C(9223372036854775807))
+
+/* Maximum of unsigned integral types.  */
+#define UINT8_MAX (255)
+#define UINT16_MAX (65535)
+#define UINT32_MAX (4294967295U)
+#define UINT64_MAX (__UINT64_C(18446744073709551615))
+
+
+/* Minimum of signed integral types having a minimum size.  */
+#define INT_LEAST8_MIN (-128)
+#define INT_LEAST16_MIN (-32767-1)
+#define INT_LEAST32_MIN (-2147483647-1)
+#define INT_LEAST64_MIN (-__INT64_C(9223372036854775807)-1)
+/* Maximum of signed integral types having a minimum size.  */
+#define INT_LEAST8_MAX (127)
+#define INT_LEAST16_MAX (32767)
+#define INT_LEAST32_MAX (2147483647)
+#define INT_LEAST64_MAX (__INT64_C(9223372036854775807))
+
+/* Maximum of unsigned integral types having a minimum size.  */
+#define UINT_LEAST8_MAX (255)
+#define UINT_LEAST16_MAX (65535)
+#define UINT_LEAST32_MAX (4294967295U)
+#define UINT_LEAST64_MAX (__UINT64_C(18446744073709551615))
+
+
+/* Minimum of fast signed integral types having a minimum size.  */
+#define INT_FAST8_MIN (-128)
+
+#define INT_FAST16_MIN (-9223372036854775807L-1)
+#define INT_FAST32_MIN (-9223372036854775807L-1)
+
+
+
+
+#define INT_FAST64_MIN (-__INT64_C(9223372036854775807)-1)
+/* Maximum of fast signed integral types having a minimum size.  */
+#define INT_FAST8_MAX (127)
+
+#define INT_FAST16_MAX (9223372036854775807L)
+#define INT_FAST32_MAX (9223372036854775807L)
+
+
+
+
+#define INT_FAST64_MAX (__INT64_C(9223372036854775807))
+
+/* Maximum of fast unsigned integral types having a minimum size.  */
+#define UINT_FAST8_MAX (255)
+
+#define UINT_FAST16_MAX (18446744073709551615UL)
+#define UINT_FAST32_MAX (18446744073709551615UL)
+
+
+
+
+#define UINT_FAST64_MAX (__UINT64_C(18446744073709551615))
+
+
+/* Values to test for integral types holding `void *' pointer.  */
+
+#define INTPTR_MIN (-9223372036854775807L-1)
+#define INTPTR_MAX (9223372036854775807L)
+#define UINTPTR_MAX (18446744073709551615UL)
+
+
+
+
+
+
+
+/* Minimum for largest signed integral type.  */
+#define INTMAX_MIN (-__INT64_C(9223372036854775807)-1)
+/* Maximum for largest signed integral type.  */
+#define INTMAX_MAX (__INT64_C(9223372036854775807))
+
+/* Maximum for largest unsigned integral type.  */
+#define UINTMAX_MAX (__UINT64_C(18446744073709551615))
+
+
+/* Limits of other integer types.  */
+
+/* Limits of `ptrdiff_t' type.  */
+
+#define PTRDIFF_MIN (-9223372036854775807L-1)
+#define PTRDIFF_MAX (9223372036854775807L)
+# 220 "/usr/include/stdint.h" 3 4
+
+/* Limits of `sig_atomic_t'.  */
+#define SIG_ATOMIC_MIN (-2147483647-1)
+#define SIG_ATOMIC_MAX (2147483647)
+
+/* Limit of `size_t' type.  */
+
+#define SIZE_MAX (18446744073709551615UL)
+
+
+
+
+
+
+
+
+/* Limits of `wchar_t'.  */
+
+/* These constants might also be defined in <wchar.h>.  */
+#define WCHAR_MIN __WCHAR_MIN
+#define WCHAR_MAX __WCHAR_MAX
+
+
+/* Limits of `wint_t'.  */
+#define WINT_MIN (0u)
+#define WINT_MAX (4294967295u)
+
+/* Signed.  */
+#define INT8_C(c) c
+#define INT16_C(c) c
+#define INT32_C(c) c
+
+#define INT64_C(c) c ## L
+
+
+
+
+/* Unsigned.  */
+#define UINT8_C(c) c
+#define UINT16_C(c) c
+#define UINT32_C(c) c ## U
+
+#define UINT64_C(c) c ## UL
+
+
+
+
+/* Maximal type.  */
+
+#define INTMAX_C(c) c ## L
+#define UINTMAX_C(c) c ## UL
+
+
+
+
+
+# 318 "/usr/include/stdint.h" 3 4
+
+# 10 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h" 2 3 4
+
+
+
+#define _GCC_WRAP_STDINT_H 
+# 7 "utExecutionAndResults/utUnderTest/src/ApplLinDiagReadDataById.h" 2
+
+extern uint8_t pbLinDiagBuffer[32];
+/* Message length */
+extern uint16_t g_linDiagDataLength_u16;
+
+void ApplLinDiagReadDataById(void);
+
+# 2 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
+# 1 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_cfg.h" 1
+/* AUTOGENERATED FILE. DO NOT EDIT. */
+
+#define _MOCK_DIAGNOSTIC_CFG_H 
+
+# 1 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity.h" 1
+/* =========================================================================
+    Unity - A Test Framework for C
+    ThrowTheSwitch.org
+    Copyright (c) 2007-25 Mike Karlesky, Mark VanderVoord, & Greg Williams
+    SPDX-License-Identifier: MIT
+========================================================================= */
+
+
+#define UNITY_FRAMEWORK_H 
+#define UNITY 
+
+#define UNITY_VERSION_MAJOR 2
+#define UNITY_VERSION_MINOR 6
+#define UNITY_VERSION_BUILD 1
+#define UNITY_VERSION ((UNITY_VERSION_MAJOR << 16) | (UNITY_VERSION_MINOR << 8) | UNITY_VERSION_BUILD)
+
+
+
+
+
+
+# 1 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity_internals.h" 1
+/* =========================================================================
+    Unity - A Test Framework for C
+    ThrowTheSwitch.org
+    Copyright (c) 2007-25 Mike Karlesky, Mark VanderVoord, & Greg Williams
+    SPDX-License-Identifier: MIT
+========================================================================= */
+
+
+#define UNITY_INTERNALS_H 
+
+
+
+
+
+
+# 1 "/usr/include/setjmp.h" 1 3 4
+/* Copyright (C) 1991-2022 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <https://www.gnu.org/licenses/>.  */
+
+/*
+ *	ISO C99 Standard: 7.13 Nonlocal jumps	<setjmp.h>
+ */
+
+
+#define _SETJMP_H 1
+
+
+
+__BEGIN_DECLS
+
+# 1 "/usr/include/x86_64-linux-gnu/bits/setjmp.h" 1 3 4
+/* Copyright (C) 2001-2022 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <https://www.gnu.org/licenses/>.  */
+
+/* Define the machine-dependent type `jmp_buf'.  x86-64 version.  */
+
+#define _BITS_SETJMP_H 1
+
+
+
+
+
+# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+/* Determine the wordsize from the preprocessor defines.  */
+
+
+#define __WORDSIZE 64
+
+
+
+
+
+
+#define __WORDSIZE_TIME64_COMPAT32 1
+
+
+/* Both x86-64 and x32 use the 64-bit system call interface.  */
+#define __SYSCALL_WORDSIZE 64
+# 27 "/usr/include/x86_64-linux-gnu/bits/setjmp.h" 2 3 4
+
+
+
+
+typedef long int __jmp_buf[8];
+
+
+
+
+
+
+
+
+# 30 "/usr/include/setjmp.h" 2 3 4
+# 1 "/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h" 1 3 4
+/* Define struct __jmp_buf_tag.
+   Copyright (C) 1991-2022 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <https://www.gnu.org/licenses/>.  */
+
+
+#define __jmp_buf_tag_defined 1
+
+
+# 1 "/usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h" 1 3 4
+
+#define ____sigset_t_defined 
+
+#define _SIGSET_NWORDS (1024 / (8 * sizeof (unsigned long int)))
+typedef struct
+{
+  unsigned long int __val[_SIGSET_NWORDS];
+} __sigset_t;
+
+# 24 "/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h" 2 3 4
+
+/* Calling environment, plus possibly a saved signal mask.  */
+struct __jmp_buf_tag
+  {
+    /* NOTE: The machine-dependent definitions of `__sigsetjmp'
+       assume that a `jmp_buf' begins with a `__jmp_buf' and that
+       `__mask_was_saved' follows it.  Do not move these members
+       or add others before it.  */
+    __jmp_buf __jmpbuf;		/* Calling environment.  */
+    int __mask_was_saved;	/* Saved the signal mask?  */
+    __sigset_t __saved_mask;	/* Saved signal mask.  */
+  };
+
+# 31 "/usr/include/setjmp.h" 2 3 4
+
+typedef struct __jmp_buf_tag jmp_buf[1];
+
+/* Store the calling environment in ENV, also saving the signal mask.
+   Return 0.  */
+extern int setjmp (jmp_buf __env) __THROWNL;
+
+/* Store the calling environment in ENV, also saving the
+   signal mask if SAVEMASK is nonzero.  Return 0.
+   This is the internal name for `sigsetjmp'.  */
+extern int __sigsetjmp (struct __jmp_buf_tag __env[1], int __savemask) __THROWNL;
+
+/* Store the calling environment in ENV, not saving the signal mask.
+   Return 0.  */
+extern int _setjmp (struct __jmp_buf_tag __env[1]) __THROWNL;
+
+/* Do not save the signal mask.  This is equivalent to the `_setjmp'
+   BSD function.  */
+#define setjmp(env) _setjmp (env)
+
+
+/* Jump to the environment saved in ENV, making the
+   `setjmp' call there return VAL, or 1 if VAL is 0.  */
+extern void longjmp (struct __jmp_buf_tag __env[1], int __val)
+     __THROWNL __attribute__ ((__noreturn__));
+
+
+/* Same.  Usually `_longjmp' is used with `_setjmp', which does not save
+   the signal mask.  But it is how ENV was saved that determines whether
+   `longjmp' restores the mask; `_longjmp' is just an alias.  */
+extern void _longjmp (struct __jmp_buf_tag __env[1], int __val)
+     __THROWNL __attribute__ ((__noreturn__));
+
+
+
+
+/* Use the same type for `jmp_buf' and `sigjmp_buf'.
+   The `__mask_was_saved' flag determines whether
+   or not `longjmp' will restore the signal mask.  */
+typedef struct __jmp_buf_tag sigjmp_buf[1];
+
+/* Store the calling environment in ENV, also saving the
+   signal mask if SAVEMASK is nonzero.  Return 0.  */
+#define sigsetjmp(env,savemask) __sigsetjmp (env, savemask)
+
+/* Jump to the environment saved in ENV, making the
+   sigsetjmp call there return VAL, or 1 if VAL is 0.
+   Restore the signal mask if that sigsetjmp call saved it.
+   This is just an alias `longjmp'.  */
+extern void siglongjmp (sigjmp_buf __env, int __val)
+     __THROWNL __attribute__ ((__noreturn__));
+
+
+
+/* Define helper functions to catch unsafe code.  */
+
+
+
+
+__END_DECLS
+
+# 17 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity_internals.h" 2
+
+
+
+# 1 "/usr/include/math.h" 1 3 4
+/* Declarations for math functions.
+   Copyright (C) 1991-2022 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <https://www.gnu.org/licenses/>.  */
+
+/*
+ *	ISO C99 Standard: 7.12 Mathematics	<math.h>
+ */
+
+
+#define _MATH_H 1
+
+#define __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION 
+# 1 "/usr/include/x86_64-linux-gnu/bits/libc-header-start.h" 1 3 4
+/* Handle feature test macros at the start of a header.
+   Copyright (C) 2016-2022 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, see
+   <https://www.gnu.org/licenses/>.  */
+
+/* This header is internal to glibc and should not be included outside
+   of glibc headers.  Headers including it must define
+   __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION first.  This header
+   cannot have multiple include guards because ISO C feature test
+   macros depend on the definition of the macro when an affected
+   header is included, not when the first system header is
+   included.  */
+
+
+
+
+
+#undef __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION
+
+
+
+/* ISO/IEC TR 24731-2:2010 defines the __STDC_WANT_LIB_EXT2__
+   macro.  */
+#undef __GLIBC_USE_LIB_EXT2
+
+
+
+
+#define __GLIBC_USE_LIB_EXT2 0
+
+
+/* ISO/IEC TS 18661-1:2014 defines the __STDC_WANT_IEC_60559_BFP_EXT__
+   macro.  Most but not all symbols enabled by that macro in TS
+   18661-1 are enabled unconditionally in C2X.  In C2X, the symbols in
+   Annex F still require a new feature test macro
+   __STDC_WANT_IEC_60559_EXT__ instead (C2X does not define
+   __STDC_WANT_IEC_60559_BFP_EXT__), while a few features from TS
+   18661-1 are not included in C2X (and thus should depend on
+   __STDC_WANT_IEC_60559_BFP_EXT__ even when C2X features are
+   enabled).
+
+   __GLIBC_USE (IEC_60559_BFP_EXT) controls those features from TS
+   18661-1 not included in C2X.
+
+   __GLIBC_USE (IEC_60559_BFP_EXT_C2X) controls those features from TS
+   18661-1 that are also included in C2X (with no feature test macro
+   required in C2X).
+
+   __GLIBC_USE (IEC_60559_EXT) controls those features from TS 18661-1
+   that are included in C2X but conditional on
+   __STDC_WANT_IEC_60559_EXT__.  (There are currently no features
+   conditional on __STDC_WANT_IEC_60559_EXT__ that are not in TS
+   18661-1.)  */
+#undef __GLIBC_USE_IEC_60559_BFP_EXT
+
+
+
+#define __GLIBC_USE_IEC_60559_BFP_EXT 0
+
+#undef __GLIBC_USE_IEC_60559_BFP_EXT_C2X
+
+
+
+#define __GLIBC_USE_IEC_60559_BFP_EXT_C2X 0
+
+#undef __GLIBC_USE_IEC_60559_EXT
+
+
+
+#define __GLIBC_USE_IEC_60559_EXT 0
+
+
+/* ISO/IEC TS 18661-4:2015 defines the
+   __STDC_WANT_IEC_60559_FUNCS_EXT__ macro.  Other than the reduction
+   functions, the symbols from this TS are enabled unconditionally in
+   C2X.  */
+#undef __GLIBC_USE_IEC_60559_FUNCS_EXT
+
+
+
+#define __GLIBC_USE_IEC_60559_FUNCS_EXT 0
+
+#undef __GLIBC_USE_IEC_60559_FUNCS_EXT_C2X
+
+
+
+#define __GLIBC_USE_IEC_60559_FUNCS_EXT_C2X 0
+
+
+/* ISO/IEC TS 18661-3:2015 defines the
+   __STDC_WANT_IEC_60559_TYPES_EXT__ macro.  */
+#undef __GLIBC_USE_IEC_60559_TYPES_EXT
+
+
+
+#define __GLIBC_USE_IEC_60559_TYPES_EXT 0
+# 28 "/usr/include/math.h" 2 3 4
+
+
+
+
+
+
+__BEGIN_DECLS
+
+/* Get definitions of __intmax_t and __uintmax_t.  */
+
 
 /* Get machine-dependent vector math functions declarations.  */
 # 1 "/usr/include/x86_64-linux-gnu/bits/math-vector.h" 1 3 4
@@ -5819,524 +6356,7 @@ typedef struct {
  * The user may override any of these derived constants:
  * UNITY_INT_WIDTH, UNITY_LONG_WIDTH, UNITY_POINTER_WIDTH */
 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h" 1 3 4
 
-
-
-
-
-
-
-
-# 1 "/usr/include/stdint.h" 1 3 4
-/* Copyright (C) 1997-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <https://www.gnu.org/licenses/>.  */
-
-/*
- *	ISO C99: 7.18 Integer types <stdint.h>
- */
-
-
-#define _STDINT_H 1
-
-#define __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION 
-# 1 "/usr/include/x86_64-linux-gnu/bits/libc-header-start.h" 1 3 4
-/* Handle feature test macros at the start of a header.
-   Copyright (C) 2016-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <https://www.gnu.org/licenses/>.  */
-
-/* This header is internal to glibc and should not be included outside
-   of glibc headers.  Headers including it must define
-   __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION first.  This header
-   cannot have multiple include guards because ISO C feature test
-   macros depend on the definition of the macro when an affected
-   header is included, not when the first system header is
-   included.  */
-
-
-
-
-
-#undef __GLIBC_INTERNAL_STARTING_HEADER_IMPLEMENTATION
-
-
-
-/* ISO/IEC TR 24731-2:2010 defines the __STDC_WANT_LIB_EXT2__
-   macro.  */
-#undef __GLIBC_USE_LIB_EXT2
-
-
-
-
-#define __GLIBC_USE_LIB_EXT2 0
-
-
-/* ISO/IEC TS 18661-1:2014 defines the __STDC_WANT_IEC_60559_BFP_EXT__
-   macro.  Most but not all symbols enabled by that macro in TS
-   18661-1 are enabled unconditionally in C2X.  In C2X, the symbols in
-   Annex F still require a new feature test macro
-   __STDC_WANT_IEC_60559_EXT__ instead (C2X does not define
-   __STDC_WANT_IEC_60559_BFP_EXT__), while a few features from TS
-   18661-1 are not included in C2X (and thus should depend on
-   __STDC_WANT_IEC_60559_BFP_EXT__ even when C2X features are
-   enabled).
-
-   __GLIBC_USE (IEC_60559_BFP_EXT) controls those features from TS
-   18661-1 not included in C2X.
-
-   __GLIBC_USE (IEC_60559_BFP_EXT_C2X) controls those features from TS
-   18661-1 that are also included in C2X (with no feature test macro
-   required in C2X).
-
-   __GLIBC_USE (IEC_60559_EXT) controls those features from TS 18661-1
-   that are included in C2X but conditional on
-   __STDC_WANT_IEC_60559_EXT__.  (There are currently no features
-   conditional on __STDC_WANT_IEC_60559_EXT__ that are not in TS
-   18661-1.)  */
-#undef __GLIBC_USE_IEC_60559_BFP_EXT
-
-
-
-#define __GLIBC_USE_IEC_60559_BFP_EXT 0
-
-#undef __GLIBC_USE_IEC_60559_BFP_EXT_C2X
-
-
-
-#define __GLIBC_USE_IEC_60559_BFP_EXT_C2X 0
-
-#undef __GLIBC_USE_IEC_60559_EXT
-
-
-
-#define __GLIBC_USE_IEC_60559_EXT 0
-
-
-/* ISO/IEC TS 18661-4:2015 defines the
-   __STDC_WANT_IEC_60559_FUNCS_EXT__ macro.  Other than the reduction
-   functions, the symbols from this TS are enabled unconditionally in
-   C2X.  */
-#undef __GLIBC_USE_IEC_60559_FUNCS_EXT
-
-
-
-#define __GLIBC_USE_IEC_60559_FUNCS_EXT 0
-
-#undef __GLIBC_USE_IEC_60559_FUNCS_EXT_C2X
-
-
-
-#define __GLIBC_USE_IEC_60559_FUNCS_EXT_C2X 0
-
-
-/* ISO/IEC TS 18661-3:2015 defines the
-   __STDC_WANT_IEC_60559_TYPES_EXT__ macro.  */
-#undef __GLIBC_USE_IEC_60559_TYPES_EXT
-
-
-
-#define __GLIBC_USE_IEC_60559_TYPES_EXT 0
-# 27 "/usr/include/stdint.h" 2 3 4
-
-# 1 "/usr/include/x86_64-linux-gnu/bits/wchar.h" 1 3 4
-/* wchar_t type related definitions.
-   Copyright (C) 2000-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <https://www.gnu.org/licenses/>.  */
-
-
-#define _BITS_WCHAR_H 1
-
-/* The fallback definitions, for when __WCHAR_MAX__ or __WCHAR_MIN__
-   are not defined, give the right value and type as long as both int
-   and wchar_t are 32-bit types.  Adding L'\0' to a constant value
-   ensures that the type is correct; it is necessary to use (L'\0' +
-   0) rather than just L'\0' so that the type in C++ is the promoted
-   version of wchar_t rather than the distinct wchar_t type itself.
-   Because wchar_t in preprocessor #if expressions is treated as
-   intmax_t or uintmax_t, the expression (L'\0' - 1) would have the
-   wrong value for WCHAR_MAX in such expressions and so cannot be used
-   to define __WCHAR_MAX in the unsigned case.  */
-
-
-#define __WCHAR_MAX __WCHAR_MAX__
-
-
-
-
-
-
-
-#define __WCHAR_MIN __WCHAR_MIN__
-
-
-
-
-
-
-# 29 "/usr/include/stdint.h" 2 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
-/* Determine the wordsize from the preprocessor defines.  */
-
-
-#define __WORDSIZE 64
-
-
-
-
-
-
-#define __WORDSIZE_TIME64_COMPAT32 1
-
-
-/* Both x86-64 and x32 use the 64-bit system call interface.  */
-#define __SYSCALL_WORDSIZE 64
-# 30 "/usr/include/stdint.h" 2 3 4
-
-/* Exact integral types.  */
-
-/* Signed.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/stdint-intn.h" 1 3 4
-/* Define intN_t types.
-   Copyright (C) 2017-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <https://www.gnu.org/licenses/>.  */
-
-
-#define _BITS_STDINT_INTN_H 1
-
-
-
-typedef __int8_t int8_t;
-typedef __int16_t int16_t;
-typedef __int32_t int32_t;
-typedef __int64_t int64_t;
-
-# 35 "/usr/include/stdint.h" 2 3 4
-
-/* Unsigned.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h" 1 3 4
-/* Define uintN_t types.
-   Copyright (C) 2017-2022 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, see
-   <https://www.gnu.org/licenses/>.  */
-
-
-#define _BITS_STDINT_UINTN_H 1
-
-
-
-typedef __uint8_t uint8_t;
-typedef __uint16_t uint16_t;
-typedef __uint32_t uint32_t;
-typedef __uint64_t uint64_t;
-
-# 38 "/usr/include/stdint.h" 2 3 4
-
-
-/* Small types.  */
-
-/* Signed.  */
-typedef __int_least8_t int_least8_t;
-typedef __int_least16_t int_least16_t;
-typedef __int_least32_t int_least32_t;
-typedef __int_least64_t int_least64_t;
-
-/* Unsigned.  */
-typedef __uint_least8_t uint_least8_t;
-typedef __uint_least16_t uint_least16_t;
-typedef __uint_least32_t uint_least32_t;
-typedef __uint_least64_t uint_least64_t;
-
-
-/* Fast types.  */
-
-/* Signed.  */
-typedef signed char		int_fast8_t;
-
-typedef long int		int_fast16_t;
-typedef long int		int_fast32_t;
-typedef long int		int_fast64_t;
-
-
-
-
-
-
-
-/* Unsigned.  */
-typedef unsigned char		uint_fast8_t;
-
-typedef unsigned long int	uint_fast16_t;
-typedef unsigned long int	uint_fast32_t;
-typedef unsigned long int	uint_fast64_t;
-
-
-
-
-
-
-
-
-/* Types for `void *' pointers.  */
-
-
-typedef long int		intptr_t;
-#define __intptr_t_defined 
-
-typedef unsigned long int	uintptr_t;
-
-
-
-
-
-
-
-
-
-/* Largest integral types.  */
-typedef __intmax_t		intmax_t;
-typedef __uintmax_t		uintmax_t;
-
-
-
-#define __INT64_C(c) c ## L
-#define __UINT64_C(c) c ## UL
-
-
-
-
-
-/* Limits of integral types.  */
-
-/* Minimum of signed integral types.  */
-#define INT8_MIN (-128)
-#define INT16_MIN (-32767-1)
-#define INT32_MIN (-2147483647-1)
-#define INT64_MIN (-__INT64_C(9223372036854775807)-1)
-/* Maximum of signed integral types.  */
-#define INT8_MAX (127)
-#define INT16_MAX (32767)
-#define INT32_MAX (2147483647)
-#define INT64_MAX (__INT64_C(9223372036854775807))
-
-/* Maximum of unsigned integral types.  */
-#define UINT8_MAX (255)
-#define UINT16_MAX (65535)
-#define UINT32_MAX (4294967295U)
-#define UINT64_MAX (__UINT64_C(18446744073709551615))
-
-
-/* Minimum of signed integral types having a minimum size.  */
-#define INT_LEAST8_MIN (-128)
-#define INT_LEAST16_MIN (-32767-1)
-#define INT_LEAST32_MIN (-2147483647-1)
-#define INT_LEAST64_MIN (-__INT64_C(9223372036854775807)-1)
-/* Maximum of signed integral types having a minimum size.  */
-#define INT_LEAST8_MAX (127)
-#define INT_LEAST16_MAX (32767)
-#define INT_LEAST32_MAX (2147483647)
-#define INT_LEAST64_MAX (__INT64_C(9223372036854775807))
-
-/* Maximum of unsigned integral types having a minimum size.  */
-#define UINT_LEAST8_MAX (255)
-#define UINT_LEAST16_MAX (65535)
-#define UINT_LEAST32_MAX (4294967295U)
-#define UINT_LEAST64_MAX (__UINT64_C(18446744073709551615))
-
-
-/* Minimum of fast signed integral types having a minimum size.  */
-#define INT_FAST8_MIN (-128)
-
-#define INT_FAST16_MIN (-9223372036854775807L-1)
-#define INT_FAST32_MIN (-9223372036854775807L-1)
-
-
-
-
-#define INT_FAST64_MIN (-__INT64_C(9223372036854775807)-1)
-/* Maximum of fast signed integral types having a minimum size.  */
-#define INT_FAST8_MAX (127)
-
-#define INT_FAST16_MAX (9223372036854775807L)
-#define INT_FAST32_MAX (9223372036854775807L)
-
-
-
-
-#define INT_FAST64_MAX (__INT64_C(9223372036854775807))
-
-/* Maximum of fast unsigned integral types having a minimum size.  */
-#define UINT_FAST8_MAX (255)
-
-#define UINT_FAST16_MAX (18446744073709551615UL)
-#define UINT_FAST32_MAX (18446744073709551615UL)
-
-
-
-
-#define UINT_FAST64_MAX (__UINT64_C(18446744073709551615))
-
-
-/* Values to test for integral types holding `void *' pointer.  */
-
-#define INTPTR_MIN (-9223372036854775807L-1)
-#define INTPTR_MAX (9223372036854775807L)
-#define UINTPTR_MAX (18446744073709551615UL)
-
-
-
-
-
-
-
-/* Minimum for largest signed integral type.  */
-#define INTMAX_MIN (-__INT64_C(9223372036854775807)-1)
-/* Maximum for largest signed integral type.  */
-#define INTMAX_MAX (__INT64_C(9223372036854775807))
-
-/* Maximum for largest unsigned integral type.  */
-#define UINTMAX_MAX (__UINT64_C(18446744073709551615))
-
-
-/* Limits of other integer types.  */
-
-/* Limits of `ptrdiff_t' type.  */
-
-#define PTRDIFF_MIN (-9223372036854775807L-1)
-#define PTRDIFF_MAX (9223372036854775807L)
-# 220 "/usr/include/stdint.h" 3 4
-
-/* Limits of `sig_atomic_t'.  */
-#define SIG_ATOMIC_MIN (-2147483647-1)
-#define SIG_ATOMIC_MAX (2147483647)
-
-/* Limit of `size_t' type.  */
-
-#define SIZE_MAX (18446744073709551615UL)
-
-
-
-
-
-
-
-
-/* Limits of `wchar_t'.  */
-
-/* These constants might also be defined in <wchar.h>.  */
-#define WCHAR_MIN __WCHAR_MIN
-#define WCHAR_MAX __WCHAR_MAX
-
-
-/* Limits of `wint_t'.  */
-#define WINT_MIN (0u)
-#define WINT_MAX (4294967295u)
-
-/* Signed.  */
-#define INT8_C(c) c
-#define INT16_C(c) c
-#define INT32_C(c) c
-
-#define INT64_C(c) c ## L
-
-
-
-
-/* Unsigned.  */
-#define UINT8_C(c) c
-#define UINT16_C(c) c
-#define UINT32_C(c) c ## U
-
-#define UINT64_C(c) c ## UL
-
-
-
-
-/* Maximal type.  */
-
-#define INTMAX_C(c) c ## L
-#define UINTMAX_C(c) c ## UL
-
-
-
-
-
-# 318 "/usr/include/stdint.h" 3 4
-
-# 10 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h" 2 3 4
-
-
-
-#define _GCC_WRAP_STDINT_H 
-# 38 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity_internals.h" 2
 
 
 
@@ -10124,28 +10144,7 @@ void verifyTest(void);
 
 
 
-# 2 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
-# 1 "utExecutionAndResults/utUnderTest/src/ApplLinDiagReadDataById.h" 1
-
-
-
-#define DIAGNOSTIC_H 
-
-
-
-extern uint8_t pbLinDiagBuffer[32];
-/* Message length */
-extern uint16_t g_linDiagDataLength_u16;
-
-void ApplLinDiagReadDataById(void);
-
-# 3 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
-# 1 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_cfg.h" 1
-/* AUTOGENERATED FILE. DO NOT EDIT. */
-
-#define _MOCK_DIAGNOSTIC_CFG_H 
-
-
+# 6 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_cfg.h" 2
 # 1 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h" 1
 
 
@@ -10165,7 +10164,7 @@ void checkCurrentNad(uint8 currentNad, Std_ReturnType *result);
 
 void checkMsgDataLength(uint16_t dataLength, Std_ReturnType *result);
 
-Std_ReturnType getHandlersForReadDataById(uint8 l_did_u8, uint16 l_did_cu16,  uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_,  uint8 *l_diagBuf_pu8);
+Std_ReturnType getHandlersForReadDataById(uint8 l_did_u8, uint16 l_did_cu16, uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_, uint8 *l_diagBuf_pu8);
 
 # 7 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_cfg.h" 2
 
@@ -10239,7 +10238,7 @@ void getHandlersForReadDataById_Stub(CMOCK_getHandlersForReadDataById_CALLBACK C
 
 
 
-# 4 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
+# 3 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
 # 1 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_priv.h" 1
 /* AUTOGENERATED FILE. DO NOT EDIT. */
 
@@ -10282,7 +10281,6 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
  * ISO C Standard:  7.17  Common definitions  <stddef.h>
  */
 # 4 "utExecutionAndResults/utUnderTest/src/diagnostic_priv.h" 2
-
 
 /* Send positive response */
 void LinDiagSendPosResponse(void);
@@ -10349,7 +10347,8 @@ void LinDiagSendNegResponse_Stub(CMOCK_LinDiagSendNegResponse_CALLBACK Callback)
 
 
 
-# 5 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
+# 4 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
+
 # 1 "/usr/include/string.h" 1 3 4
 /* Copyright (C) 1991-2022 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -11272,238 +11271,211 @@ __END_DECLS
 /* ============================================================================
  * Callback di default (successo)
  * ============================================================================ */
-void CurrentNad_Callback(uint8 currentNad, Std_ReturnType* result, int cmock_num_calls)
-{
-    (void)cmock_num_calls;
+void CurrentNad_Callback(uint8 currentNad, Std_ReturnType *result, int cmock_num_calls) {
+  (void)cmock_num_calls;
 
-    if (currentNad == 0u)
-    {
-        *result = E_OK;
-    }
-    else
-    {
-        *result = E_NOT_OK;
-    }
-}
-
-void MsgDataLength_Callback(uint16_t dataLength, Std_ReturnType* result, int cmock_num_calls)
-{
-    (void)dataLength;
-    (void)cmock_num_calls;
+  if(currentNad == 0u) {
     *result = E_OK;
+  } else {
+    *result = E_NOT_OK;
+  }
 }
 
-Std_ReturnType getHandlersForReadDataById_Callback(uint8 l_errCode_u8,
-                                                   uint16 l_did_cu16,
-                                                   uint8 *l_diagBufSize_u8,
-                                                   Std_ReturnType *l_didSupported_,
-                                                   uint8 *l_diagBuf_pu8,
-                                                   int cmock_num_calls)
-{
-    Std_ReturnType l_result_ = E_OK;
-    (void)l_errCode_u8;
-    (void)l_diagBuf_pu8;
-    (void)cmock_num_calls;
+void MsgDataLength_Callback(uint16_t dataLength, Std_ReturnType *result, int cmock_num_calls) {
+  (void)dataLength;
+  (void)cmock_num_calls;
+  *result = E_OK;
+}
 
-    switch (l_did_cu16)
-    {
-        /* IS_OVERVOLT_FLAG: DID supportato */
-        case 0xF308:
-            *l_diagBufSize_u8 = MOCK_DID_F308_SIZE;
-            break;
+Std_ReturnType getHandlersForReadDataById_Callback(uint8 l_errCode_u8, uint16 l_did_cu16, uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_, uint8 *l_diagBuf_pu8, int cmock_num_calls) {
+  Std_ReturnType l_result_ = E_OK;
+  (void)l_errCode_u8;
+  (void)l_diagBuf_pu8;
+  (void)cmock_num_calls;
 
-        default:
-            *l_didSupported_  = E_NOT_OK;
-            l_result_ = E_NOT_OK;
-            /* l_errCode_u8 è passato per valore, la modifica qui non esce */
-            break;
-    }
+  switch(l_did_cu16) {
+  /* IS_OVERVOLT_FLAG: DID supportato */
+  case 0xF308:
+    *l_diagBufSize_u8 = MOCK_DID_F308_SIZE;
+    break;
 
-    return l_result_;
+  default:
+    *l_didSupported_ = E_NOT_OK;
+    l_result_ = E_NOT_OK;
+    /* l_errCode_u8 è passato per valore, la modifica qui non esce */
+    break;
+  }
+
+  return l_result_;
 }
 
 /* ============================================================================
  * Callback alternative (percorsi di errore)
  * ============================================================================ */
-static void CurrentNad_Fail_Callback(uint8 currentNad, Std_ReturnType* result, int cmock_num_calls)
-{
-    (void)currentNad;
-    (void)cmock_num_calls;
-    *result = E_NOT_OK;   /* qualunque NAD => fallisce */
+static void CurrentNad_Fail_Callback(uint8 currentNad, Std_ReturnType *result, int cmock_num_calls) {
+  (void)currentNad;
+  (void)cmock_num_calls;
+  *result = E_NOT_OK; /* qualunque NAD => fallisce */
 }
 
-static void MsgDataLength_Fail_Callback(uint16_t dataLength, Std_ReturnType* result, int cmock_num_calls)
-{
-    (void)dataLength;
-    (void)cmock_num_calls;
-    *result = E_NOT_OK;   /* controllo lunghezza fallisce */
+static void MsgDataLength_Fail_Callback(uint16_t dataLength, Std_ReturnType *result, int cmock_num_calls) {
+  (void)dataLength;
+  (void)cmock_num_calls;
+  *result = E_NOT_OK; /* controllo lunghezza fallisce */
 }
 
-static Std_ReturnType getHandlersForReadDataById_Fail_Callback(uint8 l_errCode_u8,
-                                                               uint16 l_did_cu16,
-                                                               uint8 *l_diagBufSize_u8,
-                                                               Std_ReturnType *l_didSupported_,
-                                                               uint8 *l_diagBuf_pu8,
-                                                               int cmock_num_calls)
-{
-    (void)l_errCode_u8;
-    (void)l_did_cu16;
-    (void)l_diagBufSize_u8;
-    (void)l_didSupported_;
-    (void)l_diagBuf_pu8;
-    (void)cmock_num_calls;
+static Std_ReturnType getHandlersForReadDataById_Fail_Callback(uint8 l_errCode_u8, uint16 l_did_cu16, uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_, uint8 *l_diagBuf_pu8,
+                                                               int cmock_num_calls) {
+  (void)l_errCode_u8;
+  (void)l_did_cu16;
+  (void)l_diagBufSize_u8;
+  (void)l_didSupported_;
+  (void)l_diagBuf_pu8;
+  (void)cmock_num_calls;
 
-    return E_NOT_OK;      /* handler fallisce a prescindere dal DID */
+  return E_NOT_OK; /* handler fallisce a prescindere dal DID */
 }
 
 /* ============================================================================
  * Test setup e teardown
  * ============================================================================ */
-void setUp(void)
-{
-    /* Callback di default (successo) */
-    checkCurrentNad_StubWithCallback(CurrentNad_Callback);
-    checkMsgDataLength_StubWithCallback(MsgDataLength_Callback);
-    getHandlersForReadDataById_StubWithCallback(getHandlersForReadDataById_Callback);
+void setUp(void) {
+  /* Callback di default (successo) */
+  checkCurrentNad_StubWithCallback(CurrentNad_Callback);
+  checkMsgDataLength_StubWithCallback(MsgDataLength_Callback);
+  getHandlersForReadDataById_StubWithCallback(getHandlersForReadDataById_Callback);
 
-    /* Inizializza i buffer globali prima di ogni test */
-    extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength_u16;
+  /* Inizializza i buffer globali prima di ogni test */
+  extern uint8_t pbLinDiagBuffer[32];
+  extern uint16_t g_linDiagDataLength_u16;
 
-    memset(pbLinDiagBuffer, 0, sizeof(pbLinDiagBuffer));
-    g_linDiagDataLength_u16 = 0;
+  memset(pbLinDiagBuffer, 0, sizeof(pbLinDiagBuffer));
+  g_linDiagDataLength_u16 = 0;
 }
 
-void tearDown(void)
-{
-}
+void tearDown(void) {}
 
 /* ============================================================================
  * TEST 1: DID non supportato -> risposta negativa, lunghezza invariata
  * ============================================================================ */
-void test_ApplLinDiagReadDataById_DidNotSupported(void)
-{
-    extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength_u16;
+void test_ApplLinDiagReadDataById_DidNotSupported(void) {
+  extern uint8_t pbLinDiagBuffer[32];
+  extern uint16_t g_linDiagDataLength_u16;
 
-    /* DID NON supportato dal callback di default (getHandlersForReadDataById_Callback) */
-    pbLinDiagBuffer[1] = 0x12u;
-    pbLinDiagBuffer[2] = 0x34u;
+  /* DID NON supportato dal callback di default (getHandlersForReadDataById_Callback) */
+  pbLinDiagBuffer[1] = 0x12u;
+  pbLinDiagBuffer[2] = 0x34u;
 
-    g_linDiagDataLength_u16 = 0u;
+  g_linDiagDataLength_u16 = 0u;
 
-    /* Ci aspettiamo una risposta negativa (codice errore non gestito qui) */
-    LinDiagSendNegResponse_Expect(0);
+  /* Ci aspettiamo una risposta negativa (codice errore non gestito qui) */
+  LinDiagSendNegResponse_Expect(0);
 
-    /* Esecuzione */
-    ApplLinDiagReadDataById();
+  /* Esecuzione */
+  ApplLinDiagReadDataById();
 
-    /* Verifica: la lunghezza rimane invariata */
-    TEST_ASSERT_EQUAL_UINT16(0u, g_linDiagDataLength_u16);
+  /* Verifica: la lunghezza rimane invariata */
+  TEST_ASSERT_EQUAL_UINT16(0u, g_linDiagDataLength_u16);
 }
 
 /* ============================================================================
  * TEST 2: DID supportato -> risposta positiva, lunghezza aggiornata
  * ============================================================================ */
-void test_ApplLinDiagReadDataById_SuccessfulExecution_DidSupported(void)
-{
-    extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength_u16;
+void test_ApplLinDiagReadDataById_SuccessfulExecution_DidSupported(void) {
+  extern uint8_t pbLinDiagBuffer[32];
+  extern uint16_t g_linDiagDataLength_u16;
 
-    /* DID 0xF308 supportato dal callback di default */
-    pbLinDiagBuffer[1] = 0xF3u;
-    pbLinDiagBuffer[2] = 0x08u;
+  /* DID 0xF308 supportato dal callback di default */
+  pbLinDiagBuffer[1] = 0xF3u;
+  pbLinDiagBuffer[2] = 0x08u;
 
-    g_linDiagDataLength_u16 = 0u;
+  g_linDiagDataLength_u16 = 0u;
 
-    /* Tutti i check OK + handler OK => risposta positiva */
-    LinDiagSendPosResponse_Expect();
+  /* Tutti i check OK + handler OK => risposta positiva */
+  LinDiagSendPosResponse_Expect();
 
-    /* Esecuzione */
-    ApplLinDiagReadDataById();
+  /* Esecuzione */
+  ApplLinDiagReadDataById();
 
-    /* Verifica: lunghezza = dimensione dati + 2 (per il DID) */
-    TEST_ASSERT_EQUAL_UINT16(MOCK_DID_F308_SIZE + 2u, g_linDiagDataLength_u16);
+  /* Verifica: lunghezza = dimensione dati + 2 (per il DID) */
+  TEST_ASSERT_EQUAL_UINT16(MOCK_DID_F308_SIZE + 2u, g_linDiagDataLength_u16);
 }
 
 /* ============================================================================
  * TEST 3: NAD errato -> risposta negativa, non arriva al handler
  * ============================================================================ */
-void test_ApplLinDiagReadDataById_WrongNad_Fails(void)
-{
-    extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength_u16;
+void test_ApplLinDiagReadDataById_WrongNad_Fails(void) {
+  extern uint8_t pbLinDiagBuffer[32];
+  extern uint16_t g_linDiagDataLength_u16;
 
-    /* DID valido, ma NAD fallisce: non deve importare il DID */
-    pbLinDiagBuffer[1] = 0xF3u;
-    pbLinDiagBuffer[2] = 0x08u;
+  /* DID valido, ma NAD fallisce: non deve importare il DID */
+  pbLinDiagBuffer[1] = 0xF3u;
+  pbLinDiagBuffer[2] = 0x08u;
 
-    g_linDiagDataLength_u16 = 0u;
+  g_linDiagDataLength_u16 = 0u;
 
-    /* Forzo fallimento NAD per questo test */
-    checkCurrentNad_StubWithCallback(CurrentNad_Fail_Callback);
+  /* Forzo fallimento NAD per questo test */
+  checkCurrentNad_StubWithCallback(CurrentNad_Fail_Callback);
 
-    /* Mi aspetto una risposta negativa (il codice esatto qui non interessa) */
-    LinDiagSendNegResponse_Expect(0);
+  /* Mi aspetto una risposta negativa (il codice esatto qui non interessa) */
+  LinDiagSendNegResponse_Expect(0);
 
-    /* Esecuzione */
-    ApplLinDiagReadDataById();
+  /* Esecuzione */
+  ApplLinDiagReadDataById();
 
-    /* Verifica: lunghezza invariata */
-    TEST_ASSERT_EQUAL_UINT16(0u, g_linDiagDataLength_u16);
+  /* Verifica: lunghezza invariata */
+  TEST_ASSERT_EQUAL_UINT16(0u, g_linDiagDataLength_u16);
 }
 
 /* ============================================================================
  * TEST 4: MsgDataLength fallisce -> risposta negativa, handler non chiamato
  * ============================================================================ */
-void test_ApplLinDiagReadDataById_MsgDataLength_Fails(void)
-{
-    extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength_u16;
+void test_ApplLinDiagReadDataById_MsgDataLength_Fails(void) {
+  extern uint8_t pbLinDiagBuffer[32];
+  extern uint16_t g_linDiagDataLength_u16;
 
-    /* DID valido, ma fallisce il controllo lunghezza */
-    pbLinDiagBuffer[1] = 0xF3u;
-    pbLinDiagBuffer[2] = 0x08u;
+  /* DID valido, ma fallisce il controllo lunghezza */
+  pbLinDiagBuffer[1] = 0xF3u;
+  pbLinDiagBuffer[2] = 0x08u;
 
-    g_linDiagDataLength_u16 = 10u; /* valore non zero per verificare che resti invariato */
+  g_linDiagDataLength_u16 = 10u; /* valore non zero per verificare che resti invariato */
 
-    /* NAD OK, ma controllo lunghezza fallisce */
-    checkCurrentNad_StubWithCallback(CurrentNad_Callback);
-    checkMsgDataLength_StubWithCallback(MsgDataLength_Fail_Callback);
+  /* NAD OK, ma controllo lunghezza fallisce */
+  checkCurrentNad_StubWithCallback(CurrentNad_Callback);
+  checkMsgDataLength_StubWithCallback(MsgDataLength_Fail_Callback);
 
-    LinDiagSendNegResponse_Expect(0);
+  LinDiagSendNegResponse_Expect(0);
 
-    /* Esecuzione */
-    ApplLinDiagReadDataById();
+  /* Esecuzione */
+  ApplLinDiagReadDataById();
 
-    /* Verifica: lunghezza invariata */
-    TEST_ASSERT_EQUAL_UINT16(10u, g_linDiagDataLength_u16);
+  /* Verifica: lunghezza invariata */
+  TEST_ASSERT_EQUAL_UINT16(10u, g_linDiagDataLength_u16);
 }
 
 /* ============================================================================
  * TEST 5: Handler fallisce -> risposta negativa, lunghezza invariata
  * ============================================================================ */
-void test_ApplLinDiagReadDataById_HandlerFails(void)
-{
-    extern uint8_t pbLinDiagBuffer[32];
-    extern uint16_t g_linDiagDataLength_u16;
+void test_ApplLinDiagReadDataById_HandlerFails(void) {
+  extern uint8_t pbLinDiagBuffer[32];
+  extern uint16_t g_linDiagDataLength_u16;
 
-    /* DID che normalmente sarebbe anche valido, ma qui forziamo il fallimento del handler */
-    pbLinDiagBuffer[1] = 0xF3u;
-    pbLinDiagBuffer[2] = 0x08u;
+  /* DID che normalmente sarebbe anche valido, ma qui forziamo il fallimento del handler */
+  pbLinDiagBuffer[1] = 0xF3u;
+  pbLinDiagBuffer[2] = 0x08u;
 
-    g_linDiagDataLength_u16 = 5u;
+  g_linDiagDataLength_u16 = 5u;
 
-    /* NAD OK + MsgDataLength OK, ma handler fallisce */
-    checkCurrentNad_StubWithCallback(CurrentNad_Callback);
-    checkMsgDataLength_StubWithCallback(MsgDataLength_Callback);
-    getHandlersForReadDataById_StubWithCallback(getHandlersForReadDataById_Fail_Callback);
+  /* NAD OK + MsgDataLength OK, ma handler fallisce */
+  checkCurrentNad_StubWithCallback(CurrentNad_Callback);
+  checkMsgDataLength_StubWithCallback(MsgDataLength_Callback);
+  getHandlersForReadDataById_StubWithCallback(getHandlersForReadDataById_Fail_Callback);
 
-    LinDiagSendNegResponse_Expect(0);
+  LinDiagSendNegResponse_Expect(0);
 
-    /* Esecuzione */
-    ApplLinDiagReadDataById();
+  /* Esecuzione */
+  ApplLinDiagReadDataById();
 
-    /* Verifica: lunghezza invariata */
-    TEST_ASSERT_EQUAL_UINT16(5u, g_linDiagDataLength_u16);
+  /* Verifica: lunghezza invariata */
+  TEST_ASSERT_EQUAL_UINT16(5u, g_linDiagDataLength_u16);
 }

@@ -293,8 +293,7 @@ typedef struct {
 
 
 
-
-# 7 "utExecutionAndResults/utUnderTest/src/diagnostic_priv.h"
+# 6 "utExecutionAndResults/utUnderTest/src/diagnostic_priv.h"
 void LinDiagSendPosResponse(void);
 
 

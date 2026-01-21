@@ -1,15 +1,16 @@
-# 0 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c"
+# 0 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
 # 0 "<built-in>"
 # 0 "<command-line>"
 # 1 "/usr/include/stdc-predef.h" 1 3 4
 # 0 "<command-line>" 2
-# 1 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c"
-# 1 "utExecutionAndResults/utUnderTest/src/ApplLinDiagReadDataById.h" 1
+# 1 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+# 1 "utExecutionAndResults/utUnderTest/src/Subfunction_Request_Out_Of_Range.h" 1
 
 
 
 
-
+# 1 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h" 1
+# 18 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h"
 # 1 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h" 1 3 4
 # 9 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h" 3 4
 # 1 "/usr/include/stdint.h" 1 3 4
@@ -243,21 +244,42 @@ typedef unsigned long int uintptr_t;
 typedef __intmax_t intmax_t;
 typedef __uintmax_t uintmax_t;
 # 10 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h" 2 3 4
-# 7 "utExecutionAndResults/utUnderTest/src/ApplLinDiagReadDataById.h" 2
+# 19 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h" 2
 
 
-# 8 "utExecutionAndResults/utUnderTest/src/ApplLinDiagReadDataById.h"
-extern uint8_t pbLinDiagBuffer[32];
+# 20 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h"
+typedef uint8_t uint8;
+typedef uint16_t uint16;
+typedef uint8_t Std_ReturnType;
+# 39 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h"
+void checkCurrentNad(uint8 currentNad, Std_ReturnType *result);
+# 52 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h"
+void checkMsgDataLength(uint16_t dataLength, Std_ReturnType *result);
+# 72 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h"
+Std_ReturnType getHandlersForReadDataById(uint8 *l_errCode_u8, uint16 l_did_cu16, uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_, uint8 *l_diagBuf_pu8);
+# 6 "utExecutionAndResults/utUnderTest/src/Subfunction_Request_Out_Of_Range.h" 2
 
-extern uint16_t g_linDiagDataLength_u16;
+# 1 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 1 3 4
+# 145 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
 
-void ApplLinDiagReadDataById(void);
-# 2 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
-# 1 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_cfg.h" 1
+# 145 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
+typedef long int ptrdiff_t;
+# 214 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
+typedef long unsigned int size_t;
+# 329 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
+typedef int wchar_t;
+# 424 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
+typedef struct {
+  long long __max_align_ll __attribute__((__aligned__(__alignof__(long long))));
+  long double __max_align_ld __attribute__((__aligned__(__alignof__(long double))));
+# 435 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
+} max_align_t;
+# 8 "utExecutionAndResults/utUnderTest/src/Subfunction_Request_Out_Of_Range.h" 2
 
 
-
-
+# 9 "utExecutionAndResults/utUnderTest/src/Subfunction_Request_Out_Of_Range.h"
+Std_ReturnType Subfunction_Request_Out_Of_Range(uint8 *const output_pu8, uint8 *const size_pu8, uint8 *const errCode_pu8);
+# 2 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 2
 # 1 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity.h" 1
 # 22 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity.h"
 # 1 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity_internals.h" 1
@@ -1274,18 +1296,6 @@ enum
 
 
 # 1 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 1 3 4
-# 145 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
-typedef long int ptrdiff_t;
-# 214 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
-typedef long unsigned int size_t;
-# 329 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
-typedef int wchar_t;
-# 424 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
-typedef struct {
-  long long __max_align_ll __attribute__((__aligned__(__alignof__(long long))));
-  long double __max_align_ld __attribute__((__aligned__(__alignof__(long double))));
-# 435 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 3 4
-} max_align_t;
 # 25 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity_internals.h" 2
 # 41 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity_internals.h"
 # 1 "/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h" 1 3 4
@@ -2173,681 +2183,171 @@ int suiteTearDown(int num_failures);
 # 53 "utExecutionAndResults/utUnderTest/build/vendor/unity/src/unity.h"
 void resetTest(void);
 void verifyTest(void);
-# 6 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_cfg.h" 2
-# 1 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h" 1
+# 3 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 2
 
+void setUp(void) { }
 
+void tearDown(void) { }
 
 
 
 
-typedef uint8_t uint8;
-typedef uint16_t uint16;
-typedef uint8_t Std_ReturnType;
 
 
+void test_Subfunction_Request_Out_Of_Range_WithNullErrCode(void) {
+  uint8 output = 0xFF;
+  uint8 size = 0x10;
+  Std_ReturnType result;
 
+  result = Subfunction_Request_Out_Of_Range(&output, &size, 
+# 18 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+                                                           ((void *)0)
+# 18 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+                                                               );
 
-
-void checkCurrentNad(uint8 currentNad, Std_ReturnType *result);
-
-void checkMsgDataLength(uint16_t dataLength, Std_ReturnType *result);
-
-Std_ReturnType getHandlersForReadDataById(uint8 l_did_u8, uint16 l_did_cu16, uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_, uint8 *l_diagBuf_pu8);
-# 7 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_cfg.h" 2
-
-
-
-
-#pragma GCC diagnostic push
-
-
-#pragma GCC diagnostic ignored "-Wpragmas"
-
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-#pragma GCC diagnostic ignored "-Wduplicate-decl-specifier"
-
-
-
-
-
-
-void mock_diagnostic_cfg_Init(void);
-void mock_diagnostic_cfg_Destroy(void);
-void mock_diagnostic_cfg_Verify(void);
-
-
-
-
-
-
-void checkCurrentNad_CMockIgnore(void);
-
-void checkCurrentNad_CMockStopIgnore(void);
-
-
-void checkCurrentNad_CMockExpect(UNITY_UINT cmock_line, uint8 currentNad, Std_ReturnType* result);
-typedef void (* CMOCK_checkCurrentNad_CALLBACK)(uint8 currentNad, Std_ReturnType* result, int cmock_num_calls);
-void checkCurrentNad_AddCallback(CMOCK_checkCurrentNad_CALLBACK Callback);
-void checkCurrentNad_Stub(CMOCK_checkCurrentNad_CALLBACK Callback);
-
-
-
-void checkMsgDataLength_CMockIgnore(void);
-
-void checkMsgDataLength_CMockStopIgnore(void);
-
-
-void checkMsgDataLength_CMockExpect(UNITY_UINT cmock_line, uint16_t dataLength, Std_ReturnType* result);
-typedef void (* CMOCK_checkMsgDataLength_CALLBACK)(uint16_t dataLength, Std_ReturnType* result, int cmock_num_calls);
-void checkMsgDataLength_AddCallback(CMOCK_checkMsgDataLength_CALLBACK Callback);
-void checkMsgDataLength_Stub(CMOCK_checkMsgDataLength_CALLBACK Callback);
-
-
-
-void getHandlersForReadDataById_CMockIgnoreAndReturn(UNITY_UINT cmock_line, Std_ReturnType cmock_to_return);
-
-void getHandlersForReadDataById_CMockStopIgnore(void);
-
-
-void getHandlersForReadDataById_CMockExpectAndReturn(UNITY_UINT cmock_line, uint8 l_did_u8, uint16 l_did_cu16, uint8* l_diagBufSize_u8, Std_ReturnType* l_didSupported_, uint8* l_diagBuf_pu8, Std_ReturnType cmock_to_return);
-typedef Std_ReturnType (* CMOCK_getHandlersForReadDataById_CALLBACK)(uint8 l_did_u8, uint16 l_did_cu16, uint8* l_diagBufSize_u8, Std_ReturnType* l_didSupported_, uint8* l_diagBuf_pu8, int cmock_num_calls);
-void getHandlersForReadDataById_AddCallback(CMOCK_getHandlersForReadDataById_CALLBACK Callback);
-void getHandlersForReadDataById_Stub(CMOCK_getHandlersForReadDataById_CALLBACK Callback);
-# 74 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_cfg.h"
-#pragma GCC diagnostic pop
-# 3 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
-# 1 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_priv.h" 1
-
-
-
-
-
-# 1 "utExecutionAndResults/utUnderTest/src/diagnostic_priv.h" 1
-# 1 "utExecutionAndResults/utUnderTest/src/ApplLinDiagReadDataById.h" 1
-# 2 "utExecutionAndResults/utUnderTest/src/diagnostic_priv.h" 2
-# 1 "utExecutionAndResults/utUnderTest/src/diagnostic_cfg.h" 1
-# 3 "utExecutionAndResults/utUnderTest/src/diagnostic_priv.h" 2
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 1 3 4
-# 4 "utExecutionAndResults/utUnderTest/src/diagnostic_priv.h" 2
-
-
-void LinDiagSendPosResponse(void);
-
-
-void LinDiagSendNegResponse(uint8_t errorCode);
-# 7 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_priv.h" 2
-
-
-
-
-#pragma GCC diagnostic push
-
-
-#pragma GCC diagnostic ignored "-Wpragmas"
-
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-#pragma GCC diagnostic ignored "-Wduplicate-decl-specifier"
-
-
-
-
-
-
-void mock_diagnostic_priv_Init(void);
-void mock_diagnostic_priv_Destroy(void);
-void mock_diagnostic_priv_Verify(void);
-
-
-
-
-
-
-void LinDiagSendPosResponse_CMockIgnore(void);
-
-void LinDiagSendPosResponse_CMockStopIgnore(void);
-
-
-void LinDiagSendPosResponse_CMockExpect(UNITY_UINT cmock_line);
-typedef void (* CMOCK_LinDiagSendPosResponse_CALLBACK)(int cmock_num_calls);
-void LinDiagSendPosResponse_AddCallback(CMOCK_LinDiagSendPosResponse_CALLBACK Callback);
-void LinDiagSendPosResponse_Stub(CMOCK_LinDiagSendPosResponse_CALLBACK Callback);
-
-
-
-void LinDiagSendNegResponse_CMockIgnore(void);
-
-void LinDiagSendNegResponse_CMockStopIgnore(void);
-
-
-void LinDiagSendNegResponse_CMockExpect(UNITY_UINT cmock_line, uint8_t errorCode);
-typedef void (* CMOCK_LinDiagSendNegResponse_CALLBACK)(uint8_t errorCode, int cmock_num_calls);
-void LinDiagSendNegResponse_AddCallback(CMOCK_LinDiagSendNegResponse_CALLBACK Callback);
-void LinDiagSendNegResponse_Stub(CMOCK_LinDiagSendNegResponse_CALLBACK Callback);
-# 62 "utExecutionAndResults/utUnderTest/build/test/mocks/test_ApplLinDiagReadDataById/mock_diagnostic_priv.h"
-#pragma GCC diagnostic pop
-# 4 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
-
-# 1 "/usr/include/string.h" 1 3 4
-# 26 "/usr/include/string.h" 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/libc-header-start.h" 1 3 4
-# 27 "/usr/include/string.h" 2 3 4
-
-
-
-
-
-
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 1 3 4
-# 34 "/usr/include/string.h" 2 3 4
-# 43 "/usr/include/string.h" 3 4
-
-# 43 "/usr/include/string.h" 3 4
-extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-       size_t __n) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-extern void *memmove (void *__dest, const void *__src, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-
-
-
-extern void *memccpy (void *__restrict __dest, const void *__restrict __src,
-        int __c, size_t __n)
-    __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2))) __attribute__ ((__access__ (__write_only__, 1, 4)));
-
-
-
-
-extern void *memset (void *__s, int __c, size_t __n) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-
-
-extern int memcmp (const void *__s1, const void *__s2, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-# 80 "/usr/include/string.h" 3 4
-extern int __memcmpeq (const void *__s1, const void *__s2, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-# 107 "/usr/include/string.h" 3 4
-extern void *memchr (const void *__s, int __c, size_t __n)
-      __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
-# 141 "/usr/include/string.h" 3 4
-extern char *strcpy (char *__restrict __dest, const char *__restrict __src)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-
-extern char *strncpy (char *__restrict __dest,
-        const char *__restrict __src, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-extern char *strcat (char *__restrict __dest, const char *__restrict __src)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-
-extern char *strncat (char *__restrict __dest, const char *__restrict __src,
-        size_t __n) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-extern int strcmp (const char *__s1, const char *__s2)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-
-extern int strncmp (const char *__s1, const char *__s2, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-extern int strcoll (const char *__s1, const char *__s2)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-
-extern size_t strxfrm (char *__restrict __dest,
-         const char *__restrict __src, size_t __n)
-    __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2))) __attribute__ ((__access__ (__write_only__, 1, 3)));
-
-
-
-# 1 "/usr/include/x86_64-linux-gnu/bits/types/locale_t.h" 1 3 4
-# 22 "/usr/include/x86_64-linux-gnu/bits/types/locale_t.h" 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h" 1 3 4
-# 27 "/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h" 3 4
-struct __locale_struct
-{
-
-  struct __locale_data *__locales[13];
-
-
-  const unsigned short int *__ctype_b;
-  const int *__ctype_tolower;
-  const int *__ctype_toupper;
-
-
-  const char *__names[13];
-};
-
-typedef struct __locale_struct *__locale_t;
-# 23 "/usr/include/x86_64-linux-gnu/bits/types/locale_t.h" 2 3 4
-
-typedef __locale_t locale_t;
-# 173 "/usr/include/string.h" 2 3 4
-
-
-extern int strcoll_l (const char *__s1, const char *__s2, locale_t __l)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2, 3)));
-
-
-extern size_t strxfrm_l (char *__dest, const char *__src, size_t __n,
-    locale_t __l) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2, 4)))
-     __attribute__ ((__access__ (__write_only__, 1, 3)));
-
-
-
-
-
-extern char *strdup (const char *__s)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__malloc__)) __attribute__ ((__nonnull__ (1)));
-
-
-
-
-
-
-extern char *strndup (const char *__string, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__malloc__)) __attribute__ ((__nonnull__ (1)));
-# 246 "/usr/include/string.h" 3 4
-extern char *strchr (const char *__s, int __c)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
-# 273 "/usr/include/string.h" 3 4
-extern char *strrchr (const char *__s, int __c)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
-# 293 "/usr/include/string.h" 3 4
-extern size_t strcspn (const char *__s, const char *__reject)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-extern size_t strspn (const char *__s, const char *__accept)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-# 323 "/usr/include/string.h" 3 4
-extern char *strpbrk (const char *__s, const char *__accept)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-# 350 "/usr/include/string.h" 3 4
-extern char *strstr (const char *__haystack, const char *__needle)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-
-
-extern char *strtok (char *__restrict __s, const char *__restrict __delim)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2)));
-
-
-
-extern char *__strtok_r (char *__restrict __s,
-    const char *__restrict __delim,
-    char **__restrict __save_ptr)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2, 3)));
-
-extern char *strtok_r (char *__restrict __s, const char *__restrict __delim,
-         char **__restrict __save_ptr)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2, 3)));
-# 407 "/usr/include/string.h" 3 4
-extern size_t strlen (const char *__s)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
-
-
-
-
-extern size_t strnlen (const char *__string, size_t __maxlen)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
-
-
-
-
-extern char *strerror (int __errnum) __attribute__ ((__nothrow__ , __leaf__));
-# 432 "/usr/include/string.h" 3 4
-extern int strerror_r (int __errnum, char *__buf, size_t __buflen) __asm__ ("" "__xpg_strerror_r") __attribute__ ((__nothrow__ , __leaf__))
-
-                        __attribute__ ((__nonnull__ (2)))
-    __attribute__ ((__access__ (__write_only__, 2, 3)));
-# 458 "/usr/include/string.h" 3 4
-extern char *strerror_l (int __errnum, locale_t __l) __attribute__ ((__nothrow__ , __leaf__));
-
-
-
-# 1 "/usr/include/strings.h" 1 3 4
-# 23 "/usr/include/strings.h" 3 4
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h" 1 3 4
-# 24 "/usr/include/strings.h" 2 3 4
-
-
-
-
-
-
-
-
-
-
-extern int bcmp (const void *__s1, const void *__s2, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-extern void bcopy (const void *__src, void *__dest, size_t __n)
-  __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-extern void bzero (void *__s, size_t __n) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-# 68 "/usr/include/strings.h" 3 4
-extern char *index (const char *__s, int __c)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
-# 96 "/usr/include/strings.h" 3 4
-extern char *rindex (const char *__s, int __c)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
-
-
-
-
-
-
-extern int ffs (int __i) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-
-
-
-
-
-extern int ffsl (long int __l) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-__extension__ extern int ffsll (long long int __ll)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-
-
-
-extern int strcasecmp (const char *__s1, const char *__s2)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-extern int strncasecmp (const char *__s1, const char *__s2, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-
-
-
-
-extern int strcasecmp_l (const char *__s1, const char *__s2, locale_t __loc)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2, 3)));
-
-
-
-extern int strncasecmp_l (const char *__s1, const char *__s2,
-     size_t __n, locale_t __loc)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2, 4)));
-
-
-
-# 463 "/usr/include/string.h" 2 3 4
-
-
-
-extern void explicit_bzero (void *__s, size_t __n) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)))
-    __attribute__ ((__access__ (__write_only__, 1, 2)));
-
-
-
-extern char *strsep (char **__restrict __stringp,
-       const char *__restrict __delim)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-
-
-extern char *strsignal (int __sig) __attribute__ ((__nothrow__ , __leaf__));
-# 489 "/usr/include/string.h" 3 4
-extern char *__stpcpy (char *__restrict __dest, const char *__restrict __src)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-extern char *stpcpy (char *__restrict __dest, const char *__restrict __src)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-
-
-
-extern char *__stpncpy (char *__restrict __dest,
-   const char *__restrict __src, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-extern char *stpncpy (char *__restrict __dest,
-        const char *__restrict __src, size_t __n)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-# 539 "/usr/include/string.h" 3 4
-
-# 6 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 2
-
-
-
-
-
-
-
-# 12 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c"
-void CurrentNad_Callback(uint8 currentNad, Std_ReturnType *result, int cmock_num_calls) {
-  (void)cmock_num_calls;
-
-  if(currentNad == 0u) {
-    *result = ((Std_ReturnType)0x00u);
-  } else {
-    *result = ((Std_ReturnType)0x01u);
-  }
-}
-
-void MsgDataLength_Callback(uint16_t dataLength, Std_ReturnType *result, int cmock_num_calls) {
-  (void)dataLength;
-  (void)cmock_num_calls;
-  *result = ((Std_ReturnType)0x00u);
-}
-
-Std_ReturnType getHandlersForReadDataById_Callback(uint8 l_errCode_u8, uint16 l_did_cu16, uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_, uint8 *l_diagBuf_pu8, int cmock_num_calls) {
-  Std_ReturnType l_result_ = ((Std_ReturnType)0x00u);
-  (void)l_errCode_u8;
-  (void)l_diagBuf_pu8;
-  (void)cmock_num_calls;
-
-  switch(l_did_cu16) {
-
-  case 0xF308:
-    *l_diagBufSize_u8 = 4;
-    break;
-
-  default:
-    *l_didSupported_ = ((Std_ReturnType)0x01u);
-    l_result_ = ((Std_ReturnType)0x01u);
-
-    break;
-  }
-
-  return l_result_;
-}
-
-
-
-
-static void CurrentNad_Fail_Callback(uint8 currentNad, Std_ReturnType *result, int cmock_num_calls) {
-  (void)currentNad;
-  (void)cmock_num_calls;
-  *result = ((Std_ReturnType)0x01u);
-}
-
-static void MsgDataLength_Fail_Callback(uint16_t dataLength, Std_ReturnType *result, int cmock_num_calls) {
-  (void)dataLength;
-  (void)cmock_num_calls;
-  *result = ((Std_ReturnType)0x01u);
-}
-
-static Std_ReturnType getHandlersForReadDataById_Fail_Callback(uint8 l_errCode_u8, uint16 l_did_cu16, uint8 *l_diagBufSize_u8, Std_ReturnType *l_didSupported_, uint8 *l_diagBuf_pu8,
-                                                               int cmock_num_calls) {
-  (void)l_errCode_u8;
-  (void)l_did_cu16;
-  (void)l_diagBufSize_u8;
-  (void)l_didSupported_;
-  (void)l_diagBuf_pu8;
-  (void)cmock_num_calls;
-
-  return ((Std_ReturnType)0x01u);
-}
-
-
-
-
-void setUp(void) {
-
-  checkCurrentNad_Stub(CurrentNad_Callback);
-  checkMsgDataLength_Stub(MsgDataLength_Callback);
-  getHandlersForReadDataById_Stub(getHandlersForReadDataById_Callback);
-
-
-  extern uint8_t pbLinDiagBuffer[32];
-  extern uint16_t g_linDiagDataLength_u16;
-
-  memset(pbLinDiagBuffer, 0, sizeof(pbLinDiagBuffer));
-  g_linDiagDataLength_u16 = 0;
-}
-
-void tearDown(void) {}
-
-
-
-
-void test_ApplLinDiagReadDataById_DidNotSupported(void) {
-  extern uint8_t pbLinDiagBuffer[32];
-  extern uint16_t g_linDiagDataLength_u16;
-
-
-  pbLinDiagBuffer[1] = 0x12u;
-  pbLinDiagBuffer[2] = 0x34u;
-
-  g_linDiagDataLength_u16 = 0u;
-
-
-  LinDiagSendNegResponse_CMockExpect(110, 0);
-
-
-  ApplLinDiagReadDataById();
-
-
-  UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((0u)), (UNITY_INT)(UNITY_UINT16)((g_linDiagDataLength_u16)), (
-# 116 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 3 4
+  UnityAssertEqualNumber((UNITY_INT)((((Std_ReturnType)0x01u))), (UNITY_INT)((result)), (
+# 20 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
  ((void *)0)
-# 116 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c"
- ), (UNITY_UINT)(116), UNITY_DISPLAY_STYLE_UINT16);
+# 20 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(20), UNITY_DISPLAY_STYLE_INT);
 }
 
 
 
 
-void test_ApplLinDiagReadDataById_SuccessfulExecution_DidSupported(void) {
-  extern uint8_t pbLinDiagBuffer[32];
-  extern uint16_t g_linDiagDataLength_u16;
 
 
-  pbLinDiagBuffer[1] = 0xF3u;
-  pbLinDiagBuffer[2] = 0x08u;
+void test_Subfunction_Request_Out_Of_Range_WithValidErrCode(void) {
+  uint8 output = 0xFF;
+  uint8 size = 0x10;
+  uint8 errCode = 0x00;
+  Std_ReturnType result;
 
-  g_linDiagDataLength_u16 = 0u;
+  result = Subfunction_Request_Out_Of_Range(&output, &size, &errCode);
 
-
-  LinDiagSendPosResponse_CMockExpect(133);
-
-
-  ApplLinDiagReadDataById();
-
-
-  UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((4 + 2u)), (UNITY_INT)(UNITY_UINT16)((g_linDiagDataLength_u16)), (
-# 139 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 3 4
+  UnityAssertEqualNumber((UNITY_INT)((((Std_ReturnType)0x01u))), (UNITY_INT)((result)), (
+# 36 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
  ((void *)0)
-# 139 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c"
- ), (UNITY_UINT)(139), UNITY_DISPLAY_STYLE_UINT16);
+# 36 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(36), UNITY_DISPLAY_STYLE_INT);
+  UnityAssertEqualNumber((UNITY_INT)((0x12)), (UNITY_INT)((errCode)), (
+# 37 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+ ((void *)0)
+# 37 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(37), UNITY_DISPLAY_STYLE_INT);
 }
 
 
 
 
-void test_ApplLinDiagReadDataById_WrongNad_Fails(void) {
-  extern uint8_t pbLinDiagBuffer[32];
-  extern uint16_t g_linDiagDataLength_u16;
 
 
-  pbLinDiagBuffer[1] = 0xF3u;
-  pbLinDiagBuffer[2] = 0x08u;
+void test_Subfunction_Request_Out_Of_Range_WithNullOutput(void) {
+  uint8 size = 0x10;
+  uint8 errCode = 0x00;
+  Std_ReturnType result;
 
-  g_linDiagDataLength_u16 = 0u;
+  result = Subfunction_Request_Out_Of_Range(
+# 50 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+                                           ((void *)0)
+# 50 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+                                               , &size, &errCode);
 
-
-  checkCurrentNad_Stub(CurrentNad_Fail_Callback);
-
-
-  LinDiagSendNegResponse_CMockExpect(159, 0);
-
-
-  ApplLinDiagReadDataById();
-
-
-  UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((0u)), (UNITY_INT)(UNITY_UINT16)((g_linDiagDataLength_u16)), (
-# 165 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 3 4
+  UnityAssertEqualNumber((UNITY_INT)((((Std_ReturnType)0x01u))), (UNITY_INT)((result)), (
+# 52 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
  ((void *)0)
-# 165 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c"
- ), (UNITY_UINT)(165), UNITY_DISPLAY_STYLE_UINT16);
+# 52 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(52), UNITY_DISPLAY_STYLE_INT);
+  UnityAssertEqualNumber((UNITY_INT)((0x12)), (UNITY_INT)((errCode)), (
+# 53 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+ ((void *)0)
+# 53 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(53), UNITY_DISPLAY_STYLE_INT);
 }
 
 
 
 
-void test_ApplLinDiagReadDataById_MsgDataLength_Fails(void) {
-  extern uint8_t pbLinDiagBuffer[32];
-  extern uint16_t g_linDiagDataLength_u16;
 
 
-  pbLinDiagBuffer[1] = 0xF3u;
-  pbLinDiagBuffer[2] = 0x08u;
+void test_Subfunction_Request_Out_Of_Range_WithNullSize(void) {
+  uint8 output = 0xFF;
+  uint8 errCode = 0x00;
+  Std_ReturnType result;
 
-  g_linDiagDataLength_u16 = 10u;
+  result = Subfunction_Request_Out_Of_Range(&output, 
+# 66 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+                                                    ((void *)0)
+# 66 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+                                                        , &errCode);
 
-
-  checkCurrentNad_Stub(CurrentNad_Callback);
-  checkMsgDataLength_Stub(MsgDataLength_Fail_Callback);
-
-  LinDiagSendNegResponse_CMockExpect(185, 0);
-
-
-  ApplLinDiagReadDataById();
-
-
-  UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((10u)), (UNITY_INT)(UNITY_UINT16)((g_linDiagDataLength_u16)), (
-# 191 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 3 4
+  UnityAssertEqualNumber((UNITY_INT)((((Std_ReturnType)0x01u))), (UNITY_INT)((result)), (
+# 68 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
  ((void *)0)
-# 191 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c"
- ), (UNITY_UINT)(191), UNITY_DISPLAY_STYLE_UINT16);
+# 68 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(68), UNITY_DISPLAY_STYLE_INT);
+  UnityAssertEqualNumber((UNITY_INT)((0x12)), (UNITY_INT)((errCode)), (
+# 69 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+ ((void *)0)
+# 69 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(69), UNITY_DISPLAY_STYLE_INT);
 }
 
 
 
 
-void test_ApplLinDiagReadDataById_HandlerFails(void) {
-  extern uint8_t pbLinDiagBuffer[32];
-  extern uint16_t g_linDiagDataLength_u16;
 
+void test_Subfunction_Request_Out_Of_Range_WithAllValidPointers(void) {
+  uint8 output = 0x00;
+  uint8 size = 0x05;
+  uint8 errCode = 0xFF;
+  Std_ReturnType result;
 
-  pbLinDiagBuffer[1] = 0xF3u;
-  pbLinDiagBuffer[2] = 0x08u;
+  result = Subfunction_Request_Out_Of_Range(&output, &size, &errCode);
 
-  g_linDiagDataLength_u16 = 5u;
-
-
-  checkCurrentNad_Stub(CurrentNad_Callback);
-  checkMsgDataLength_Stub(MsgDataLength_Callback);
-  getHandlersForReadDataById_Stub(getHandlersForReadDataById_Fail_Callback);
-
-  LinDiagSendNegResponse_CMockExpect(212, 0);
-
-
-  ApplLinDiagReadDataById();
-
-
-  UnityAssertEqualNumber((UNITY_INT)(UNITY_UINT16)((5u)), (UNITY_INT)(UNITY_UINT16)((g_linDiagDataLength_u16)), (
-# 218 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c" 3 4
+  UnityAssertEqualNumber((UNITY_INT)((((Std_ReturnType)0x01u))), (UNITY_INT)((result)), (
+# 84 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
  ((void *)0)
-# 218 "utExecutionAndResults/utUnderTest/test/test_ApplLinDiagReadDataById.c"
- ), (UNITY_UINT)(218), UNITY_DISPLAY_STYLE_UINT16);
+# 84 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(84), UNITY_DISPLAY_STYLE_INT);
+  UnityAssertEqualNumber((UNITY_INT)((0x12)), (UNITY_INT)((errCode)), (
+# 85 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+ ((void *)0)
+# 85 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(85), UNITY_DISPLAY_STYLE_INT);
+}
+
+
+
+
+
+
+void test_Subfunction_Request_Out_Of_Range_OutputAndSizeUnchanged(void) {
+  uint8 output = 0xAA;
+  uint8 size = 0xBB;
+  uint8 errCode = 0x00;
+  Std_ReturnType result;
+
+  result = Subfunction_Request_Out_Of_Range(&output, &size, &errCode);
+
+  UnityAssertEqualNumber((UNITY_INT)((((Std_ReturnType)0x01u))), (UNITY_INT)((result)), (
+# 101 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+ ((void *)0)
+# 101 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(101), UNITY_DISPLAY_STYLE_INT);
+  UnityAssertEqualNumber((UNITY_INT)((0xAA)), (UNITY_INT)((output)), (
+# 102 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+ ((void *)0)
+# 102 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(102), UNITY_DISPLAY_STYLE_INT);
+  UnityAssertEqualNumber((UNITY_INT)((0xBB)), (UNITY_INT)((size)), (
+# 103 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+ ((void *)0)
+# 103 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(103), UNITY_DISPLAY_STYLE_INT);
+  UnityAssertEqualNumber((UNITY_INT)((0x12)), (UNITY_INT)((errCode)), (
+# 104 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c" 3 4
+ ((void *)0)
+# 104 "utExecutionAndResults/utUnderTest/test/test_Subfunction_Request_Out_Of_Range.c"
+ ), (UNITY_UINT)(104), UNITY_DISPLAY_STYLE_INT);
 }
